@@ -52,6 +52,6 @@
  </layer>
  <objectgroup id="3" name="entité">
   <object id="1" name="ennemi" gid="1001" x="114" y="118" width="16" height="16"/>
-  <object id="2" name="player" gid="1001" x="186.5" y="60.25" width="16" height="16"/>
+  <object id="2" name="player" gid="1001" x="49.25" y="58" width="16" height="16"/>
  </objectgroup>
 </map>

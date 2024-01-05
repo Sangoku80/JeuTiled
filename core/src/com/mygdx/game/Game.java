@@ -8,8 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 public class Game extends ApplicationAdapter {
@@ -36,7 +35,6 @@ public class Game extends ApplicationAdapter {
 
 		// initialisation du renderer
 		renderer = new OrthogonalTiledMapRenderer(tiledMap);
-
 	}
 
 	@Override
@@ -50,7 +48,7 @@ public class Game extends ApplicationAdapter {
 		renderer.setView(camera);
 		renderer.render();
 
-		// dessin des objets texture ppp
+		// dessin des objets texture
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 
@@ -82,22 +80,22 @@ public class Game extends ApplicationAdapter {
 
 		// Déplacement vers la gauche
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-			camera.translate(-moveSpeed, 0);
+			camera.translate(moveSpeed, 0);
 		}
 
 		// Déplacement vers la droite
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-			camera.translate(moveSpeed, 0);
+			camera.translate(-moveSpeed, 0);
 		}
 
 		// Déplacement vers le bas
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			camera.translate(0, -moveSpeed);
+			camera.translate(0, moveSpeed);
 		}
 
 		// Déplacement vers le haut
 		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			camera.translate(0, moveSpeed);
+			camera.translate(0, -moveSpeed);
 		}
 
 		// mise à jour de la caméra
