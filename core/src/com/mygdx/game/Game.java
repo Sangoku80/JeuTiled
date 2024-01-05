@@ -50,7 +50,7 @@ public class Game extends ApplicationAdapter {
 		renderer.setView(camera);
 		renderer.render();
 
-		// dessin des objets texture
+		// dessin des objets texture ppp
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 
