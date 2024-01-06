@@ -6,7 +6,7 @@ public class Player extends Entity {
 
     public Player()
     {
-        super((TextureMapObject) Game.tiledMap.getLayers().get("entités").getObjects().get("player"), 200, "Images/sprite sheet.png", 16);
+        super((TextureMapObject) Game.tiledMap.getLayers().get("entités").getObjects().get("player"), 200, "Images/sprite sheet.png", 16, 16);
     }
 
     @Override

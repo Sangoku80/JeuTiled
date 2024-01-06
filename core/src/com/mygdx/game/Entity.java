@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.math.Rectangle;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class Entity extends Sprite {
@@ -18,14 +19,13 @@ public abstract class Entity extends Sprite {
 
     // animations
     protected String spriteSheetPath;
-    protected HashMap<TextureRegion, Integer>  spriteSheet;
-    protected int ratioSpriteSheet;
+    protected ArrayList<TextureRegion> spriteSheet = new ArrayList<>();
+    protected int ratioSpriteSheetX, ratioSpriteSheetY;
     protected TextureRegion[][] animations;
+    protected TextureRegion currentAnimationFrame;
 
-    public Entity(TextureMapObject object, float speed, String spriteSheetPath, int ratioSpriteSheet)
+    public Entity(TextureMapObject object, float speed, String spriteSheetPath, int ratioSpriteSheetX, int ratioSpriteSheetY)
     {
-       super(object.getTextureRegion());
-
        // mouvements et collisions
        this.object = object;
        this.x = object.getX();
@@ -37,18 +37,20 @@ public abstract class Entity extends Sprite {
 
        // animations
        this.spriteSheetPath = spriteSheetPath;
-       this.ratioSpriteSheet = ratioSpriteSheet;
+       this.ratioSpriteSheetX = ratioSpriteSheetX;
+       this.ratioSpriteSheetY = ratioSpriteSheetY;
+       loadSpriteSheet();
     }
 
     public void loadSpriteSheet()
     {
         Texture img = new Texture(spriteSheetPath);
 
-        for(int j = 0; j < img.getHeight()/ratioSpriteSheet; j++)
+        for(int y = 0; y < img.getHeight()/ratioSpriteSheetY; y++)
         {
-            for (int i = 0; i < img.getWidth()/ratioSpriteSheet; i++)
+            for(int x = 0; x < img.getWidth()/ratioSpriteSheetX; x++)
             {
-                spriteSheet.put(new TextureRegion(img, i*ratioSpriteSheet, j*ratioSpriteSheet, ratioSpriteSheet, ratioSpriteSheet), j*i);
+                spriteSheet.add(new TextureRegion(img, x*ratioSpriteSheetX, y*ratioSpriteSheetY, ratioSpriteSheetX, ratioSpriteSheetY));
             }
         }
     }
@@ -58,6 +60,7 @@ public abstract class Entity extends Sprite {
     public void Draw(SpriteBatch batch)
     {
         Update();
-        batch.draw(object.getTextureRegion(), object.getX(), object.getY());
+        currentAnimationFrame = spriteSheet.get(21);
+        batch.draw(currentAnimationFrame, object.getX(), object.getY());
     }
 }

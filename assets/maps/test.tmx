@@ -127,7 +127,7 @@
 </data>
  </layer>
  <objectgroup id="4" name="entités">
-  <object id="23" name="player" gid="1065" x="123.75" y="93.75" width="16" height="16"/>
+  <object id="23" name="player" gid="1065" x="50.5" y="143.667" width="16" height="16"/>
  </objectgroup>
  <layer id="2" name="maison_haut" width="30" height="20">
   <data encoding="csv">
