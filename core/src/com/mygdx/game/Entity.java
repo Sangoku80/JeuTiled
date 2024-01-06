@@ -21,8 +21,8 @@ public abstract class Entity extends Sprite {
     protected String spriteSheetPath;
     protected ArrayList<TextureRegion> spriteSheet = new ArrayList<>();
     protected int ratioSpriteSheetX, ratioSpriteSheetY;
-    protected TextureRegion[][] animations;
-    protected TextureRegion currentAnimationFrame;
+    protected HashMap<String, Animation> animations = new HashMap<>();
+    protected Animation currentAnimation;
 
     public Entity(TextureMapObject object, float speed, String spriteSheetPath, int ratioSpriteSheetX, int ratioSpriteSheetY)
     {
@@ -40,6 +40,8 @@ public abstract class Entity extends Sprite {
        this.ratioSpriteSheetX = ratioSpriteSheetX;
        this.ratioSpriteSheetY = ratioSpriteSheetY;
        loadSpriteSheet();
+       loadAnimations();
+       currentAnimation = animations.get("marche face");
     }
 
     public void loadSpriteSheet()
@@ -55,12 +57,17 @@ public abstract class Entity extends Sprite {
         }
     }
 
+    public abstract void loadAnimations();
+
     public abstract void Update();
 
     public void Draw(SpriteBatch batch)
     {
+        // mise à jour
         Update();
-        currentAnimationFrame = spriteSheet.get(21);
-        batch.draw(currentAnimationFrame, object.getX(), object.getY());
+
+        // mise à jour de l'affichage
+        currentAnimation.animate();
+        batch.draw(currentAnimation.currentFrame, object.getX(), object.getY());
     }
 }
