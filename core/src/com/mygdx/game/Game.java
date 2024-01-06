@@ -14,9 +14,10 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 public class Game extends ApplicationAdapter {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
-	private TiledMap tiledMap;
+	public static TiledMap tiledMap;
 	private OrthogonalTiledMapRenderer renderer;
 	private static final float CAMERA_SPEED = 200f;
+	private Player player;
 
 	@Override
 	public void create() {
@@ -35,6 +36,9 @@ public class Game extends ApplicationAdapter {
 
 		// initialisation du renderer
 		renderer = new OrthogonalTiledMapRenderer(tiledMap);
+
+		// création du joueur
+		player = new Player();
 	}
 
 	@Override
@@ -52,18 +56,15 @@ public class Game extends ApplicationAdapter {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 
-		MapObjects objects = tiledMap.getLayers().get("entité").getObjects();
-		for (MapObject object : objects) {
-			if (object instanceof TextureMapObject) {
-				TextureMapObject textureObject = (TextureMapObject) object;
-				batch.draw(textureObject.getTextureRegion(), textureObject.getX(), textureObject.getY());
-			}
-		}
+		player.Draw(batch);
 
 		batch.end();
 
+
+
 		// mouvement de la caméra
 		handleInput(Gdx.graphics.getDeltaTime());
+
 
 	}
 
@@ -80,22 +81,22 @@ public class Game extends ApplicationAdapter {
 
 		// Déplacement vers la gauche
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-			camera.translate(moveSpeed, 0);
+			camera.translate(-moveSpeed, 0);
 		}
 
 		// Déplacement vers la droite
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-			camera.translate(-moveSpeed, 0);
+			camera.translate(moveSpeed, 0);
 		}
 
 		// Déplacement vers le bas
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			camera.translate(0, moveSpeed);
+			camera.translate(0, -moveSpeed);
 		}
 
 		// Déplacement vers le haut
 		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			camera.translate(0, -moveSpeed);
+			camera.translate(0, moveSpeed);
 		}
 
 		// mise à jour de la caméra
