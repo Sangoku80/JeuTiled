@@ -15,15 +15,16 @@ public class Player extends Entity {
         animations.put("marche face", (new Animation(new int[]{0, 1, 2, 3}, spriteSheet, true, 15)));
         animations.put("marche 3 quart face gauche", new Animation(new int[]{8, 9, 10, 11}, spriteSheet, true, 15));
         animations.put("marche profil gauche", (new Animation(new int[]{16, 17, 18, 19}, spriteSheet, true, 15)));
-        animations.put("marche 3 quart face gauche", new Animation(new int[]{8, 9, 10, 11}, spriteSheet, true, 15));
-        animations.put("marche face", (new Animation(new int[]{0, 1, 2, 3}, spriteSheet, true, 15)));
-        animations.put("marche 3 quart face gauche", new Animation(new int[]{8, 9, 10, 11}, spriteSheet, true, 15));
-        animations.put("marche face", (new Animation(new int[]{0, 1, 2, 3}, spriteSheet, true, 15)));
-        animations.put("marche 3 quart face gauche", new Animation(new int[]{8, 9, 10, 11}, spriteSheet, true, 15));
+        animations.put("marche 3 quart dos gauche", new Animation(new int[]{8, 9, 10, 11}, spriteSheet, true, 15));
+        animations.put("marche dos", (new Animation(new int[]{32, 33, 34, 35}, spriteSheet, true, 15)));
+        animations.put("marche 3 quart dos droite", new Animation(new int[]{40, 41, 42, 43}, spriteSheet, true, 15));
+        animations.put("marche profil droite", (new Animation(new int[]{44, 45, 46, 47}, spriteSheet, true, 15)));
+        animations.put("marche 3 quart face droite", new Animation(new int[]{56, 57, 58, 59}, spriteSheet, true, 15));
     }
 
     @Override
     public void Update() {
 
+        
     }
 }

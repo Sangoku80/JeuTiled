@@ -41,7 +41,7 @@ public abstract class Entity extends Sprite {
        this.ratioSpriteSheetY = ratioSpriteSheetY;
        loadSpriteSheet();
        loadAnimations();
-       currentAnimation = animations.get("marche face");
+       currentAnimation = animations.get("marche 3 quart face droite");
     }
 
     public void loadSpriteSheet()
