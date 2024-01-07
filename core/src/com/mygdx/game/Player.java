@@ -8,7 +8,7 @@ public class Player extends Entity {
 
     public Player()
     {
-        super((TextureMapObject) Game.tiledMap.getLayers().get("entités").getObjects().get("player"), 0.5f, "Images/sprite sheet.png", 16, 16);
+        super((TextureMapObject) Game.tiledMap.getLayers().get("entités").getObjects().get("player"), 1f, "Images/sprite sheet.png", 16, 16);
         currentAnimation = animations.get("marche face");
     }
 

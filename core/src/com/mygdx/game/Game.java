@@ -9,12 +9,13 @@ import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 public class Game extends ApplicationAdapter {
-	private OrthographicCamera camera;
+	public static OrthographicCamera camera;
 	private SpriteBatch batch;
 	public static TiledMap tiledMap;
 	private OrthogonalTiledMapRenderer renderer;
 	private static final float CAMERA_SPEED = 200f;
 	private Player player;
+	private Level1 level1;
 
 	@Override
 	public void create() {
@@ -38,6 +39,9 @@ public class Game extends ApplicationAdapter {
 
 		// création du joueur
 		player = new Player();
+
+		// création du level1
+		level1 = new Level1();
 	}
 
 	@Override
@@ -49,33 +53,14 @@ public class Game extends ApplicationAdapter {
 
 		// dessin de la carte
 		renderer.setView(camera);
-		renderer.render();
-
-		// test
-		// Supposons que "yourLayerName" est le nom du layer que vous souhaitez parcourir
-		TiledMapTileLayer yourLayer = (TiledMapTileLayer) tiledMap.getLayers().get("vegetations");
-
-// Parcourir les cellules du layer
-		for (int y = 0; y < yourLayer.getHeight(); y++) {
-			for (int x = 0; x < yourLayer.getWidth(); x++) {
-				TiledMapTileLayer.Cell cell = yourLayer.getCell(x, y);
-
-				// Vérifier si la cellule n'est pas vide
-				if (cell != null) {
-					// Récupérer l'ID de la tuile
-					int tileId = cell.getTile().getId();
-
-					// Faire quelque chose avec l'ID de la tuile (afficher, stocker, etc.)
-					System.out.println("Tuile à la position (" + x + ", " + y + ") - ID : " + (tileId-1));
-				}
-			}
-		}
-
+/*		renderer.render();*/
 
 		// dessin des objets texture
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 
+		batch.draw(level1.tileset.get(679), 100, 100);
+		level1.drawLayers(batch);
 		player.Draw(batch);
 
 		batch.end();
