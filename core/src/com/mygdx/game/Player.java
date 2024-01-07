@@ -1,12 +1,14 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 
 public class Player extends Entity {
 
     public Player()
     {
-        super((TextureMapObject) Game.tiledMap.getLayers().get("entités").getObjects().get("player"), 200, "Images/sprite sheet.png", 16, 16);
+        super((TextureMapObject) Game.tiledMap.getLayers().get("entités").getObjects().get("player"), 0.5f, "Images/sprite sheet.png", 16, 16);
     }
 
     @Override
@@ -23,8 +25,29 @@ public class Player extends Entity {
     }
 
     @Override
-    public void Update() {
+    public void updateDirections() {
 
-        
+        if(Gdx.input.isKeyPressed(Input.Keys.UP))
+        {
+            setUp(true);
+        }
+        else if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
+        {
+            setDown(true);
+        }
+        else if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
+        {
+            setLeft(true);
+        }
+        else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+        {
+            setRight(true);
+        }
+        else
+        {
+            resetDirBooleans();
+        }
+
     }
+
 }

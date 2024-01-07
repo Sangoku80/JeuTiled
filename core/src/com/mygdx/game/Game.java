@@ -59,9 +59,8 @@ public class Game extends ApplicationAdapter {
 
 		batch.end();
 
-		// mouvement de la caméra
-		handleInput(Gdx.graphics.getDeltaTime());
-
+		// mise à jour de la caméra
+		camera.update();
 
 	}
 

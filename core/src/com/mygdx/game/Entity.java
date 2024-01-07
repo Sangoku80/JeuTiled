@@ -3,7 +3,9 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
+import jdk.tools.jmod.Main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +16,7 @@ public abstract class Entity extends Sprite {
     protected TextureMapObject object;
     protected float x, y;
     protected int width, height;
+    protected boolean left, up, right, down;
     protected float speed;
     protected Rectangle collisionRect;
 
@@ -23,6 +26,10 @@ public abstract class Entity extends Sprite {
     protected int ratioSpriteSheetX, ratioSpriteSheetY;
     protected HashMap<String, Animation> animations = new HashMap<>();
     protected Animation currentAnimation;
+
+    // affichage
+    protected TiledMapTileLayer layer;
+
 
     public Entity(TextureMapObject object, float speed, String spriteSheetPath, int ratioSpriteSheetX, int ratioSpriteSheetY)
     {
@@ -41,7 +48,11 @@ public abstract class Entity extends Sprite {
        this.ratioSpriteSheetY = ratioSpriteSheetY;
        loadSpriteSheet();
        loadAnimations();
-       currentAnimation = animations.get("marche 3 quart face droite");
+       currentAnimation = animations.get("marche face");
+
+        // affichage
+/*        layer = (TiledMapTileLayer) Game.tiledMap.getLayers().get("entités");*/
+
     }
 
     public void loadSpriteSheet()
@@ -59,15 +70,69 @@ public abstract class Entity extends Sprite {
 
     public abstract void loadAnimations();
 
-    public abstract void Update();
+    public abstract void updateDirections();
+
+    public void updatePos()
+    {
+
+        float xSpeed = 0, ySpeed = 0;
+
+        if(left && !right)
+        {
+            xSpeed -= speed;
+        }
+
+        else if(right && !left)
+        {
+            xSpeed = speed;
+        }
+
+        if(up && !down)
+        {
+            ySpeed = speed;
+        }
+
+        else if(down && !up)
+        {
+            ySpeed = -speed;
+        }
+
+        x += xSpeed;
+        y += ySpeed;
+    }
 
     public void Draw(SpriteBatch batch)
     {
         // mise à jour
-        Update();
+        updateDirections();
+        updatePos();
+        System.out.println("right: " + right + " left: "+ left + " up: " + up + " down: " + down);
 
         // mise à jour de l'affichage
         currentAnimation.animate();
-        batch.draw(currentAnimation.currentFrame, object.getX(), object.getY());
+        batch.draw(currentAnimation.currentFrame, x, y);
+    }
+
+    public void resetDirBooleans()
+    {
+        left = false;
+        right = false;
+        up = false;
+        down = false;
+    }
+    public void setLeft(boolean left) {
+        this.left = left;
+    }
+
+    public void setUp(boolean up) {
+        this.up = up;
+    }
+
+    public void setRight(boolean right) {
+        this.right = right;
+    }
+
+    public void setDown(boolean down) {
+        this.down = down;
     }
 }
