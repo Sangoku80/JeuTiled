@@ -51,6 +51,27 @@ public class Game extends ApplicationAdapter {
 		renderer.setView(camera);
 		renderer.render();
 
+		// test
+		// Supposons que "yourLayerName" est le nom du layer que vous souhaitez parcourir
+		TiledMapTileLayer yourLayer = (TiledMapTileLayer) tiledMap.getLayers().get("vegetations");
+
+// Parcourir les cellules du layer
+		for (int y = 0; y < yourLayer.getHeight(); y++) {
+			for (int x = 0; x < yourLayer.getWidth(); x++) {
+				TiledMapTileLayer.Cell cell = yourLayer.getCell(x, y);
+
+				// Vérifier si la cellule n'est pas vide
+				if (cell != null) {
+					// Récupérer l'ID de la tuile
+					int tileId = cell.getTile().getId();
+
+					// Faire quelque chose avec l'ID de la tuile (afficher, stocker, etc.)
+					System.out.println("Tuile à la position (" + x + ", " + y + ") - ID : " + (tileId-1));
+				}
+			}
+		}
+
+
 		// dessin des objets texture
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
@@ -99,4 +120,3 @@ public class Game extends ApplicationAdapter {
 		camera.update();
 	}
 }
-

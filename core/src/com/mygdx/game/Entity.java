@@ -3,9 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
-import jdk.tools.jmod.Main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +26,6 @@ public abstract class Entity extends Sprite {
     protected Animation currentAnimation;
 
     // affichage
-    protected TiledMapTileLayer layer;
 
 
     public Entity(TextureMapObject object, float speed, String spriteSheetPath, int ratioSpriteSheetX, int ratioSpriteSheetY)
@@ -48,11 +45,6 @@ public abstract class Entity extends Sprite {
        this.ratioSpriteSheetY = ratioSpriteSheetY;
        loadSpriteSheet();
        loadAnimations();
-       currentAnimation = animations.get("marche face");
-
-        // affichage
-/*        layer = (TiledMapTileLayer) Game.tiledMap.getLayers().get("entités");*/
-
     }
 
     public void loadSpriteSheet()
@@ -74,7 +66,6 @@ public abstract class Entity extends Sprite {
 
     public void updatePos()
     {
-
         float xSpeed = 0, ySpeed = 0;
 
         if(left && !right)
@@ -106,11 +97,11 @@ public abstract class Entity extends Sprite {
         // mise à jour
         updateDirections();
         updatePos();
-        System.out.println("right: " + right + " left: "+ left + " up: " + up + " down: " + down);
 
         // mise à jour de l'affichage
         currentAnimation.animate();
         batch.draw(currentAnimation.currentFrame, x, y);
+
     }
 
     public void resetDirBooleans()

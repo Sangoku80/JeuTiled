@@ -9,6 +9,7 @@ public class Player extends Entity {
     public Player()
     {
         super((TextureMapObject) Game.tiledMap.getLayers().get("entités").getObjects().get("player"), 0.5f, "Images/sprite sheet.png", 16, 16);
+        currentAnimation = animations.get("marche face");
     }
 
     @Override
@@ -20,7 +21,7 @@ public class Player extends Entity {
         animations.put("marche 3 quart dos gauche", new Animation(new int[]{8, 9, 10, 11}, spriteSheet, true, 15));
         animations.put("marche dos", (new Animation(new int[]{32, 33, 34, 35}, spriteSheet, true, 15)));
         animations.put("marche 3 quart dos droite", new Animation(new int[]{40, 41, 42, 43}, spriteSheet, true, 15));
-        animations.put("marche profil droite", (new Animation(new int[]{44, 45, 46, 47}, spriteSheet, true, 15)));
+        animations.put("marche profil droite", (new Animation(new int[]{48, 49, 50, 51}, spriteSheet, true, 15)));
         animations.put("marche 3 quart face droite", new Animation(new int[]{56, 57, 58, 59}, spriteSheet, true, 15));
     }
 
