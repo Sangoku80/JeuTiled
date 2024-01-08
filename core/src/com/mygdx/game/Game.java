@@ -14,7 +14,7 @@ public class Game extends ApplicationAdapter {
 	public static TiledMap tiledMap;
 	private OrthogonalTiledMapRenderer renderer;
 	private static final float CAMERA_SPEED = 200f;
-	private Player player;
+	public static Player player;
 	private Level1 level1;
 
 	@Override
@@ -53,15 +53,12 @@ public class Game extends ApplicationAdapter {
 
 		// dessin de la carte
 		renderer.setView(camera);
-/*		renderer.render();*/
 
 		// dessin des objets texture
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 
-		batch.draw(level1.tileset.get(679), 100, 100);
 		level1.drawLayers(batch);
-		player.Draw(batch);
 
 		batch.end();
 
