@@ -3,11 +3,14 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.ArrayList;
@@ -23,7 +26,7 @@ public abstract class World {
     protected TiledMap tiledMap;
     protected ArrayList<TiledMapTileLayer> layers = new ArrayList<>();
     protected ArrayList<String> nameLayers = new ArrayList<>();
-    protected ArrayList<MapObject> collisions = new ArrayList<>();
+    protected ArrayList<Rectangle> collisions = new ArrayList<>();
     protected Vector3 tmpVector = new Vector3();
 
     // affichage du joueur
@@ -78,9 +81,21 @@ public abstract class World {
 
     public void loadCollisions()
     {
-        for(MapObject mapObject : tiledMap.getLayers().get("collisions").getObjects())
+        for(MapObject collision : tiledMap.getLayers().get("collisions").getObjects())
         {
-            collisions.add(mapObject);
+            if (collision instanceof RectangleMapObject)
+            {
+                collisions.add(((RectangleMapObject) collision).getRectangle());
+            }
+        }
+    }
+
+    public void drawCollisions(ShapeRenderer shapeRenderer)
+    {
+        for (Rectangle collision : collisions)
+        {
+            shapeRenderer.setColor(0, 0, 1, 0);
+            shapeRenderer.rect(collision.getX(), collision.getY(), collision.getWidth(), collision.getHeight());
         }
     }
 

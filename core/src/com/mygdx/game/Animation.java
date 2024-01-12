@@ -11,7 +11,6 @@ public class Animation {
     private Boolean isLoop;
     private int aniTick, aniIndex;
     private final int aniSpeed;
-    public TextureRegion currentFrame;
 
 
     public Animation(int[] framesIndex, ArrayList<TextureRegion> spriteSheet, Boolean isLoop, int aniSpeed)
@@ -30,7 +29,7 @@ public class Animation {
         }
     }
 
-    public void animate()
+    public TextureRegion animate()
     {
 
         // passer à la frame suivante
@@ -52,7 +51,7 @@ public class Animation {
             }
         }
 
-        currentFrame = frames.get(aniIndex);
+        return frames.get(aniIndex);
     }
 
 }

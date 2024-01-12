@@ -5,14 +5,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.*;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 public class Game extends ApplicationAdapter {
 	public static OrthographicCamera camera;
 	private SpriteBatch batch;
+	private ShapeRenderer shapeRenderer;
 	public static TiledMap tiledMap;
-	private OrthogonalTiledMapRenderer renderer;
 	private static final float CAMERA_SPEED = 200f;
 	public static Player player;
 	private Level1 level1;
@@ -23,19 +23,19 @@ public class Game extends ApplicationAdapter {
 		// création de la caméra
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		camera.zoom -= 0.5f;
-		camera.position.x -= 300;
-		camera.position.y -= 150;
+		camera.zoom = 0.5f;
+		camera.position.x -= 200;
+		camera.position.y -= 120;
 
 		// initialisation de spriteBatch
 		batch = new SpriteBatch();
 
+		// initialisation du shapeRenderer
+		shapeRenderer = new ShapeRenderer();
+
 		// Charger la carte TMX
 		TmxMapLoader mapLoader = new TmxMapLoader();
 		tiledMap = mapLoader.load("maps/test.tmx");
-
-		// initialisation du renderer
-		renderer = new OrthogonalTiledMapRenderer(tiledMap);
 
 		// création du joueur
 		player = new Player();
@@ -51,8 +51,8 @@ public class Game extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		// dessin de la carte
-		renderer.setView(camera);
+		// mise à jour de la caméra
+		camera.update();
 
 		// dessin des objets texture
 		batch.setProjectionMatrix(camera.combined);
@@ -62,16 +62,21 @@ public class Game extends ApplicationAdapter {
 
 		batch.end();
 
-		// mise à jour de la caméra
-		camera.update();
+		// dessin des collisions
+		shapeRenderer.setProjectionMatrix(camera.combined);
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
+		level1.drawCollisions(shapeRenderer);
+		shapeRenderer.rect(player.collisionFoot.x, player.collisionFoot.y, player.collisionFoot.width, player.collisionFoot.height);
+
+
+		shapeRenderer.end();
 	}
 
 	@Override
 	public void dispose() {
 		batch.dispose();
 		tiledMap.dispose();
-		renderer.dispose();
 	}
 
 

@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -11,12 +12,13 @@ import java.util.HashMap;
 public abstract class Entity extends Sprite {
 
     // mouvements et collisions
-    protected TextureMapObject object;
+    protected TextureMapObject entity;
     protected float x, y;
     protected int width, height;
     protected boolean left, up, right, down;
     protected float speed;
-    protected Rectangle collisionRect;
+    protected Rectangle collisionBody;
+    protected Rectangle collisionFoot;
 
     // animations
     protected String spriteSheetPath;
@@ -25,19 +27,17 @@ public abstract class Entity extends Sprite {
     protected HashMap<String, Animation> animations = new HashMap<>();
     protected Animation currentAnimation;
 
-    // affichage
-
-
-    public Entity(TextureMapObject object, float speed, String spriteSheetPath, int ratioSpriteSheetX, int ratioSpriteSheetY)
+    public Entity(TextureMapObject entity, RectangleMapObject foot, float speed, String spriteSheetPath, int ratioSpriteSheetX, int ratioSpriteSheetY)
     {
        // mouvements et collisions
-       this.object = object;
-       this.x = object.getX();
-       this.y = object.getY();
-       this.width = object.getTextureRegion().getRegionWidth();
-       this.height = object.getTextureRegion().getRegionHeight();
-       this.collisionRect = new Rectangle(x, y, width, height);
+       this.entity = entity;
+       this.x = entity.getX();
+       this.y = entity.getY();
+       this.width = entity.getTextureRegion().getRegionWidth();
+       this.height = entity.getTextureRegion().getRegionHeight();
        this.speed = speed;
+       this.collisionBody = new Rectangle(x, y, width, height);
+       this.collisionFoot = foot.getRectangle();
 
        // animations
        this.spriteSheetPath = spriteSheetPath;
@@ -90,6 +90,12 @@ public abstract class Entity extends Sprite {
 
         x += xSpeed;
         y += ySpeed;
+
+        collisionFoot.x += xSpeed;
+        collisionFoot.y += ySpeed;
+
+        collisionBody.y -= ySpeed;
+        collisionBody.x -= xSpeed;
     }
 
     public void Draw(SpriteBatch batch)
@@ -98,10 +104,8 @@ public abstract class Entity extends Sprite {
         updateDirections();
         updatePos();
 
-        // mise à jour de l'affichage
-        currentAnimation.animate();
-        batch.draw(currentAnimation.currentFrame, x, y);
-
+        entity.setTextureRegion(currentAnimation.animate());
+        batch.draw(entity.getTextureRegion(), x, y);
     }
 
     public void resetDirBooleans()

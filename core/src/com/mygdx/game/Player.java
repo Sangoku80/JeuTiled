@@ -2,14 +2,15 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 
 public class Player extends Entity {
 
     public Player()
     {
-        super((TextureMapObject) Game.tiledMap.getLayers().get("entités").getObjects().get("player"), 1f, "Images/sprite sheet.png", 16, 16);
-        currentAnimation = animations.get("marche face");
+        super((TextureMapObject) Game.tiledMap.getLayers().get("entités").getObjects().get("player"), (RectangleMapObject) Game.tiledMap.getLayers().get("entités").getObjects().get("foot"), 1f, "Images/sprite sheet.png", 16, 16);
+        currentAnimation = animations.get("marche 3 quart face gauche");
     }
 
     @Override
