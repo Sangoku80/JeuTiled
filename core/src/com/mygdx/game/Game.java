@@ -51,7 +51,11 @@ public class Game extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		// mise à jour de la caméra
+		// recentrer la caméra en fonction du joueur
+		float newCameraX = player.x;
+		float newCameraY = player.y;
+
+		camera.position.set(newCameraX, newCameraY, 0);
 		camera.update();
 
 		// dessin des objets texture
