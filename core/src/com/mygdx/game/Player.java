@@ -1,11 +1,11 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 
-public class Player extends Entity {
+public class Player extends Entity implements InputProcessor {
 
     public Player()
     {
@@ -29,27 +29,90 @@ public class Player extends Entity {
     @Override
     public void updateDirections() {
 
-        if(Gdx.input.isKeyPressed(Input.Keys.UP))
-        {
-            setUp(true);
-        }
-        else if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
-        {
-            setDown(true);
-        }
-        else if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
-        {
-            setLeft(true);
-        }
-        else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-        {
-            setRight(true);
-        }
-        else
-        {
-            resetDirBooleans();
-        }
-
     }
 
+    @Override
+    public boolean keyDown(int keycode) {
+        switch (keycode)
+        {
+            case Input.Keys.UP:
+                setUp(true);
+                break;
+
+            case Input.Keys.DOWN:
+                setDown(true);
+                break;
+
+            case Input.Keys.RIGHT:
+                setRight(true);
+                break;
+
+            case Input.Keys.LEFT:
+                setLeft(true);
+                break;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+
+        switch (keycode)
+        {
+            case Input.Keys.UP:
+                setUp(false);
+                break;
+
+            case Input.Keys.DOWN:
+                setDown(false);
+                break;
+
+            case Input.Keys.RIGHT:
+                setRight(false);
+                break;
+
+            case Input.Keys.LEFT:
+                setLeft(false);
+                break;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float amountX, float amountY) {
+        return false;
+    }
 }
+

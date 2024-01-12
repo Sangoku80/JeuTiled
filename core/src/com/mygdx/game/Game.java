@@ -42,6 +42,10 @@ public class Game extends ApplicationAdapter {
 
 		// création du level1
 		level1 = new Level1();
+
+		// Définissez l'InputProcessor pour détecter les événements du clavier
+		Gdx.input.setInputProcessor(player);
+
 	}
 
 	@Override
