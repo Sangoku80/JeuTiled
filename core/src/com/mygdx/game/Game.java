@@ -15,7 +15,7 @@ public class Game extends ApplicationAdapter {
 	public static TiledMap tiledMap;
 	private static final float CAMERA_SPEED = 200f;
 	public static Player player;
-	private Level1 level1;
+	public static Level1 level1;
 
 	@Override
 	public void create() {
@@ -70,9 +70,8 @@ public class Game extends ApplicationAdapter {
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
-		level1.drawCollisions(shapeRenderer);
-		shapeRenderer.rect(player.collisionFoot.x, player.collisionFoot.y, player.collisionFoot.width, player.collisionFoot.height);
-
+		// level1.drawCollisions(shapeRenderer);
+		// shapeRenderer.rect(player.collisionFoot.x, player.collisionFoot.y, player.collisionFoot.width, player.collisionFoot.height);
 
 		shapeRenderer.end();
 	}

@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,10 +66,27 @@ public abstract class Entity extends Sprite {
 
     public abstract void updateDirections();
 
+    public boolean checkCollisionsWithFoot(World world, Vector2 position)
+    {
+
+        boolean answer = false;
+
+        for (Rectangle rectCollision : world.collisions)
+        {
+            if (Intersector.overlaps(new Rectangle(position.x, position.y, collisionFoot.width, collisionFoot.height), rectCollision))
+            {
+                answer = true;
+            }
+        }
+
+        return answer;
+    }
+
     public void updatePos()
     {
         float xSpeed = 0, ySpeed = 0;
 
+        // bouger en fonction de la direction
         if(left && !right)
         {
             xSpeed -= speed;
@@ -88,14 +107,17 @@ public abstract class Entity extends Sprite {
             ySpeed = -speed;
         }
 
-        x += xSpeed;
-        y += ySpeed;
+        // vérifier les collisions
+        if (!checkCollisionsWithFoot(Game.level1, new Vector2(collisionFoot.x + xSpeed, collisionFoot.y + ySpeed)))
+        {
+            // entité
+            x += xSpeed;
+            y += ySpeed;
 
-        collisionFoot.x += xSpeed;
-        collisionFoot.y += ySpeed;
-
-        collisionBody.y -= ySpeed;
-        collisionBody.x -= xSpeed;
+            // rectCollisions
+            collisionFoot.y += ySpeed;
+            collisionFoot.x += xSpeed;
+        }
     }
 
     public void Draw(SpriteBatch batch)
@@ -104,7 +126,10 @@ public abstract class Entity extends Sprite {
         updateDirections();
         updatePos();
 
+        // animer
         entity.setTextureRegion(currentAnimation.animate());
+
+        // dessiner
         batch.draw(entity.getTextureRegion(), x, y);
     }
 
