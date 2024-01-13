@@ -28,6 +28,8 @@ public abstract class Entity extends Sprite {
     protected int ratioSpriteSheetX, ratioSpriteSheetY;
     protected HashMap<String, Animation> animations = new HashMap<>();
     protected Animation currentAnimation;
+    protected String orientation = "bas";
+    protected Boolean moving = false;
 
     public Entity(TextureMapObject entity, RectangleMapObject foot, float speed, String spriteSheetPath, int ratioSpriteSheetX, int ratioSpriteSheetY)
     {
@@ -86,25 +88,52 @@ public abstract class Entity extends Sprite {
     {
         float xSpeed = 0, ySpeed = 0;
 
-        // bouger en fonction de la direction
-        if(left && !right)
+        // vérifier s'il n'y a aucun mouvement
+        if(!left && !right && !up && !down)
         {
-            xSpeed -= speed;
+            moving = false;
         }
+        else {
 
-        else if(right && !left)
-        {
-            xSpeed = speed;
-        }
+            moving = true;
 
-        if(up && !down)
-        {
-            ySpeed = speed;
-        }
+            // bouger en fonction de la direction
+            if (left && !right) {
+                xSpeed -= speed;
+                orientation = "gauche";
 
-        else if(down && !up)
-        {
-            ySpeed = -speed;
+            }
+            else if (right && !left) {
+                xSpeed = speed;
+                orientation = "droite";
+            }
+
+            if (up && !down) {
+                ySpeed = speed;
+                orientation = "haut";
+
+            }
+            else if (down && !up) {
+
+                ySpeed = -speed;
+                orientation = "bas";
+            }
+            if (right && up)
+            {
+                orientation = "haut droite";
+            }
+            else if (right && down)
+            {
+                orientation = "bas droite";
+            }
+            if (left && up)
+            {
+                orientation = "haut gauche";
+            }
+            else if(left && down)
+            {
+                orientation = "bas gauche";
+            }
         }
 
         // vérifier les collisions
@@ -120,11 +149,15 @@ public abstract class Entity extends Sprite {
         }
     }
 
+    public abstract void updateAnimation();
+
     public void Draw(SpriteBatch batch)
     {
         // mise à jour
         updateDirections();
         updatePos();
+        System.out.println(orientation);
+        updateAnimation();
 
         // animer
         entity.setTextureRegion(currentAnimation.animate());
