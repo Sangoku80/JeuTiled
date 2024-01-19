@@ -140,4 +140,3 @@ public class Player extends Entity implements InputProcessor {
         return false;
     }
 }
-

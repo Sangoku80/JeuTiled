@@ -33,22 +33,22 @@ public abstract class Entity extends Sprite {
 
     public Entity(TextureMapObject entity, RectangleMapObject foot, float speed, String spriteSheetPath, int ratioSpriteSheetX, int ratioSpriteSheetY)
     {
-       // mouvements et collisions
-       this.entity = entity;
-       this.x = entity.getX();
-       this.y = entity.getY();
-       this.width = entity.getTextureRegion().getRegionWidth();
-       this.height = entity.getTextureRegion().getRegionHeight();
-       this.speed = speed;
-       this.collisionBody = new Rectangle(x, y, width, height);
-       this.collisionFoot = foot.getRectangle();
+        // mouvements et collisions
+        this.entity = entity;
+        this.x = entity.getX();
+        this.y = entity.getY();
+        this.width = entity.getTextureRegion().getRegionWidth();
+        this.height = entity.getTextureRegion().getRegionHeight();
+        this.speed = speed;
+        this.collisionBody = new Rectangle(x, y, width, height);
+        this.collisionFoot = foot.getRectangle();
 
-       // animations
-       this.spriteSheetPath = spriteSheetPath;
-       this.ratioSpriteSheetX = ratioSpriteSheetX;
-       this.ratioSpriteSheetY = ratioSpriteSheetY;
-       loadSpriteSheet();
-       loadAnimations();
+        // animations
+        this.spriteSheetPath = spriteSheetPath;
+        this.ratioSpriteSheetX = ratioSpriteSheetX;
+        this.ratioSpriteSheetY = ratioSpriteSheetY;
+        loadSpriteSheet();
+        loadAnimations();
     }
 
     public void loadSpriteSheet()
@@ -156,7 +156,6 @@ public abstract class Entity extends Sprite {
         // mise à jour
         updateDirections();
         updatePos();
-        System.out.println(orientation);
         updateAnimation();
 
         // animer

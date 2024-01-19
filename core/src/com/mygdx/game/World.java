@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 public abstract class World {
@@ -28,6 +29,9 @@ public abstract class World {
     protected ArrayList<String> nameLayers = new ArrayList<>();
     protected ArrayList<Rectangle> collisions = new ArrayList<>();
     protected Vector3 tmpVector = new Vector3();
+
+    // animation des tuiles
+    protected HashMap<Integer, Animation> animatedTiles = new HashMap<>();
 
     // affichage du joueur
     protected int entityLayer;
@@ -53,6 +57,7 @@ public abstract class World {
         loadTileset();
         loadLayers();
         loadCollisions();
+        loadAnimatedTiles();
 
         // affichage du joueur
         this.entityLayer = entityLayer;
@@ -70,6 +75,8 @@ public abstract class World {
             }
         }
     }
+
+    public abstract void loadAnimatedTiles();
 
     public void loadLayers() {
 
@@ -108,8 +115,19 @@ public abstract class World {
 
                 // Vérifier si la cellule n'est pas vide
                 if (layer.getCell(x, y) != null) {
+
                     // Convertir les coordonnées du monde en coordonnées d'écran
                     tmpVector.set(x * tileWidth, y * tileHeight, 0);
+
+                    // animer les tuiles animées
+                    for (Integer key : animatedTiles.keySet())
+                    {
+
+                        if (layer.getCell(x, y).getTile().getId()-1 == 295)
+                        {
+                            layer.getCell(x, y).getTile().setTextureRegion(animatedTiles.get(key).animate());
+                        }
+                    }
 
                     batch.draw(layer.getCell(x, y).getTile().getTextureRegion(), tmpVector.x, tmpVector.y);
                 }

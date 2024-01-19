@@ -7,4 +7,9 @@ public class Level1 extends World {
         super("Images/Tileset.png", "maps/test.tmx", 8, 8, 2);
     }
 
+    @Override
+    public void loadAnimatedTiles() {
+
+        animatedTiles.put(295, new Animation(new int[]{295, 296}, tileset, true, 15));
+    }
 }
