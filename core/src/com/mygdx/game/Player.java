@@ -9,7 +9,7 @@ public class Player extends Entity implements InputProcessor {
 
     public Player()
     {
-        super((TextureMapObject) Game.tiledMap.getLayers().get("entités").getObjects().get("player"), (RectangleMapObject) Game.tiledMap.getLayers().get("entités").getObjects().get("foot"), 2f, "Images/sprite sheet.png", 16, 16);
+        super((TextureMapObject) Game.tiledMap.getLayers().get("entités").getObjects().get("player"), (RectangleMapObject) Game.tiledMap.getLayers().get("entités_foot").getObjects().get("player"), 2f, "Images/sprite sheet.png", 16, 16);
         currentAnimation = animations.get("bas_idle");
     }
 

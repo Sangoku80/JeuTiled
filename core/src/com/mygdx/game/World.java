@@ -15,7 +15,6 @@ import com.badlogic.gdx.math.Vector3;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 public abstract class World {
 
@@ -47,7 +46,7 @@ public abstract class World {
         // on récupère le nom de chaque layer de la carte
         for (MapLayer layer : tiledMap.getLayers())
         {
-            if(!Objects.equals(layer.getName(), "entités") && !Objects.equals(layer.getName(), "collisions") )
+            if(layer.getObjects().getCount() == 0)
             {
                 this.nameLayers.add(layer.getName());
             }
