@@ -15,24 +15,24 @@ public class Player extends Entity implements InputProcessor {
     public void loadAnimations() {
 
         // en mouvement
-        animations.put("bas", (new Animation(new int[]{0, 1, 2, 3}, spriteSheet, true, 15)));
-        animations.put("bas droite", (new Animation(new int[]{56, 57, 58, 59}, spriteSheet, true, 15)));
-        animations.put("bas gauche", (new Animation(new int[]{8, 9, 10, 11}, spriteSheet, true, 15)));
-        animations.put("gauche", (new Animation(new int[]{16, 17, 18, 19}, spriteSheet, true, 15)));
-        animations.put("haut", (new Animation(new int[]{32, 33, 34, 35}, spriteSheet, true, 15)));
-        animations.put("haut droite", (new Animation(new int[]{40, 41, 42, 43}, spriteSheet, true, 15)));
-        animations.put("haut gauche", (new Animation(new int[]{24, 25, 26, 27}, spriteSheet, true, 15)));
-        animations.put("droite", (new Animation(new int[]{48, 49, 50, 51}, spriteSheet, true, 15)));
+        animations.put("bas", (new Animation(new int[]{0, 3}, spriteSheet,15)));
+        animations.put("bas droite", (new Animation(new int[]{56, 59}, spriteSheet,15)));
+        animations.put("bas gauche", (new Animation(new int[]{8, 11}, spriteSheet,15)));
+        animations.put("gauche", (new Animation(new int[]{16, 19}, spriteSheet,15)));
+        animations.put("haut", (new Animation(new int[]{32, 35}, spriteSheet,15)));
+        animations.put("haut droite", (new Animation(new int[]{40, 43}, spriteSheet,15)));
+        animations.put("haut gauche", (new Animation(new int[]{24, 27}, spriteSheet,15)));
+        animations.put("droite", (new Animation(new int[]{48, 51}, spriteSheet,15)));
 
         // sans mouvement
-        animations.put("bas_idle", (new Animation(new int[]{0}, spriteSheet, true, 15)));
-        animations.put("bas droite_idle", (new Animation(new int[]{56}, spriteSheet, true, 15)));
-        animations.put("bas gauche_idle", (new Animation(new int[]{8}, spriteSheet, true, 15)));
-        animations.put("gauche_idle", (new Animation(new int[]{16}, spriteSheet, true, 15)));
-        animations.put("haut_idle", (new Animation(new int[]{32}, spriteSheet, true, 15)));
-        animations.put("haut droite_idle", (new Animation(new int[]{40, 41, 42, 43}, spriteSheet, true, 15)));
-        animations.put("haut gauche_idle", (new Animation(new int[]{24, 25, 26, 27}, spriteSheet, true, 15)));
-        animations.put("droite_idle", (new Animation(new int[]{48}, spriteSheet, true, 15)));
+        animations.put("bas_idle", (new Animation(new int[]{0, 0}, spriteSheet,15)));
+        animations.put("bas droite_idle", (new Animation(new int[]{56, 56}, spriteSheet,15)));
+        animations.put("bas gauche_idle", (new Animation(new int[]{8, 8}, spriteSheet,15)));
+        animations.put("gauche_idle", (new Animation(new int[]{16, 16}, spriteSheet,15)));
+        animations.put("haut_idle", (new Animation(new int[]{32, 32}, spriteSheet,15)));
+        animations.put("haut droite_idle", (new Animation(new int[]{40, 40}, spriteSheet,15)));
+        animations.put("haut gauche_idle", (new Animation(new int[]{24, 24}, spriteSheet,15)));
+        animations.put("droite_idle", (new Animation(new int[]{48, 48}, spriteSheet,15)));
     }
 
     @Override

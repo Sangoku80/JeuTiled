@@ -10,7 +10,7 @@ public class Cochon extends Entity{
 
     @Override
     public void loadAnimations() {
-        animations.put("gauche", (new Animation(new int[]{87, 88, 89}, spriteSheet, true, 15)));
+        animations.put("gauche", (new Animation(new int[]{87, 89}, spriteSheet, 15)));
     }
 
     @Override

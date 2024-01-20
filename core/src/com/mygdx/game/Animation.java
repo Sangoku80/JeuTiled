@@ -8,24 +8,43 @@ public class Animation {
 
     private final ArrayList<TextureRegion> frames = new ArrayList<>();
     private final ArrayList<TextureRegion> spriteSheet;
-    private Boolean isLoop;
     private int aniTick, aniIndex;
     private final int aniSpeed;
 
 
-    public Animation(int[] framesIndex, ArrayList<TextureRegion> spriteSheet, Boolean isLoop, int aniSpeed)
+    public Animation(int[] framesIndex, ArrayList<TextureRegion> spriteSheet, int aniSpeed)
     {
         this.spriteSheet = spriteSheet;
-        this.isLoop = isLoop;
         this.aniSpeed = aniSpeed;
         loadFrames(framesIndex);
+        System.out.println(frames);
     }
 
     private void loadFrames(int[] framesIndex)
     {
-        for(int frameIndex : framesIndex)
+
+        int start = 0;
+        int end = 0;
+
+        if (framesIndex.length == 2)
         {
-            frames.add(spriteSheet.get(frameIndex));
+            for(int i = 0; i < 2; i++)
+            {
+                if (i == 0)
+                {
+                    start = framesIndex[i];
+                    System.out.println(start);
+                }
+                else {
+                    end = framesIndex[i];
+                    System.out.println(end);
+                }
+            }
+        }
+
+        for(int i = start; i <= end; i++)
+        {
+            frames.add(spriteSheet.get(i));
         }
     }
 

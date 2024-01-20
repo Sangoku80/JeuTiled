@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -23,6 +24,9 @@ public abstract class Entity extends Sprite {
     protected Rectangle collisionBody;
     protected Rectangle collisionFoot;
 
+    // carte actuelle
+    protected TiledMap tiledMap;
+
     // animations
     protected String spriteSheetPath;
     protected ArrayList<TextureRegion> spriteSheet = new ArrayList<>();
@@ -34,8 +38,9 @@ public abstract class Entity extends Sprite {
     public Entity(String name, float speed)
     {
         // mouvements et collisions
-        this.entity = (TextureMapObject) Game.tiledMap.getLayers().get("entités").getObjects().get(name);
-        this.entityFoot = (RectangleMapObject) Game.tiledMap.getLayers().get("entités_foot").getObjects().get(name);
+        this.tiledMap = Game.tiledMap;
+        this.entity = (TextureMapObject) tiledMap.getLayers().get("entités").getObjects().get(name);
+        this.entityFoot = (RectangleMapObject) tiledMap.getLayers().get("entités_foot").getObjects().get(name);
         this.x = entity.getX();
         this.y = entity.getY();
         this.width = entity.getTextureRegion().getRegionWidth();

@@ -10,6 +10,5 @@ public class Level1 extends World {
     @Override
     public void loadAnimatedTiles() {
 
-        animatedTiles.put(295, new Animation(new int[]{295, 296}, tileset, true, 15));
     }
 }
