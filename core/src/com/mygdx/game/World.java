@@ -35,6 +35,9 @@ public abstract class World {
     // affichage du joueur
     protected int entityLayer;
 
+    // afficher l'ensemble des entités présentes dans le niveau
+    protected ArrayList<Entity> entities = new ArrayList<>();
+
     public World(String tilesetPath, String map, int ratioTilesetX, int ratioTilesetY, int entityLayer)
     {
         // affichage des layers et des tuiles
@@ -57,6 +60,7 @@ public abstract class World {
         loadLayers();
         loadCollisions();
         loadAnimatedTiles();
+        loadEntities();
 
         // affichage du joueur
         this.entityLayer = entityLayer;
@@ -85,6 +89,11 @@ public abstract class World {
         }
     }
 
+    public void loadEntities()
+    {
+        entities.add(new Cochon());
+    }
+
     public void loadCollisions()
     {
         for(MapObject collision : tiledMap.getLayers().get("collisions").getObjects())
@@ -102,6 +111,14 @@ public abstract class World {
         {
             shapeRenderer.setColor(0, 0, 1, 0);
             shapeRenderer.rect(collision.getX(), collision.getY(), collision.getWidth(), collision.getHeight());
+        }
+    }
+
+    public void drawEntities(SpriteBatch batch)
+    {
+        for (Entity entity : entities)
+        {
+            entity.Draw(batch);
         }
     }
 
@@ -141,6 +158,7 @@ public abstract class World {
             if (layerNumber == entityLayer)
             {
                 Game.player.Draw(batch);
+                drawEntities(batch);
             }
             drawLayer(layers.get(layerNumber), batch);
         }

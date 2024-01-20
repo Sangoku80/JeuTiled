@@ -2,14 +2,12 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.objects.TextureMapObject;
 
 public class Player extends Entity implements InputProcessor {
 
     public Player()
     {
-        super((TextureMapObject) Game.tiledMap.getLayers().get("entités").getObjects().get("player"), (RectangleMapObject) Game.tiledMap.getLayers().get("entités_foot").getObjects().get("player"), 2f, "Images/sprite sheet.png", 16, 16);
+        super("player", 2f);
         currentAnimation = animations.get("bas_idle");
     }
 

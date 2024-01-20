@@ -166,7 +166,7 @@
   <object id="23" name="player" gid="1065" x="77.105" y="204.855" width="16" height="16"/>
   <object id="69" name="cochon" gid="1216" x="198.75" y="217.25" width="16" height="16"/>
  </objectgroup>
- <objectgroup id="13" name="entités_foot">
+ <objectgroup id="13" name="entités_foot" visible="0">
   <object id="74" name="player" x="79.0067" y="202.957" width="12.0156" height="2"/>
   <object id="78" name="cochon" x="198.909" y="215.273" width="14.7273" height="2.18182"/>
  </objectgroup>

@@ -15,6 +15,7 @@ public abstract class Entity extends Sprite {
 
     // mouvements et collisions
     protected TextureMapObject entity;
+    protected RectangleMapObject entityFoot;
     protected float x, y;
     protected int width, height;
     protected boolean left, up, right, down;
@@ -25,28 +26,28 @@ public abstract class Entity extends Sprite {
     // animations
     protected String spriteSheetPath;
     protected ArrayList<TextureRegion> spriteSheet = new ArrayList<>();
-    protected int ratioSpriteSheetX, ratioSpriteSheetY;
     protected HashMap<String, Animation> animations = new HashMap<>();
     protected Animation currentAnimation;
     protected String orientation = "bas";
     protected Boolean moving = false;
 
-    public Entity(TextureMapObject entity, RectangleMapObject foot, float speed, String spriteSheetPath, int ratioSpriteSheetX, int ratioSpriteSheetY)
+    public Entity(String name, float speed)
     {
         // mouvements et collisions
-        this.entity = entity;
+        this.entity = (TextureMapObject) Game.tiledMap.getLayers().get("entités").getObjects().get(name);
+        this.entityFoot = (RectangleMapObject) Game.tiledMap.getLayers().get("entités_foot").getObjects().get(name);
         this.x = entity.getX();
         this.y = entity.getY();
         this.width = entity.getTextureRegion().getRegionWidth();
         this.height = entity.getTextureRegion().getRegionHeight();
         this.speed = speed;
         this.collisionBody = new Rectangle(x, y, width, height);
-        this.collisionFoot = foot.getRectangle();
+        this.collisionFoot = entityFoot.getRectangle();
 
         // animations
-        this.spriteSheetPath = spriteSheetPath;
-        this.ratioSpriteSheetX = ratioSpriteSheetX;
-        this.ratioSpriteSheetY = ratioSpriteSheetY;
+        this.spriteSheetPath = entity.getTextureRegion().getTexture().toString();
+
+        // chargement
         loadSpriteSheet();
         loadAnimations();
     }
@@ -55,11 +56,11 @@ public abstract class Entity extends Sprite {
     {
         Texture img = new Texture(spriteSheetPath);
 
-        for(int y = 0; y < img.getHeight()/ratioSpriteSheetY; y++)
+        for(int y = 0; y < img.getHeight()/height; y++)
         {
-            for(int x = 0; x < img.getWidth()/ratioSpriteSheetX; x++)
+            for(int x = 0; x < img.getWidth()/width; x++)
             {
-                spriteSheet.add(new TextureRegion(img, x*ratioSpriteSheetX, y*ratioSpriteSheetY, ratioSpriteSheetX, ratioSpriteSheetY));
+                spriteSheet.add(new TextureRegion(img, x*height, y*width, width, height));
             }
         }
     }
@@ -165,13 +166,6 @@ public abstract class Entity extends Sprite {
         batch.draw(entity.getTextureRegion(), x, y);
     }
 
-    public void resetDirBooleans()
-    {
-        left = false;
-        right = false;
-        up = false;
-        down = false;
-    }
     public void setLeft(boolean left) {
         this.left = left;
     }
