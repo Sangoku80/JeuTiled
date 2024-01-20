@@ -17,7 +17,6 @@ public class Animation {
         this.spriteSheet = spriteSheet;
         this.aniSpeed = aniSpeed;
         loadFrames(framesIndex);
-        System.out.println(frames);
     }
 
     private void loadFrames(int[] framesIndex)
@@ -33,11 +32,9 @@ public class Animation {
                 if (i == 0)
                 {
                     start = framesIndex[i];
-                    System.out.println(start);
                 }
                 else {
                     end = framesIndex[i];
-                    System.out.println(end);
                 }
             }
         }

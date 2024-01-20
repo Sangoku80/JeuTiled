@@ -157,9 +157,10 @@ public abstract class World {
         {
             if (layerNumber == entityLayer)
             {
-                Game.player.Draw(batch);
                 drawEntities(batch);
+                Game.player.Draw(batch);
             }
+
             drawLayer(layers.get(layerNumber), batch);
         }
     }

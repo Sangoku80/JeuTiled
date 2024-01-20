@@ -15,7 +15,7 @@ public class Cochon extends Entity{
 
     @Override
     public void updateDirections() {
-
+        setLeft(true);
     }
 
     @Override
