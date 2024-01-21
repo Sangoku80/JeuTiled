@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -11,8 +12,12 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
-public abstract class Entity extends Sprite {
+public abstract class Entity {
+
+    // caractéristiques
+    protected String name;
 
     // mouvements et collisions
     protected TextureMapObject entity;
@@ -35,19 +40,20 @@ public abstract class Entity extends Sprite {
     protected String orientation = "bas";
     protected Boolean moving = false;
 
-    public Entity(String name, float speed)
+    public Entity(String name, float x, float y, float xFoot, float yFoot, float speed)
     {
         // mouvements et collisions
+        this.name = name;
         this.tiledMap = Game.tiledMap;
         this.entity = (TextureMapObject) tiledMap.getLayers().get("entités").getObjects().get(name);
         this.entityFoot = (RectangleMapObject) tiledMap.getLayers().get("entités_foot").getObjects().get(name);
-        this.x = entity.getX();
-        this.y = entity.getY();
+        this.x = x;
+        this.y = y;
         this.width = entity.getTextureRegion().getRegionWidth();
         this.height = entity.getTextureRegion().getRegionHeight();
         this.speed = speed;
         this.collisionBody = new Rectangle(x, y, width, height);
-        this.collisionFoot = entityFoot.getRectangle();
+        this.collisionFoot = new Rectangle(xFoot, yFoot, entityFoot.getRectangle().width, entityFoot.getRectangle().height);
 
         // animations
         this.spriteSheetPath = entity.getTextureRegion().getTexture().toString();
@@ -164,11 +170,8 @@ public abstract class Entity extends Sprite {
         updatePos();
         updateAnimation();
 
-        // animer
-        entity.setTextureRegion(currentAnimation.animate());
-
         // dessiner
-        batch.draw(entity.getTextureRegion(), x, y);
+        batch.draw(currentAnimation.animate(), x, y);
     }
 
     public void setLeft(boolean left) {

@@ -16,6 +16,7 @@ public class Game extends ApplicationAdapter {
 	private static final float CAMERA_SPEED = 200f;
 	public static Player player;
 	public static Level1 level1;
+	public static Vache vache;
 
 	@Override
 	public void create() {
@@ -38,7 +39,7 @@ public class Game extends ApplicationAdapter {
 		tiledMap = mapLoader.load("maps/test.tmx");
 
 		// création du joueur
-		player = new Player();
+		player = new Player(100, 100);
 
 		// création du level1
 		level1 = new Level1();
@@ -74,8 +75,7 @@ public class Game extends ApplicationAdapter {
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
-		// level1.drawCollisions(shapeRenderer);
-		// shapeRenderer.rect(player.collisionFoot.x, player.collisionFoot.y, player.collisionFoot.width, player.collisionFoot.height);
+		level1.drawCollisions(shapeRenderer);
 
 		shapeRenderer.end();
 	}

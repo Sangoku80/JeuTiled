@@ -5,9 +5,11 @@ import com.badlogic.gdx.InputProcessor;
 
 public class Player extends Entity implements InputProcessor {
 
-    public Player()
+    public Player(float x, float y)
     {
-        super("player", 2f);
+        super("player", x, y, x+2, y,2f);
+
+        // animation par défaut
         currentAnimation = animations.get("bas_idle");
     }
 

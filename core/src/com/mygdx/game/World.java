@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector3;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public abstract class World {
 
@@ -33,12 +34,19 @@ public abstract class World {
     protected HashMap<Integer, Animation> animatedTiles = new HashMap<>();
 
     // affichage du joueur
-    protected int entityLayer;
+    protected int playerLayer;
+
+    // affichage des autres entités
+    protected int otherEntitiesLayer;
 
     // afficher l'ensemble des entités présentes dans le niveau
     protected ArrayList<Entity> entities = new ArrayList<>();
 
-    public World(String tilesetPath, String map, int ratioTilesetX, int ratioTilesetY, int entityLayer)
+    // effet profondeur avec les autres entités
+    protected int effetProfondeurBas;
+    protected int effetProfondeurHaut;
+
+    public World(String tilesetPath, String map, int ratioTilesetX, int ratioTilesetY, int playerLayer)
     {
         // affichage des layers et des tuiles
         this.tiledMap = mapLoader.load(map);
@@ -56,14 +64,21 @@ public abstract class World {
         }
 
         // chargement
+        loadEntities();
         loadTileset();
         loadLayers();
         loadCollisions();
         loadAnimatedTiles();
-        loadEntities();
 
-        // affichage du joueur
-        this.entityLayer = entityLayer;
+        for (TiledMapTileLayer layer : layers)
+        {
+            System.out.println(layer.getName());
+        }
+
+        // affichage du joueur avec effet profondeur avec les autres entités
+        this.playerLayer = playerLayer;
+        this.effetProfondeurBas = playerLayer;
+        this.effetProfondeurHaut = playerLayer + 1;
     }
 
     public void loadTileset()
@@ -91,7 +106,17 @@ public abstract class World {
 
     public void loadEntities()
     {
-        entities.add(new Cochon());
+        for (MapObject object : tiledMap.getLayers().get("positions").getObjects())
+        {
+            if (object instanceof RectangleMapObject)
+            {
+
+                if (Objects.equals(object.getName(), "cochon"))
+                {
+                    entities.add(new Cochon((int) ((RectangleMapObject) object).getRectangle().getX(), (int) ((RectangleMapObject) object).getRectangle().getY()));
+                }
+            }
+        }
     }
 
     public void loadCollisions()
@@ -102,6 +127,11 @@ public abstract class World {
             {
                 collisions.add(((RectangleMapObject) collision).getRectangle());
             }
+        }
+
+        for (Entity entity : entities)
+        {
+            collisions.add(entity.collisionFoot);
         }
     }
 
@@ -155,9 +185,9 @@ public abstract class World {
     {
         for (int layerNumber = 0; layerNumber < layers.size(); layerNumber++)
         {
-            if (layerNumber == entityLayer)
+            if (layerNumber == playerLayer)
             {
-                drawEntities(batch);
+                // drawEntities(batch);
                 Game.player.Draw(batch);
             }
 
