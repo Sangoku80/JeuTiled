@@ -37,7 +37,7 @@ public abstract class Entity {
     protected TiledMap tiledMap;
 
     // collisions avec le décor
-    protected ArrayList<Rectangle> collisions = new ArrayList<>();
+    protected HashMap<String, Rectangle> collisions = new HashMap<>();
 
     // collisions avec les entités et effet de profondeur
     protected HashMap<String, Rectangle> collisionsEntitiesHaut = new HashMap<>();
@@ -71,7 +71,6 @@ public abstract class Entity {
         this.y = y;
         this.collisionBas = new Rectangle();
         this.collisionHaut = new Rectangle();
-        loadCollisionsBasHaut();
         this.speed = speed;
 
         // animations
@@ -84,8 +83,8 @@ public abstract class Entity {
         this.layer = layer;
 
         // chargement
-        loadCollisionsEntitiesBas();
-        loadCollisionsEntitiesHaut();
+        loadCollisionsBasHaut();
+        loadCollisionsEntitiesBasHaut();
         loadCollisions();
         loadSpriteSheet();
         loadAnimations();
@@ -104,7 +103,7 @@ public abstract class Entity {
         }
     }
 
-    public void loadCollisionsEntitiesHaut()
+    public void loadCollisionsEntitiesBasHaut()
     {
 
         int test = 0;
@@ -115,20 +114,6 @@ public abstract class Entity {
             if (!Objects.equals(entity.name, name))
             {
                 collisionsEntitiesHaut.put(entity.name + test, entity.collisionHaut);
-            }
-        }
-    }
-
-    public void loadCollisionsEntitiesBas()
-    {
-
-        int test = 0;
-
-        for (Entity entity : currentWorld.entities)
-        {
-            test++;
-            if (!Objects.equals(entity.name, name))
-            {
                 collisionsEntitiesBas.put(entity.name + test, entity.collisionBas);
             }
         }
@@ -136,11 +121,15 @@ public abstract class Entity {
 
     public void loadCollisions()
     {
+        int test = 0;
+
         for(MapObject collision : tiledMap.getLayers().get("collisions").getObjects())
         {
+            test++;
+
             if (collision instanceof RectangleMapObject)
             {
-                collisions.add(((RectangleMapObject) collision).getRectangle());
+                collisions.put(collision.getName()+test, ((RectangleMapObject) collision).getRectangle());
             }
         }
     }
@@ -158,7 +147,6 @@ public abstract class Entity {
             float décalageY = Math.abs(entity.getY()-list[i].getRectangle().y);
 
 
-
             list2[i].x = x + décalageX;
             list2[i].y = y + décalageY;
             list2[i].width = list[i].getRectangle().width;
@@ -170,23 +158,21 @@ public abstract class Entity {
     public void drawCollisions(ShapeRenderer shapeRenderer)
     {
 
+        HashMap[] allCollisions = {collisions, collisionsEntitiesBas, collisionsEntitiesHaut};
+
         shapeRenderer.setColor(0, 0, 1, 0);
 
-        for (Rectangle collision : collisions)
+        for (HashMap collisions : allCollisions)
         {
-            shapeRenderer.rect(collision.getX(), collision.getY(), collision.getWidth(), collision.getHeight());
+            for (Object collision : collisions.values())
+            {
+                if (collision instanceof Rectangle)
+                {
+                    shapeRenderer.rect((((Rectangle) collision).getX()), ((Rectangle) collision).getY(), ((Rectangle) collision).getWidth(), ((Rectangle) collision).getHeight());
+                }
+            }
         }
 
-        for (Rectangle collisionEntityBas : collisionsEntitiesBas.values())
-        {
-            shapeRenderer.rect(collisionEntityBas.getX(), collisionEntityBas.getY(), collisionEntityBas.getWidth(), collisionEntityBas.getHeight());
-        }
-
-        for (Rectangle collisionEntityHaut : collisionsEntitiesHaut.values())
-        {
-            shapeRenderer.setColor(1, 0, 0, 0);
-            shapeRenderer.rect(collisionEntityHaut.getX(), collisionEntityHaut.getY(), collisionEntityHaut.getWidth(), collisionEntityHaut.getHeight());
-        }
     }
 
     public abstract void updateDirections();
@@ -196,19 +182,19 @@ public abstract class Entity {
 
         boolean answer = false;
 
-        for (Rectangle rectCollision : collisions)
-        {
-            if (Intersector.overlaps(new Rectangle(position.x, position.y, collisionBas.width, collisionBas.height), rectCollision))
-            {
-                answer = true;
-            }
-        }
+        HashMap[] allCollisions = {collisions, collisionsEntitiesBas};
 
-        for (Rectangle rectCollisionEntitiesBas : collisionsEntitiesBas.values())
+        for (HashMap collisions : allCollisions)
         {
-            if (Intersector.overlaps(new Rectangle(position.x, position.y, collisionBas.width, collisionBas.height), rectCollisionEntitiesBas))
+            for (Object collision : collisions.values())
             {
-                answer = true;
+                if (collision instanceof Rectangle)
+                {
+                    if (Intersector.overlaps(new Rectangle(position.x, position.y, collisionBas.width, collisionBas.height), (Rectangle) collision))
+                    {
+                        answer = true;
+                    }
+                }
             }
         }
 
