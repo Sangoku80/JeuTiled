@@ -2,9 +2,9 @@ package com.mygdx.game;
 
 public class Vache extends Entity {
 
-    public Vache(float x, float y)
+    public Vache(float x, float y, int layer, World currentWorld)
     {
-        super("vache", x, y, x+2, y, 2f);
+        super("vache", x, y, 2f, layer, currentWorld);
 
         // animation par défaut
         currentAnimation = animations.get("bas");

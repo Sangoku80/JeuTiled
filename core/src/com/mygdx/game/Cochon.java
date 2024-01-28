@@ -2,12 +2,12 @@ package com.mygdx.game;
 
 public class Cochon extends Entity{
 
-    public Cochon(int x, int y)
+    public Cochon(int x, int y, int layer, World currentWorld)
     {
-        super("cochon", x, y, x+2, y, 2f);
+        super("cochon", x, y, 2f, layer, currentWorld);
 
         // animation par défaut
-        currentAnimation = animations.get("gauche");
+        currentAnimation = animations.get("haut");
     }
 
     @Override
@@ -19,7 +19,6 @@ public class Cochon extends Entity{
 
     @Override
     public void updateDirections() {
-
     }
 
     @Override

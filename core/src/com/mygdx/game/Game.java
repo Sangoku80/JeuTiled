@@ -8,15 +8,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.*;
 
+import java.util.Objects;
+
 public class Game extends ApplicationAdapter {
 	public static OrthographicCamera camera;
 	private SpriteBatch batch;
 	private ShapeRenderer shapeRenderer;
 	public static TiledMap tiledMap;
 	private static final float CAMERA_SPEED = 200f;
-	public static Player player;
 	public static Level1 level1;
-	public static Vache vache;
+	public static Player player;
 
 	@Override
 	public void create() {
@@ -38,11 +39,19 @@ public class Game extends ApplicationAdapter {
 		TmxMapLoader mapLoader = new TmxMapLoader();
 		tiledMap = mapLoader.load("maps/test.tmx");
 
-		// création du joueur
-		player = new Player(100, 100);
-
 		// création du level1
 		level1 = new Level1();
+
+		// création du joueur
+		level1.entities.add(new Player(120, 120, level1.entitiesLayer, level1));
+
+		for (Entity entity : level1.entities)
+		{
+			if (Objects.equals(entity.name, "player"))
+			{
+				player = (Player) entity;
+			}
+		}
 
 		// Définissez l'InputProcessor pour détecter les événements du clavier
 		Gdx.input.setInputProcessor(player);
@@ -75,7 +84,7 @@ public class Game extends ApplicationAdapter {
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
-		level1.drawCollisions(shapeRenderer);
+		player.drawCollisions(shapeRenderer);
 
 		shapeRenderer.end();
 	}

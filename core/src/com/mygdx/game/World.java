@@ -3,7 +3,6 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -27,17 +26,13 @@ public abstract class World {
     protected TiledMap tiledMap;
     protected ArrayList<TiledMapTileLayer> layers = new ArrayList<>();
     protected ArrayList<String> nameLayers = new ArrayList<>();
-    protected ArrayList<Rectangle> collisions = new ArrayList<>();
     protected Vector3 tmpVector = new Vector3();
 
     // animation des tuiles
     protected HashMap<Integer, Animation> animatedTiles = new HashMap<>();
 
     // affichage du joueur
-    protected int playerLayer;
-
-    // affichage des autres entités
-    protected int otherEntitiesLayer;
+    protected int entitiesLayer;
 
     // afficher l'ensemble des entités présentes dans le niveau
     protected ArrayList<Entity> entities = new ArrayList<>();
@@ -46,13 +41,18 @@ public abstract class World {
     protected int effetProfondeurBas;
     protected int effetProfondeurHaut;
 
-    public World(String tilesetPath, String map, int ratioTilesetX, int ratioTilesetY, int playerLayer)
+    public World(String tilesetPath, String map, int ratioTilesetX, int ratioTilesetY, int entitiesLayer)
     {
         // affichage des layers et des tuiles
         this.tiledMap = mapLoader.load(map);
         this.tilesetPath = tilesetPath;
         this.ratioTilesetX = ratioTilesetX;
         this.ratioTilesetY = ratioTilesetY;
+
+        // affichage du joueur avec effet profondeur avec les autres entités
+        this.entitiesLayer = entitiesLayer;
+        this.effetProfondeurBas = entitiesLayer;
+        this.effetProfondeurHaut = entitiesLayer + 1;
 
         // on récupère le nom de chaque layer de la carte
         for (MapLayer layer : tiledMap.getLayers())
@@ -67,18 +67,7 @@ public abstract class World {
         loadEntities();
         loadTileset();
         loadLayers();
-        loadCollisions();
         loadAnimatedTiles();
-
-        for (TiledMapTileLayer layer : layers)
-        {
-            System.out.println(layer.getName());
-        }
-
-        // affichage du joueur avec effet profondeur avec les autres entités
-        this.playerLayer = playerLayer;
-        this.effetProfondeurBas = playerLayer;
-        this.effetProfondeurHaut = playerLayer + 1;
     }
 
     public void loadTileset()
@@ -113,42 +102,20 @@ public abstract class World {
 
                 if (Objects.equals(object.getName(), "cochon"))
                 {
-                    entities.add(new Cochon((int) ((RectangleMapObject) object).getRectangle().getX(), (int) ((RectangleMapObject) object).getRectangle().getY()));
+                    entities.add(new Cochon((int) ((RectangleMapObject) object).getRectangle().getX(), (int) ((RectangleMapObject) object).getRectangle().getY(), entitiesLayer, this));
                 }
             }
         }
     }
 
-    public void loadCollisions()
+    public void drawEntities(SpriteBatch batch, int layerNumber)
     {
-        for(MapObject collision : tiledMap.getLayers().get("collisions").getObjects())
+        for (Entity entity : entities)
         {
-            if (collision instanceof RectangleMapObject)
+            if (entity.layer == layerNumber)
             {
-                collisions.add(((RectangleMapObject) collision).getRectangle());
+                entity.Draw(batch);
             }
-        }
-
-        for (Entity entity : entities)
-        {
-            collisions.add(entity.collisionFoot);
-        }
-    }
-
-    public void drawCollisions(ShapeRenderer shapeRenderer)
-    {
-        for (Rectangle collision : collisions)
-        {
-            shapeRenderer.setColor(0, 0, 1, 0);
-            shapeRenderer.rect(collision.getX(), collision.getY(), collision.getWidth(), collision.getHeight());
-        }
-    }
-
-    public void drawEntities(SpriteBatch batch)
-    {
-        for (Entity entity : entities)
-        {
-            entity.Draw(batch);
         }
     }
 
@@ -185,12 +152,7 @@ public abstract class World {
     {
         for (int layerNumber = 0; layerNumber < layers.size(); layerNumber++)
         {
-            if (layerNumber == playerLayer)
-            {
-                // drawEntities(batch);
-                Game.player.Draw(batch);
-            }
-
+            drawEntities(batch, layerNumber);
             drawLayer(layers.get(layerNumber), batch);
         }
     }

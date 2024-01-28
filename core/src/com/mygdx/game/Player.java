@@ -5,9 +5,9 @@ import com.badlogic.gdx.InputProcessor;
 
 public class Player extends Entity implements InputProcessor {
 
-    public Player(float x, float y)
+    public Player(float x, float y, int layer, World currentWorld)
     {
-        super("player", x, y, x+2, y,2f);
+        super("player", x, y, 2f, layer, currentWorld);
 
         // animation par défaut
         currentAnimation = animations.get("bas_idle");
@@ -39,7 +39,6 @@ public class Player extends Entity implements InputProcessor {
 
     @Override
     public void updateDirections() {
-
     }
 
     @Override
