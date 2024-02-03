@@ -9,7 +9,6 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.ArrayList;
@@ -95,11 +94,14 @@ public abstract class World {
 
     public void loadEntities()
     {
+        // mettre dans le dico toutes les entities à créer dans le niveau
+        HashMap<String, Entity> entitiesAMettre = new HashMap<>();
+
+
         for (MapObject object : tiledMap.getLayers().get("positions").getObjects())
         {
             if (object instanceof RectangleMapObject)
             {
-
                 if (Objects.equals(object.getName(), "cochon"))
                 {
                     entities.add(new Cochon((int) ((RectangleMapObject) object).getRectangle().getX(), (int) ((RectangleMapObject) object).getRectangle().getY(), entitiesLayer, this));
@@ -116,6 +118,14 @@ public abstract class World {
             {
                 entity.Draw(batch);
             }
+        }
+    }
+
+    public void updateEntities()
+    {
+        for (Entity entity : entities)
+        {
+            entity.update();
         }
     }
 
@@ -155,5 +165,8 @@ public abstract class World {
             drawEntities(batch, layerNumber);
             drawLayer(layers.get(layerNumber), batch);
         }
+
+        // mettre à jour les entités
+        updateEntities();
     }
 }

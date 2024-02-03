@@ -7,7 +7,6 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -15,7 +14,6 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.Vector;
 
 public abstract class Entity {
 
@@ -53,6 +51,8 @@ public abstract class Entity {
 
     // affichage
     protected int layer;
+    protected int layerBas;
+    protected int layerHaut;
 
     // monde dans lequel est notre entité
     protected World currentWorld;
@@ -81,11 +81,13 @@ public abstract class Entity {
 
         // affichage
         this.layer = layer;
+        this.layerBas = layer-1;
+        this.layerHaut = layer;
 
         // chargement
         loadCollisionsBasHaut();
         loadCollisionsEntitiesBasHaut();
-        loadCollisions();
+        loadCollisionsWithDecor();
         loadSpriteSheet();
         loadAnimations();
     }
@@ -119,7 +121,7 @@ public abstract class Entity {
         }
     }
 
-    public void loadCollisions()
+    public void loadCollisionsWithDecor()
     {
         int test = 0;
 
@@ -151,6 +153,8 @@ public abstract class Entity {
             list2[i].y = y + décalageY;
             list2[i].width = list[i].getRectangle().width;
             list2[i].height = list[i].getRectangle().height;
+
+
         }
 
     }
@@ -184,6 +188,7 @@ public abstract class Entity {
 
         HashMap[] allCollisions = {collisions, collisionsEntitiesBas};
 
+
         for (HashMap collisions : allCollisions)
         {
             for (Object collision : collisions.values())
@@ -194,11 +199,24 @@ public abstract class Entity {
                     {
                         answer = true;
                     }
+
                 }
             }
         }
 
         return answer;
+    }
+
+    public void updateLayer(Vector2 position)
+    {
+        layer = layerHaut;
+        for (Rectangle collision : collisionsEntitiesHaut.values())
+        {
+            if((Intersector.overlaps(new Rectangle(position.x, position.y, collisionBas.width, collisionBas.height), collision)))
+            {
+                layer = layerBas;
+            }
+        }
     }
 
     public void updatePos()
@@ -268,13 +286,18 @@ public abstract class Entity {
 
     public abstract void updateAnimation();
 
-    public void Draw(SpriteBatch batch)
+    public void update()
     {
         // mise à jour
         updateDirections();
         updatePos();
         updateAnimation();
+        updateLayer(new Vector2(collisionBas.x, collisionBas.y));
+        System.out.println(layer);
+    }
 
+    public void Draw(SpriteBatch batch)
+    {
         // dessiner
         batch.draw(currentAnimation.animate(), x, y);
     }
