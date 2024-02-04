@@ -4,7 +4,7 @@ public class Vache extends Entity {
 
     public Vache(float x, float y, int layer, World currentWorld)
     {
-        super("vache", x, y, 2f, layer, currentWorld);
+        super("vache", x, y, 2f, layer, 16,16, currentWorld);
 
         // animation par défaut
         currentAnimation = animations.get("bas");

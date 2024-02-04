@@ -97,7 +97,6 @@ public abstract class World {
         // mettre dans le dico toutes les entities à créer dans le niveau
         HashMap<String, Entity> entitiesAMettre = new HashMap<>();
 
-
         for (MapObject object : tiledMap.getLayers().get("positions").getObjects())
         {
             if (object instanceof RectangleMapObject)
@@ -105,6 +104,14 @@ public abstract class World {
                 if (Objects.equals(object.getName(), "cochon"))
                 {
                     entities.add(new Cochon((int) ((RectangleMapObject) object).getRectangle().getX(), (int) ((RectangleMapObject) object).getRectangle().getY(), entitiesLayer, this));
+                }
+            }
+
+            if (object instanceof RectangleMapObject)
+            {
+                if (Objects.equals(object.getName(), "maison"))
+                {
+                    entities.add(new Maison((int) ((RectangleMapObject) object).getRectangle().getX(), (int) ((RectangleMapObject) object).getRectangle().getY(), 3, this));
                 }
             }
         }

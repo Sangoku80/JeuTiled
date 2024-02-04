@@ -4,10 +4,10 @@ public class Cochon extends Entity{
 
     public Cochon(int x, int y, int layer, World currentWorld)
     {
-        super("cochon", x, y, 2f, layer, currentWorld);
+        super("cochon", x, y, 2f, layer, 16, 16, currentWorld);
 
         // animation par défaut
-        currentAnimation = animations.get("haut");
+        currentAnimation = animations.get("gauche");
     }
 
     @Override
@@ -19,6 +19,7 @@ public class Cochon extends Entity{
 
     @Override
     public void updateDirections() {
+
     }
 
     @Override

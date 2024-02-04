@@ -7,7 +7,7 @@ public class Player extends Entity implements InputProcessor {
 
     public Player(float x, float y, int layer, World currentWorld)
     {
-        super("player", x, y, 2f, layer, currentWorld);
+        super("player", x, y, 2f, layer,  16,  16, currentWorld);
 
         // animation par défaut
         currentAnimation = animations.get("bas_idle");

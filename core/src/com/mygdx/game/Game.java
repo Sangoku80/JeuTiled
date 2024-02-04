@@ -84,6 +84,8 @@ public class Game extends ApplicationAdapter {
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
+		player.drawCollisions(shapeRenderer);
+
 		shapeRenderer.end();
 	}
 

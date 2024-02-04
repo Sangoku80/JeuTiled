@@ -43,6 +43,8 @@ public abstract class Entity {
 
     // animations
     protected String spriteSheetPath;
+    protected int widthSpriteSheet;
+    protected int heightSpriteSheet;
     protected ArrayList<TextureRegion> spriteSheet = new ArrayList<>();
     protected HashMap<String, Animation> animations = new HashMap<>();
     protected Animation currentAnimation;
@@ -57,7 +59,7 @@ public abstract class Entity {
     // monde dans lequel est notre entité
     protected World currentWorld;
 
-    public Entity(String name, float x, float y, float speed, int layer, World world)
+    public Entity(String name, float x, float y, float speed, int layer, int widthSpriteSheet, int heightSpriteSheet, World world)
     {
         // mouvements et collisions
         this.name = name;
@@ -72,6 +74,8 @@ public abstract class Entity {
         this.collisionBas = new Rectangle();
         this.collisionHaut = new Rectangle();
         this.speed = speed;
+        this.widthSpriteSheet = widthSpriteSheet;
+        this.heightSpriteSheet = heightSpriteSheet;
 
         // animations
         this.spriteSheetPath = entity.getTextureRegion().getTexture().toString();
@@ -87,6 +91,7 @@ public abstract class Entity {
         // chargement
         loadCollisionsBasHaut();
         loadCollisionsEntitiesBasHaut();
+        System.out.println(collisionsEntitiesBas);
         loadCollisionsWithDecor();
         loadSpriteSheet();
         loadAnimations();
@@ -96,11 +101,11 @@ public abstract class Entity {
     {
         Texture img = new Texture(spriteSheetPath);
 
-        for(int y = 0; y < img.getHeight()/height; y++)
+        for(int y = 0; y < img.getHeight()/heightSpriteSheet; y++)
         {
-            for(int x = 0; x < img.getWidth()/width; x++)
+            for(int x = 0; x < img.getWidth()/widthSpriteSheet; x++)
             {
-                spriteSheet.add(new TextureRegion(img, x*height, y*width, width, height));
+                spriteSheet.add(new TextureRegion(img, x*heightSpriteSheet, y*widthSpriteSheet, widthSpriteSheet, heightSpriteSheet));
             }
         }
     }
@@ -153,7 +158,6 @@ public abstract class Entity {
             list2[i].y = y + décalageY;
             list2[i].width = list[i].getRectangle().width;
             list2[i].height = list[i].getRectangle().height;
-
 
         }
 
@@ -215,6 +219,7 @@ public abstract class Entity {
             if((Intersector.overlaps(new Rectangle(position.x, position.y, collisionBas.width, collisionBas.height), collision)))
             {
                 layer = layerBas;
+                System.out.println("ok");
             }
         }
     }
@@ -293,7 +298,6 @@ public abstract class Entity {
         updatePos();
         updateAnimation();
         updateLayer(new Vector2(collisionBas.x, collisionBas.y));
-        System.out.println(layer);
     }
 
     public void Draw(SpriteBatch batch)
