@@ -10,12 +10,13 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector3;
+import com.mygdx.game.Tools.Animation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-public abstract class World {
+abstract class World {
 
     // affichage des layers et des tuiles
     protected String tilesetPath;
@@ -31,14 +32,17 @@ public abstract class World {
     protected HashMap<Integer, Animation> animatedTiles = new HashMap<>();
 
     // affichage du joueur
-    protected int entitiesLayer;
+    public int entitiesLayer;
 
     // afficher l'ensemble des entités présentes dans le niveau
-    protected ArrayList<Entity> entities = new ArrayList<>();
+    public ArrayList<Entity> entities = new ArrayList<>();
 
     // effet profondeur avec les autres entités
     protected int effetProfondeurBas;
     protected int effetProfondeurHaut;
+
+    // création du joueur
+    public Player player;
 
     public World(String tilesetPath, String map, int ratioTilesetX, int ratioTilesetY, int entitiesLayer)
     {
@@ -67,6 +71,17 @@ public abstract class World {
         loadTileset();
         loadLayers();
         loadAnimatedTiles();
+
+        // création du joueur
+        this.entities.add(new Player(120, 120, this.entitiesLayer, this));
+
+        for (Entity entity : this.entities)
+        {
+            if (Objects.equals(entity.name, "player"))
+            {
+                player = (Player) entity;
+            }
+        }
     }
 
     public void loadTileset()
@@ -86,9 +101,9 @@ public abstract class World {
 
     public void loadLayers() {
 
-        for (String nameLayer : nameLayers)
+        for (int i=0; i < nameLayers.size(); i++)
         {
-            layers.add((TiledMapTileLayer) tiledMap.getLayers().get(nameLayer));
+            layers.add((TiledMapTileLayer) tiledMap.getLayers().get(nameLayers.get(i)));
         }
     }
 
@@ -111,7 +126,15 @@ public abstract class World {
             {
                 if (Objects.equals(object.getName(), "maison"))
                 {
-                    entities.add(new Maison((int) ((RectangleMapObject) object).getRectangle().getX(), (int) ((RectangleMapObject) object).getRectangle().getY(), 3, this));
+                    entities.add(new Maison((int) ((RectangleMapObject) object).getRectangle().getX(), (int) ((RectangleMapObject) object).getRectangle().getY(), entitiesLayer, this));
+                }
+            }
+
+            if (object instanceof RectangleMapObject)
+            {
+                if (Objects.equals(object.getName(), "vache"))
+                {
+                    entities.add(new Vache((int) ((RectangleMapObject) object).getRectangle().getX(), (int) ((RectangleMapObject) object).getRectangle().getY(), entitiesLayer, this));
                 }
             }
         }
@@ -169,11 +192,24 @@ public abstract class World {
     {
         for (int layerNumber = 0; layerNumber < layers.size(); layerNumber++)
         {
-            drawEntities(batch, layerNumber);
             drawLayer(layers.get(layerNumber), batch);
+            drawEntities(batch, layerNumber);
         }
 
         // mettre à jour les entités
         updateEntities();
+    }
+}
+class Level1 extends World {
+
+    public Level1()
+    {
+        super("Images/Tileset.png", "maps/test.tmx", 8, 8, 1);
+    }
+
+    @Override
+    public void loadAnimatedTiles()
+    {
+
     }
 }
