@@ -28,8 +28,7 @@ abstract class Entity {
     protected TextureMapObject entity;
     protected RectangleMapObject entityBas;
     protected RectangleMapObject entityHaut;
-    public float x;
-    public float y;
+    public Vector2 position;
     protected int width, height;
     protected boolean left, up, right, down;
     protected float speed;
@@ -64,7 +63,7 @@ abstract class Entity {
     // monde dans lequel est notre entité
     protected World currentWorld;
 
-    public Entity(String name, float x, float y, float speed, int layer, int widthSpriteSheet, int heightSpriteSheet, World world)
+    public Entity(String name, Vector2 position, float speed, World world)
     {
         // mouvements et collisions
         this.name = name;
@@ -74,8 +73,7 @@ abstract class Entity {
         this.entityHaut = (RectangleMapObject) tiledMap.getLayers().get("entités_haut").getObjects().get(name);
         this.width = entity.getTextureRegion().getRegionWidth();
         this.height = entity.getTextureRegion().getRegionHeight();
-        this.x = x;
-        this.y = y;
+        this.position = new Vector2(position.x, position.y);
         this.collisionBas = new Rectangle();
         this.collisionHaut = new Rectangle();
         this.speed = speed;
@@ -89,7 +87,7 @@ abstract class Entity {
         this.currentWorld = world;
 
         // affichage
-        this.layer = layer;
+        this.layer = currentWorld.entitiesLayer;
         this.layerBas = layer-1;
         this.layerHaut = layer;
 
@@ -105,11 +103,11 @@ abstract class Entity {
     {
         Texture img = new Texture(spriteSheetPath);
 
-        for(int y = 0; y < img.getHeight()/heightSpriteSheet; y++)
+        for(int y = 0; y < img.getHeight()/height; y++)
         {
-            for(int x = 0; x < img.getWidth()/widthSpriteSheet; x++)
+            for(int x = 0; x < img.getWidth()/width; x++)
             {
-                spriteSheet.add(new TextureRegion(img, x*heightSpriteSheet, y*widthSpriteSheet, widthSpriteSheet, heightSpriteSheet));
+                spriteSheet.add(new TextureRegion(img, x*height, y*width, width, height));
             }
         }
     }
@@ -158,8 +156,8 @@ abstract class Entity {
             float décalageY = Math.abs(entity.getY()-list[i].getRectangle().y);
 
 
-            list2[i].x = x + décalageX;
-            list2[i].y = y + décalageY;
+            list2[i].x = position.x + décalageX;
+            list2[i].y = position.y + décalageY;
             list2[i].width = list[i].getRectangle().width;
             list2[i].height = list[i].getRectangle().height;
 
@@ -196,7 +194,6 @@ abstract class Entity {
 
         HashMap[] allCollisions = {collisions, collisionsEntitiesBas};
 
-
         for (HashMap collisions : allCollisions)
         {
             for (Object collision : collisions.values())
@@ -223,6 +220,29 @@ abstract class Entity {
             if((Intersector.overlaps(new Rectangle(position.x, position.y, collisionBas.width, collisionBas.height), collision)))
             {
                 layer = layerBas;
+            }
+        }
+    }
+
+    public void changeWorld(World newWorld)
+    {
+        currentWorld = newWorld;
+    }
+
+    public void updateWorld()
+    {
+        for (Object collision : tiledMap.getLayers().get("teleportation").getObjects())
+        {
+            if (collision instanceof RectangleMapObject)
+            {
+                if (Intersector.overlaps(new Rectangle(position.x, position.y, collisionBas.width, collisionBas.height), (Rectangle) collision))
+                {
+                    if (((RectangleMapObject) collision).getName() == "internMaison")
+                    {
+                        changeWorld(new InternMaison());
+                    }
+                }
+
             }
         }
     }
@@ -283,8 +303,8 @@ abstract class Entity {
         if (!checkCollisionsWithFoot(new Vector2(collisionBas.x + xSpeed, collisionBas.y + ySpeed)))
         {
             // entité
-            x += xSpeed;
-            y += ySpeed;
+            position.x += xSpeed;
+            position.y += ySpeed;
 
             // rectCollisions
             collisionBas.y += ySpeed;
@@ -300,13 +320,14 @@ abstract class Entity {
         updateDirections();
         updatePos();
         updateAnimation();
+        // updateWorld();
         updateLayer(new Vector2(collisionBas.x, collisionBas.y));
     }
 
     public void Draw(SpriteBatch batch)
     {
         // dessiner
-        batch.draw(currentAnimation.animate(), x, y);
+        batch.draw(currentAnimation.animate(), position.x, position.y);
     }
 
     public void setLeft(boolean left) {
@@ -328,8 +349,8 @@ abstract class Entity {
 
 class Player extends Entity implements InputProcessor {
 
-    public Player(float x, float y, int layer, World currentWorld) {
-        super("player", x, y, 2f, layer, 16, 16, currentWorld);
+    public Player(float x, float y, World currentWorld) {
+        super("player", new Vector2(x, y), 2f, currentWorld);
 
         // animation par défaut
         currentAnimation = animations.get("bas_idle");
@@ -459,9 +480,9 @@ class Player extends Entity implements InputProcessor {
 
 class Vache extends Entity {
 
-    public Vache(float x, float y, int layer, World currentWorld)
+    public Vache(float x, float y, World currentWorld)
     {
-        super("vache", x, y, 2f, layer, 16,16, currentWorld);
+        super("vache", new Vector2(x, y), 2f, currentWorld);
 
         // animation par défaut
         currentAnimation = animations.get("bas");
@@ -487,9 +508,9 @@ class Vache extends Entity {
 
 class Cochon extends Entity{
 
-    public Cochon(int x, int y, int layer, World currentWorld)
+    public Cochon(int x, int y, World currentWorld)
     {
-        super("cochon", x, y, 2f, layer, 16, 16, currentWorld);
+        super("cochon", new Vector2(x, y), 2f, currentWorld);
 
         // animation par défaut
         currentAnimation = animations.get("gauche");
@@ -515,9 +536,9 @@ class Cochon extends Entity{
 
 class Maison extends Entity {
 
-    public Maison(float x, float y, int layer, World world)
+    public Maison(float x, float y, World world)
     {
-        super("maison", x, y, 0f, layer, 56, 56, world);
+        super("maison", new Vector2(x, y), 0f, world);
 
         // animation par défaut
         currentAnimation = animations.get("idle");

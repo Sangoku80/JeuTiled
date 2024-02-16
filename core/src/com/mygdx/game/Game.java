@@ -52,8 +52,8 @@ public class Game extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		// recentrer la caméra en fonction du joueur
-		float newCameraX = currentLevel.player.x;
-		float newCameraY = currentLevel.player.y;
+		float newCameraX = currentLevel.player.position.x;
+		float newCameraY = currentLevel.player.position.y;
 
 		camera.position.set(newCameraX, newCameraY, 0);
 		camera.update();

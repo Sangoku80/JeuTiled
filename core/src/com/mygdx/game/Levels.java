@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -73,7 +74,7 @@ abstract class World {
         loadAnimatedTiles();
 
         // création du joueur
-        this.entities.add(new Player(120, 120, this.entitiesLayer, this));
+        this.entities.add(new Player(120, 120, this));
 
         for (Entity entity : this.entities)
         {
@@ -114,27 +115,27 @@ abstract class World {
 
         for (MapObject object : tiledMap.getLayers().get("positions").getObjects())
         {
-            if (object instanceof RectangleMapObject)
+            if (object instanceof TextureMapObject)
             {
                 if (Objects.equals(object.getName(), "cochon"))
                 {
-                    entities.add(new Cochon((int) ((RectangleMapObject) object).getRectangle().getX(), (int) ((RectangleMapObject) object).getRectangle().getY(), entitiesLayer, this));
+                    entities.add(new Cochon((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
                 }
             }
 
-            if (object instanceof RectangleMapObject)
+            if (object instanceof TextureMapObject)
             {
                 if (Objects.equals(object.getName(), "maison"))
                 {
-                    entities.add(new Maison((int) ((RectangleMapObject) object).getRectangle().getX(), (int) ((RectangleMapObject) object).getRectangle().getY(), entitiesLayer, this));
+                    entities.add(new Maison((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
                 }
             }
 
-            if (object instanceof RectangleMapObject)
+            if (object instanceof TextureMapObject)
             {
                 if (Objects.equals(object.getName(), "vache"))
                 {
-                    entities.add(new Vache((int) ((RectangleMapObject) object).getRectangle().getX(), (int) ((RectangleMapObject) object).getRectangle().getY(), entitiesLayer, this));
+                    entities.add(new Vache((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
                 }
             }
         }
@@ -205,6 +206,20 @@ class Level1 extends World {
     public Level1()
     {
         super("Images/Tileset.png", "maps/test.tmx", 8, 8, 1);
+    }
+
+    @Override
+    public void loadAnimatedTiles()
+    {
+
+    }
+}
+
+class InternMaison extends World {
+
+
+    public InternMaison() {
+        super("Images/Tileset.png", "maps/internMaison.tmx", 8, 8, 1);
     }
 
     @Override
