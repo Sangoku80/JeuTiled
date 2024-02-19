@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -219,7 +218,7 @@ class InternMaison extends World {
 
 
     public InternMaison() {
-        super("Images/Tileset.png", "maps/internMaison.tmx", 8, 8, 1);
+        super("Images/Tileset.png", "maps/test2.tmx", 8, 8, 1);
     }
 
     @Override

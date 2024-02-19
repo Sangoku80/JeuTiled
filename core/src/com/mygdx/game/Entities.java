@@ -39,7 +39,10 @@ abstract class Entity {
     protected TiledMap tiledMap;
 
     // collisions avec le décor
-    protected HashMap<String, Rectangle> collisions = new HashMap<>();
+    protected HashMap<String, Rectangle> collisionsDecor = new HashMap<>();
+
+    // collisions teleportation (changement de monde)
+    protected HashMap<String, Rectangle> collisionsTeleportation = new HashMap<>();
 
     // collisions avec les entités et effet de profondeur
     protected HashMap<String, Rectangle> collisionsEntitiesHaut = new HashMap<>();
@@ -65,9 +68,12 @@ abstract class Entity {
 
     public Entity(String name, Vector2 position, float speed, World world)
     {
+        // monde actuel
+        this.currentWorld = world;
+
         // mouvements et collisions
         this.name = name;
-        this.tiledMap = Game.tiledMap;
+        this.tiledMap = world.tiledMap;
         this.entity = (TextureMapObject) tiledMap.getLayers().get("entités").getObjects().get(name);
         this.entityBas = (RectangleMapObject) tiledMap.getLayers().get("entités_bas").getObjects().get(name);
         this.entityHaut = (RectangleMapObject) tiledMap.getLayers().get("entités_haut").getObjects().get(name);
@@ -83,9 +89,6 @@ abstract class Entity {
         // animations
         this.spriteSheetPath = entity.getTextureRegion().getTexture().toString();
 
-        // monde actuel
-        this.currentWorld = world;
-
         // affichage
         this.layer = currentWorld.entitiesLayer;
         this.layerBas = layer-1;
@@ -95,6 +98,7 @@ abstract class Entity {
         loadCollisionsBasHaut();
         loadCollisionsEntitiesBasHaut();
         // loadCollisionsWithDecor();
+        loadCollisionsTeleportation();
         loadSpriteSheet();
         loadAnimations();
     }
@@ -132,13 +136,34 @@ abstract class Entity {
     {
         int test = 0;
 
-        for(MapObject collision : tiledMap.getLayers().get("collisions").getObjects())
+        if (tiledMap.getLayers().get("collisions").getObjects() != null)
         {
-            test++;
-
-            if (collision instanceof RectangleMapObject)
+            for(MapObject collision : tiledMap.getLayers().get("collisions").getObjects())
             {
-                collisions.put(collision.getName()+test, ((RectangleMapObject) collision).getRectangle());
+                test++;
+
+                if (collision instanceof RectangleMapObject)
+                {
+                    collisionsDecor.put(collision.getName()+test, ((RectangleMapObject) collision).getRectangle());
+                }
+            }
+        }
+    }
+
+    public void loadCollisionsTeleportation()
+    {
+        int test = 0;
+
+        if (tiledMap.getLayers().get("teleportation").getObjects() != null)
+        {
+            for(MapObject collision : tiledMap.getLayers().get("teleportation").getObjects())
+            {
+                test++;
+
+                if (collision instanceof RectangleMapObject)
+                {
+                    collisionsTeleportation.put(collision.getName()+test, ((RectangleMapObject) collision).getRectangle());
+                }
             }
         }
     }
@@ -168,7 +193,7 @@ abstract class Entity {
     public void drawCollisions(ShapeRenderer shapeRenderer)
     {
 
-        HashMap[] allCollisions = {collisions, collisionsEntitiesBas, collisionsEntitiesHaut};
+        HashMap[] allCollisions = {collisionsDecor, collisionsEntitiesBas, collisionsEntitiesHaut};
 
         shapeRenderer.setColor(0, 0, 1, 0);
 
@@ -189,20 +214,27 @@ abstract class Entity {
 
     public boolean checkCollisionsWithFoot(Vector2 position)
     {
-
         boolean answer = false;
-
-        HashMap[] allCollisions = {collisions, collisionsEntitiesBas};
+        int i = 0;
+        HashMap[] allCollisions = {collisionsDecor, collisionsEntitiesBas, collisionsTeleportation};
 
         for (HashMap collisions : allCollisions)
         {
+            i++;
             for (Object collision : collisions.values())
             {
                 if (collision instanceof Rectangle)
                 {
                     if (Intersector.overlaps(new Rectangle(position.x, position.y, collisionBas.width, collisionBas.height), (Rectangle) collision))
                     {
-                        answer = true;
+                        if (i != 3)
+                        {
+                            answer = true;
+                        }
+                        else
+                        {
+                            changeWorld(new InternMaison());
+                        }
                     }
 
                 }
@@ -231,7 +263,7 @@ abstract class Entity {
 
     public void updateWorld()
     {
-        for (Object collision : tiledMap.getLayers().get("teleportation").getObjects())
+        for (Object collision : tiledMap.getLayers().get("positions").getObjects())
         {
             if (collision instanceof RectangleMapObject)
             {
@@ -239,7 +271,8 @@ abstract class Entity {
                 {
                     if (((RectangleMapObject) collision).getName() == "internMaison")
                     {
-                        changeWorld(new InternMaison());
+                        // changeWorld(new InternMaison());
+                        System.out.println("ok");
                     }
                 }
 

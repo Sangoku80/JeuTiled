@@ -32,10 +32,6 @@ public class Game extends ApplicationAdapter {
 		// initialisation du shapeRenderer
 		shapeRenderer = new ShapeRenderer();
 
-		// Charger la carte TMX
-		TmxMapLoader mapLoader = new TmxMapLoader();
-		tiledMap = mapLoader.load("maps/test.tmx");
-
 		// création du level1
 		currentLevel = new Level1();
 
