@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.mygdx.game.Tools.Animation;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -38,10 +39,12 @@ abstract class Entity {
     // carte actuelle
     protected TiledMap tiledMap;
 
-    // collisions avec le décor
-    protected HashMap<String, Rectangle> collisionsDecor = new HashMap<>();
+    // fichier qui stocke les collisions des entités
+    protected TmxMapLoader mapLoader = new TmxMapLoader();
+    protected TiledMap collisionsEntities;
 
-    // collisions teleportation (changement de monde)
+    // collisions
+    protected HashMap<String, Rectangle> collisionsDecor = new HashMap<>();
     protected HashMap<String, Rectangle> collisionsTeleportation = new HashMap<>();
 
     // collisions avec les entités et effet de profondeur
@@ -50,8 +53,6 @@ abstract class Entity {
 
     // animations
     protected String spriteSheetPath;
-    protected int widthSpriteSheet;
-    protected int heightSpriteSheet;
     protected ArrayList<TextureRegion> spriteSheet = new ArrayList<>();
     protected HashMap<String, Animation> animations = new HashMap<>();
     protected Animation currentAnimation;
@@ -73,18 +74,17 @@ abstract class Entity {
 
         // mouvements et collisions
         this.name = name;
+        this.collisionsEntities = mapLoader.load("maps/entités.tmx");
         this.tiledMap = world.tiledMap;
-        this.entity = (TextureMapObject) tiledMap.getLayers().get("entités").getObjects().get(name);
-        this.entityBas = (RectangleMapObject) tiledMap.getLayers().get("entités_bas").getObjects().get(name);
-        this.entityHaut = (RectangleMapObject) tiledMap.getLayers().get("entités_haut").getObjects().get(name);
+        this.entity = (TextureMapObject) collisionsEntities.getLayers().get("entités").getObjects().get(name);
+        this.entityBas = (RectangleMapObject) collisionsEntities.getLayers().get("entités_bas").getObjects().get(name);
+        this.entityHaut = (RectangleMapObject) collisionsEntities.getLayers().get("entités_haut").getObjects().get(name);
         this.width = entity.getTextureRegion().getRegionWidth();
         this.height = entity.getTextureRegion().getRegionHeight();
         this.position = new Vector2(position.x, position.y);
         this.collisionBas = new Rectangle();
         this.collisionHaut = new Rectangle();
         this.speed = speed;
-        this.widthSpriteSheet = widthSpriteSheet;
-        this.heightSpriteSheet = heightSpriteSheet;
 
         // animations
         this.spriteSheetPath = entity.getTextureRegion().getTexture().toString();
@@ -258,26 +258,7 @@ abstract class Entity {
 
     public void changeWorld(World newWorld)
     {
-        currentWorld = newWorld;
-    }
-
-    public void updateWorld()
-    {
-        for (Object collision : tiledMap.getLayers().get("positions").getObjects())
-        {
-            if (collision instanceof RectangleMapObject)
-            {
-                if (Intersector.overlaps(new Rectangle(position.x, position.y, collisionBas.width, collisionBas.height), (Rectangle) collision))
-                {
-                    if (((RectangleMapObject) collision).getName() == "internMaison")
-                    {
-                        // changeWorld(new InternMaison());
-                        System.out.println("ok");
-                    }
-                }
-
-            }
-        }
+        Game.currentLevel = newWorld;
     }
 
     public void updatePos()

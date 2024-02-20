@@ -112,32 +112,36 @@ abstract class World {
         // mettre dans le dico toutes les entities à créer dans le niveau
         HashMap<String, Entity> entitiesAMettre = new HashMap<>();
 
-        for (MapObject object : tiledMap.getLayers().get("positions").getObjects())
+        if (tiledMap.getLayers().get("entités") != null)
         {
-            if (object instanceof TextureMapObject)
+            for (MapObject object : tiledMap.getLayers().get("entités").getObjects())
             {
-                if (Objects.equals(object.getName(), "cochon"))
+                if (object instanceof TextureMapObject)
                 {
-                    entities.add(new Cochon((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                    if (Objects.equals(object.getName(), "cochon"))
+                    {
+                        entities.add(new Cochon((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                    }
                 }
-            }
 
-            if (object instanceof TextureMapObject)
-            {
-                if (Objects.equals(object.getName(), "maison"))
+                if (object instanceof TextureMapObject)
                 {
-                    entities.add(new Maison((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                    if (Objects.equals(object.getName(), "maison"))
+                    {
+                        entities.add(new Maison((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                    }
                 }
-            }
 
-            if (object instanceof TextureMapObject)
-            {
-                if (Objects.equals(object.getName(), "vache"))
+                if (object instanceof TextureMapObject)
                 {
-                    entities.add(new Vache((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                    if (Objects.equals(object.getName(), "vache"))
+                    {
+                        entities.add(new Vache((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                    }
                 }
             }
         }
+
     }
 
     public void drawEntities(SpriteBatch batch, int layerNumber)

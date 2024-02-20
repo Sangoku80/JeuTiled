@@ -35,9 +35,6 @@ public class Game extends ApplicationAdapter {
 		// création du level1
 		currentLevel = new Level1();
 
-		// Définissez l'InputProcessor pour détecter les événements du clavier
-		Gdx.input.setInputProcessor(currentLevel.player);
-
 	}
 
 	@Override
@@ -46,6 +43,9 @@ public class Game extends ApplicationAdapter {
 		// fond noir
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		// Définissez l'InputProcessor pour détecter les événements du clavier
+		Gdx.input.setInputProcessor(currentLevel.player);
 
 		// recentrer la caméra en fonction du joueur
 		float newCameraX = currentLevel.player.position.x;

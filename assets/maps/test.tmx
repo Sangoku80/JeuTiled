@@ -158,7 +158,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="15" name="positions">
+ <objectgroup id="15" name="entités">
   <object id="111" name="maison" gid="1753" x="18.5" y="123.25" width="56" height="56"/>
   <object id="113" name="vache" gid="1220" x="172.5" y="121" width="16" height="16"/>
  </objectgroup>
@@ -198,22 +198,4 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="13" name="entités_bas " visible="0">
-  <object id="74" name="player" x="148.34" y="154.624" width="12.0156" height="2"/>
-  <object id="78" name="cochon" x="123.576" y="153.94" width="14.7273" height="2.18182"/>
-  <object id="80" name="vache" x="100.273" y="153.212" width="11.9091" height="3.81818"/>
-  <object id="104" name="maison" x="37" y="141.5" width="52.5" height="16"/>
- </objectgroup>
- <objectgroup id="4" name="entités" visible="0">
-  <object id="23" name="player" gid="1065" x="146.438" y="156.522" width="16" height="16"/>
-  <object id="69" name="cochon" gid="1216" x="123.417" y="155.917" width="16" height="16"/>
-  <object id="79" name="vache" gid="1220" x="98.333" y="157" width="16" height="16"/>
-  <object id="116" name="maison" gid="1753" x="34.5" y="158.5" width="56" height="56"/>
- </objectgroup>
- <objectgroup id="16" name="entités_haut" visible="0">
-  <object id="94" name="vache" x="99.1818" y="140.955" width="14.6364" height="12.1818"/>
-  <object id="95" name="cochon" x="123.182" y="144" width="16.2727" height="9.81818"/>
-  <object id="97" name="player" x="147.348" y="141.478" width="14" height="13.1304"/>
-  <object id="106" name="maison" x="37" y="103.125" width="53" height="38"/>
- </objectgroup>
 </map>
