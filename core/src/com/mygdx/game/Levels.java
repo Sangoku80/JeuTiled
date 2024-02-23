@@ -18,6 +18,12 @@ import java.util.Objects;
 
 abstract class World {
 
+    // caractéristiques
+    protected String name;
+
+    // static
+    protected static ArrayList<World> worlds = new ArrayList<>();
+
     // affichage des layers et des tuiles
     protected String tilesetPath;
     protected ArrayList<TextureRegion> tileset = new ArrayList<>();
@@ -44,13 +50,19 @@ abstract class World {
     // création du joueur
     public Player player;
 
-    public World(String tilesetPath, String map, int ratioTilesetX, int ratioTilesetY, int entitiesLayer)
+    public World(String name, String tilesetPath, String map, int ratioTilesetX, int ratioTilesetY, int entitiesLayer)
     {
+        // caractéristiques
+        this.name = name;
+
         // affichage des layers et des tuiles
         this.tiledMap = mapLoader.load(map);
         this.tilesetPath = tilesetPath;
         this.ratioTilesetX = ratioTilesetX;
         this.ratioTilesetY = ratioTilesetY;
+
+        // on ajoute ce monde à la liste des mondes
+        worlds.add(this);
 
         // affichage du joueur avec effet profondeur avec les autres entités
         this.entitiesLayer = entitiesLayer;
@@ -208,7 +220,7 @@ class Level1 extends World {
 
     public Level1()
     {
-        super("Images/Tileset.png", "maps/test.tmx", 8, 8, 1);
+        super("Level1", "Images/Tileset.png", "maps/test.tmx", 8, 8, 1);
     }
 
     @Override
@@ -222,7 +234,7 @@ class InternMaison extends World {
 
 
     public InternMaison() {
-        super("Images/Tileset.png", "maps/test2.tmx", 8, 8, 1);
+        super("InternMaison", "Images/Tileset.png", "maps/test2.tmx", 8, 8, 1);
     }
 
     @Override

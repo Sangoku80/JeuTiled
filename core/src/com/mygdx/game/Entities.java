@@ -44,12 +44,12 @@ abstract class Entity {
     protected TiledMap collisionsEntities;
 
     // collisions
-    protected HashMap<String, Rectangle> collisionsDecor = new HashMap<>();
-    protected HashMap<String, Rectangle> collisionsTeleportation = new HashMap<>();
+    protected ArrayList<Rectangle> collisionsStop = new ArrayList<>();
+    protected ArrayList<Rectangle> collisionsTeleportation = new ArrayList<>();
 
     // collisions avec les entités et effet de profondeur
-    protected HashMap<String, Rectangle> collisionsEntitiesHaut = new HashMap<>();
-    protected HashMap<String, Rectangle> collisionsEntitiesBas = new HashMap<>();
+    protected ArrayList<Rectangle> collisionsEntitiesHaut = new ArrayList<>();
+    protected ArrayList<Rectangle> collisionsEntitiesBas = new ArrayList<>();
 
     // animations
     protected String spriteSheetPath;
@@ -97,8 +97,7 @@ abstract class Entity {
         // chargement
         loadCollisionsBasHaut();
         loadCollisionsEntitiesBasHaut();
-        // loadCollisionsWithDecor();
-        loadCollisionsTeleportation();
+        loadCollisions();
         loadSpriteSheet();
         loadAnimations();
     }
@@ -118,55 +117,40 @@ abstract class Entity {
 
     public void loadCollisionsEntitiesBasHaut()
     {
-
-        int test = 0;
-
         for (Entity entity : currentWorld.entities)
         {
-            test++;
             if (!Objects.equals(entity.name, name))
             {
-                collisionsEntitiesHaut.put(entity.name + test, entity.collisionHaut);
-                collisionsEntitiesBas.put(entity.name + test, entity.collisionBas);
+                collisionsEntitiesHaut.add(entity.collisionHaut);
+                collisionsEntitiesBas.add(entity.collisionBas);
             }
         }
     }
 
-    public void loadCollisionsWithDecor()
+    public void loadCollisions()
     {
-        int test = 0;
-
-        if (tiledMap.getLayers().get("collisions").getObjects() != null)
+        if (tiledMap.getLayers().get("collisions") != null)
         {
-            for(MapObject collision : tiledMap.getLayers().get("collisions").getObjects())
+            if (tiledMap.getLayers().get("collisions").getObjects() != null)
             {
-                test++;
-
-                if (collision instanceof RectangleMapObject)
+                for (Object object :tiledMap.getLayers().get("collisions").getObjects())
                 {
-                    collisionsDecor.put(collision.getName()+test, ((RectangleMapObject) collision).getRectangle());
+                    if (object instanceof RectangleMapObject)
+                    {
+                        switch (((RectangleMapObject) object).getName())
+                        {
+                            case "teleportation":
+                                collisionsTeleportation.add(((RectangleMapObject) object).getRectangle());
+
+                            case "stop":
+                                collisionsStop.add(((RectangleMapObject) object).getRectangle());
+                        }
+                    }
                 }
             }
         }
     }
 
-    public void loadCollisionsTeleportation()
-    {
-        int test = 0;
-
-        if (tiledMap.getLayers().get("teleportation").getObjects() != null)
-        {
-            for(MapObject collision : tiledMap.getLayers().get("teleportation").getObjects())
-            {
-                test++;
-
-                if (collision instanceof RectangleMapObject)
-                {
-                    collisionsTeleportation.put(collision.getName()+test, ((RectangleMapObject) collision).getRectangle());
-                }
-            }
-        }
-    }
 
     public abstract void loadAnimations();
 
@@ -193,13 +177,13 @@ abstract class Entity {
     public void drawCollisions(ShapeRenderer shapeRenderer)
     {
 
-        HashMap[] allCollisions = {collisionsDecor, collisionsEntitiesBas, collisionsEntitiesHaut};
+        ArrayList[] allCollisions = {collisionsStop, collisionsEntitiesBas, collisionsEntitiesHaut};
 
         shapeRenderer.setColor(0, 0, 1, 0);
 
-        for (HashMap collisions : allCollisions)
+        for (ArrayList collisions : allCollisions)
         {
-            for (Object collision : collisions.values())
+            for (Object collision : collisions)
             {
                 if (collision instanceof Rectangle)
                 {
@@ -216,12 +200,12 @@ abstract class Entity {
     {
         boolean answer = false;
         int i = 0;
-        HashMap[] allCollisions = {collisionsDecor, collisionsEntitiesBas, collisionsTeleportation};
+        ArrayList[] allCollisions = {collisionsStop, collisionsEntitiesBas, collisionsTeleportation};
 
-        for (HashMap collisions : allCollisions)
+        for (ArrayList collisions : allCollisions)
         {
             i++;
-            for (Object collision : collisions.values())
+            for (Object collision : collisions)
             {
                 if (collision instanceof Rectangle)
                 {
@@ -247,7 +231,7 @@ abstract class Entity {
     public void updateLayer(Vector2 position)
     {
         layer = layerHaut;
-        for (Rectangle collision : collisionsEntitiesHaut.values())
+        for (Rectangle collision : collisionsEntitiesHaut)
         {
             if((Intersector.overlaps(new Rectangle(position.x, position.y, collisionBas.width, collisionBas.height), collision)))
             {
