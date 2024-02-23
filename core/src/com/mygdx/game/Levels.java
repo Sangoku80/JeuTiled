@@ -118,18 +118,15 @@ abstract class World {
 
         for (int i=0; i < nameLayers.size(); i++)
         {
-            if (i==entitiesLayer)
-            {
-                // pour l'effet profondeur
-                TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(i);
-                int largeur = layer.getWidth();
-                int hauteur = layer.getHeight();
-                TiledMapTileLayer newLayer = new TiledMapTileLayer(largeur, hauteur, layer.getTileWidth(), layer.getTileHeight());
-                layers.add(newLayer);
-            }
-
             layers.add((TiledMapTileLayer) tiledMap.getLayers().get(nameLayers.get(i)));
         }
+
+        // pour l'effet profondeur
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
+        int largeur = layer.getWidth();
+        int hauteur = layer.getHeight();
+        TiledMapTileLayer newLayer = new TiledMapTileLayer(largeur, hauteur, layer.getTileWidth(), layer.getTileHeight());
+        layers.add(entitiesLayer, newLayer);
     }
 
     public void loadEntities()
@@ -232,7 +229,7 @@ class Level1 extends World {
 
     public Level1()
     {
-        super("Level1", "Images/Tileset.png", "maps/test.tmx", 8, 8, 1);
+        super("Level1", "Images/Tileset.png", "maps/test.tmx", 8, 8, 2);
     }
 
     @Override
