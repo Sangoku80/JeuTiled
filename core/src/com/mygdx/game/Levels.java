@@ -7,9 +7,11 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.mygdx.game.Tools.Animation;
 
 import java.util.ArrayList;
@@ -82,6 +84,7 @@ abstract class World {
         loadEntities();
         loadTileset();
         loadLayers();
+        System.out.println(layers);
         loadAnimatedTiles();
 
         // création du joueur
@@ -115,6 +118,16 @@ abstract class World {
 
         for (int i=0; i < nameLayers.size(); i++)
         {
+            if (i==entitiesLayer)
+            {
+                // pour l'effet profondeur
+                TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(i);
+                int largeur = layer.getWidth();
+                int hauteur = layer.getHeight();
+                TiledMapTileLayer newLayer = new TiledMapTileLayer(largeur, hauteur, layer.getTileWidth(), layer.getTileHeight());
+                layers.add(newLayer);
+            }
+
             layers.add((TiledMapTileLayer) tiledMap.getLayers().get(nameLayers.get(i)));
         }
     }
@@ -191,8 +204,7 @@ abstract class World {
                     // animer les tuiles animées
                     for (Integer key : animatedTiles.keySet())
                     {
-
-                        if (layer.getCell(x, y).getTile().getId()-1 == 295)
+                        if (layer.getCell(x, y).getTile().getId()-1 == key)
                         {
                             layer.getCell(x, y).getTile().setTextureRegion(animatedTiles.get(key).animate());
                         }
