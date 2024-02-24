@@ -67,7 +67,7 @@ abstract class World {
         worlds.add(this);
 
         // affichage du joueur avec effet profondeur avec les autres entités
-        this.entitiesLayer = entitiesLayer;
+        this.entitiesLayer = tiledMap.getLayers().getIndex("entités");
         this.effetProfondeurBas = entitiesLayer;
         this.effetProfondeurHaut = entitiesLayer + 1;
 
@@ -235,7 +235,7 @@ class Level1 extends World {
     @Override
     public void loadAnimatedTiles()
     {
-
+        animatedTiles.put(655, (new Animation(new int[]{655, 656}, tileset, 15)));
     }
 }
 
