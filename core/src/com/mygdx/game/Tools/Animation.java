@@ -7,16 +7,24 @@ import java.util.ArrayList;
 public class Animation {
 
     private final ArrayList<TextureRegion> frames = new ArrayList<>();
-    private final ArrayList<TextureRegion> spriteSheet;
+    public static ArrayList<TextureRegion> spriteSheet_Tileset;
     private int aniTick, aniIndex;
     private final int aniSpeed;
 
 
-    public Animation(int[] framesIndex, ArrayList<TextureRegion> spriteSheet, int aniSpeed)
+    public Animation(int[] framesIndex, int aniSpeed)
     {
-        this.spriteSheet = spriteSheet;
         this.aniSpeed = aniSpeed;
         loadFrames(framesIndex);
+    }
+
+    public ArrayList getSpriteSheet_Tileset()
+    {
+        return spriteSheet_Tileset;
+    }
+    public static void setSpriteSheet_Tileset(ArrayList<TextureRegion> newSpriteSheet_Tileset)
+    {
+        spriteSheet_Tileset = newSpriteSheet_Tileset;
     }
 
     private void loadFrames(int[] framesIndex)
@@ -41,7 +49,7 @@ public class Animation {
 
         for(int i = start; i <= end; i++)
         {
-            frames.add(spriteSheet.get(i));
+            frames.add(spriteSheet_Tileset.get(i));
         }
     }
 

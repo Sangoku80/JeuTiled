@@ -357,25 +357,27 @@ class Player extends Entity implements InputProcessor {
     @Override
     public void loadAnimations() {
 
+        Animation.setSpriteSheet_Tileset(spriteSheet);
+
         // en mouvement
-        animations.put("bas", (new Animation(new int[]{0, 3}, spriteSheet, 15)));
-        animations.put("bas droite", (new Animation(new int[]{56, 59}, spriteSheet, 15)));
-        animations.put("bas gauche", (new Animation(new int[]{8, 11}, spriteSheet, 15)));
-        animations.put("gauche", (new Animation(new int[]{16, 19}, spriteSheet, 15)));
-        animations.put("haut", (new Animation(new int[]{32, 35}, spriteSheet, 15)));
-        animations.put("haut droite", (new Animation(new int[]{40, 43}, spriteSheet, 15)));
-        animations.put("haut gauche", (new Animation(new int[]{24, 27}, spriteSheet, 15)));
-        animations.put("droite", (new Animation(new int[]{48, 51}, spriteSheet, 15)));
+        animations.put("bas", (new Animation(new int[]{0, 3},15)));
+        animations.put("bas droite", (new Animation(new int[]{56, 59}, 15)));
+        animations.put("bas gauche", (new Animation(new int[]{8, 11}, 15)));
+        animations.put("gauche", (new Animation(new int[]{16, 19}, 15)));
+        animations.put("haut", (new Animation(new int[]{32, 35}, 15)));
+        animations.put("haut droite", (new Animation(new int[]{40, 43},  15)));
+        animations.put("haut gauche", (new Animation(new int[]{24, 27},  15)));
+        animations.put("droite", (new Animation(new int[]{48, 51}, 15)));
 
         // sans mouvement
-        animations.put("bas_idle", (new Animation(new int[]{0, 0}, spriteSheet, 15)));
-        animations.put("bas droite_idle", (new Animation(new int[]{56, 56}, spriteSheet, 15)));
-        animations.put("bas gauche_idle", (new Animation(new int[]{8, 8}, spriteSheet, 15)));
-        animations.put("gauche_idle", (new Animation(new int[]{16, 16}, spriteSheet, 15)));
-        animations.put("haut_idle", (new Animation(new int[]{32, 32}, spriteSheet, 15)));
-        animations.put("haut droite_idle", (new Animation(new int[]{40, 40}, spriteSheet, 15)));
-        animations.put("haut gauche_idle", (new Animation(new int[]{24, 24}, spriteSheet, 15)));
-        animations.put("droite_idle", (new Animation(new int[]{48, 48}, spriteSheet, 15)));
+        animations.put("bas_idle", (new Animation(new int[]{0, 0}, 15)));
+        animations.put("bas droite_idle", (new Animation(new int[]{56, 56}, 15)));
+        animations.put("bas gauche_idle", (new Animation(new int[]{8, 8},  15)));
+        animations.put("gauche_idle", (new Animation(new int[]{16, 16}, 15)));
+        animations.put("haut_idle", (new Animation(new int[]{32, 32}, 15)));
+        animations.put("haut droite_idle", (new Animation(new int[]{40, 40}, 15)));
+        animations.put("haut gauche_idle", (new Animation(new int[]{24, 24}, 15)));
+        animations.put("droite_idle", (new Animation(new int[]{48, 48}, 15)));
     }
 
     @Override
@@ -488,9 +490,12 @@ class Vache extends Entity {
 
     @Override
     public void loadAnimations() {
-        animations.put("bas", (new Animation(new int[]{91, 93}, spriteSheet, 15)));
-        animations.put("haut", (new Animation(new int[]{115, 117}, spriteSheet, 15)));
-        animations.put("droite", (new Animation(new int[]{87, 89}, spriteSheet, 15)));
+
+        Animation.setSpriteSheet_Tileset(spriteSheet);
+
+        animations.put("bas", (new Animation(new int[]{91, 93}, 15)));
+        animations.put("haut", (new Animation(new int[]{115, 117}, 15)));
+        animations.put("droite", (new Animation(new int[]{87, 89}, 15)));
     }
 
     @Override
@@ -516,9 +521,12 @@ class Cochon extends Entity{
 
     @Override
     public void loadAnimations() {
-        animations.put("gauche", (new Animation(new int[]{87, 89}, spriteSheet, 15)));
-        animations.put("haut", (new Animation(new int[]{111, 113}, spriteSheet, 15)));
-        animations.put("bas", (new Animation(new int[]{135, 136}, spriteSheet, 15)));
+
+        Animation.setSpriteSheet_Tileset(spriteSheet);
+
+        animations.put("gauche", (new Animation(new int[]{87, 89}, 15)));
+        animations.put("haut", (new Animation(new int[]{111, 113}, 15)));
+        animations.put("bas", (new Animation(new int[]{135, 136}, 15)));
     }
 
     @Override
@@ -544,7 +552,10 @@ class Maison extends Entity {
 
     @Override
     public void loadAnimations() {
-        animations.put("idle",  new Animation(new int[]{0, 0}, spriteSheet, 15));
+
+        Animation.setSpriteSheet_Tileset(spriteSheet);
+
+        animations.put("idle",  new Animation(new int[]{0, 0}, 15));
     }
 
     @Override

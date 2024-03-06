@@ -16,6 +16,7 @@ import com.mygdx.game.Tools.Animation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 abstract class World {
@@ -199,11 +200,12 @@ abstract class World {
                     tmpVector.set(x * tileWidth, y * tileHeight, 0);
 
                     // animer les tuiles animées
-                    for (Integer key : animatedTiles.keySet())
+                    for (Map.Entry<Integer, Animation> key : animatedTiles.entrySet())
                     {
-                        if (layer.getCell(x, y).getTile().getId()-1 == key)
+                        if (layer.getCell(x, y).getTile().getTextureRegion() == key.getValue().animate())
                         {
-                            layer.getCell(x, y).getTile().setTextureRegion(animatedTiles.get(key).animate());
+                            layer.getCell(x, y).getTile().setTextureRegion(animatedTiles.get(key.getKey()).animate());
+                            System.out.println("ok");
                         }
                     }
 
@@ -235,7 +237,8 @@ class Level1 extends World {
     @Override
     public void loadAnimatedTiles()
     {
-        animatedTiles.put(655, (new Animation(new int[]{655, 656}, tileset, 15)));
+        Animation.setSpriteSheet_Tileset(tileset);
+        animatedTiles.put(655, (new Animation(new int[]{655, 656}, 15)));
     }
 }
 
