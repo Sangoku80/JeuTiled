@@ -85,7 +85,6 @@ abstract class World {
         loadEntities();
         loadTileset();
         loadLayers();
-        System.out.println(layers);
         loadAnimatedTiles();
 
         // création du joueur

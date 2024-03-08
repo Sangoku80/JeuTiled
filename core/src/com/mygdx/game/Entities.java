@@ -98,6 +98,7 @@ abstract class Entity {
         loadCollisionsBasHaut();
         loadCollisionsEntitiesBasHaut();
         loadCollisions();
+        System.out.println(collisionsTeleportation+name);
         loadSpriteSheet();
         loadAnimations();
     }
@@ -129,6 +130,7 @@ abstract class Entity {
 
     public void loadCollisions()
     {
+        // dans la carte monde
         if (tiledMap.getLayers().get("collisions") != null)
         {
             if (tiledMap.getLayers().get("collisions").getObjects() != null)
@@ -145,6 +147,21 @@ abstract class Entity {
                             case "stop":
                                 collisionsStop.add(((RectangleMapObject) object).getRectangle());
                         }
+                    }
+                }
+            }
+        }
+
+        // dans la carte entités
+        if (collisionsEntities.getLayers().get("teleportation") != null)
+        {
+            if (collisionsEntities.getLayers().get("teleportation").getObjects() != null)
+            {
+                for (Object object : collisionsEntities.getLayers().get("teleportation").getObjects())
+                {
+                    if (object instanceof RectangleMapObject)
+                    {
+                        collisionsTeleportation.add(((RectangleMapObject) object).getRectangle());
                     }
                 }
             }
@@ -177,7 +194,7 @@ abstract class Entity {
     public void drawCollisions(ShapeRenderer shapeRenderer)
     {
 
-        ArrayList[] allCollisions = {collisionsStop, collisionsEntitiesBas, collisionsEntitiesHaut};
+        ArrayList[] allCollisions = {collisionsStop, collisionsEntitiesBas, collisionsEntitiesHaut, collisionsTeleportation};
 
         shapeRenderer.setColor(0, 0, 1, 0);
 
@@ -548,6 +565,9 @@ class Maison extends Entity {
 
         // animation par défaut
         currentAnimation = animations.get("idle");
+
+        // ajouter une collision téléportation pour entrer dans la maison
+        // Game.currentLevel.player.collisionsTeleportation.add(((RectangleMapObject) collisionsEntities.getLayers().get("teleportation").getObjects().get("maison")).getRectangle());
     }
 
     @Override

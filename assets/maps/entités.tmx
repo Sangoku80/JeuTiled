@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="8" tileheight="8" infinite="1" nextlayerid="6" nextobjectid="35">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="8" tileheight="8" infinite="1" nextlayerid="8" nextobjectid="36">
  <tileset firstgid="1" source="../data/sprite sheet.tsx"/>
  <tileset firstgid="65" source="../data/Tileset2.tsx"/>
  <tileset firstgid="79" source="../data/VikingTiles.tsx"/>
@@ -20,5 +20,8 @@
   <object id="27" name="maison" x="28.5" y="-69.125" width="51.875" height="42.5"/>
   <object id="29" name="cochon" x="124.125" y="-24.875" width="15.875" height="9.875"/>
   <object id="32" name="vache" x="93.3125" y="-29.5" width="13.875" height="11.75"/>
+ </objectgroup>
+ <objectgroup id="7" name="teleportation">
+  <object id="35" name="maison" x="50.4545" y="-25.1818" width="14.6364" height="13.2727"/>
  </objectgroup>
 </map>
