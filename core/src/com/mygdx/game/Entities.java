@@ -8,7 +8,6 @@ import com.mygdx.game.Tools.Animation;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -98,7 +97,6 @@ abstract class Entity {
         loadCollisionsBasHaut();
         loadCollisionsEntitiesBasHaut();
         loadCollisions();
-        System.out.println(collisionsTeleportation+name);
         loadSpriteSheet();
         loadAnimations();
     }
