@@ -23,17 +23,21 @@ abstract class Entity {
 
     // caractéristiques
     public String name;
+    public Vector2 position;
+    protected int width, height;
+    protected float speed;
 
-    // mouvements et collisions
+    // collisions
     protected TextureMapObject entity;
     protected RectangleMapObject entityBas;
     protected RectangleMapObject entityHaut;
-    public Vector2 position;
-    protected int width, height;
-    protected boolean left, up, right, down;
-    protected float speed;
+    protected RectangleMapObject entityTeleportation; // pour les infrastructures
     protected Rectangle collisionBas;
     protected Rectangle collisionHaut;
+    protected Rectangle collisionTeleportation; // pour les infrastructures
+
+    // mouvements
+    protected boolean left, up, right, down;
 
     // carte actuelle
     protected TiledMap tiledMap;
@@ -85,6 +89,13 @@ abstract class Entity {
         this.collisionHaut = new Rectangle();
         this.speed = speed;
 
+        // pour les infrastructures
+        if (this instanceof Infrastructure)
+        {
+            this.entityTeleportation = (RectangleMapObject) collisionsEntities.getLayers().get("teleportation").getObjects().get(name);
+            this.collisionTeleportation = entityTeleportation.getRectangle();
+        }
+
         // animations
         this.spriteSheetPath = entity.getTextureRegion().getTexture().toString();
 
@@ -122,6 +133,12 @@ abstract class Entity {
             {
                 collisionsEntitiesHaut.add(entity.collisionHaut);
                 collisionsEntitiesBas.add(entity.collisionBas);
+
+                if (entity instanceof Infrastructure)
+                {
+                    collisionsTeleportation.add(entity.entityTeleportation.getRectangle());
+                    System.out.println("ok");
+                }
             }
         }
     }
@@ -149,21 +166,6 @@ abstract class Entity {
                 }
             }
         }
-
-        // dans la carte entités
-        if (collisionsEntities.getLayers().get("teleportation") != null)
-        {
-            if (collisionsEntities.getLayers().get("teleportation").getObjects() != null)
-            {
-                for (Object object : collisionsEntities.getLayers().get("teleportation").getObjects())
-                {
-                    if (object instanceof RectangleMapObject)
-                    {
-                        collisionsTeleportation.add(((RectangleMapObject) object).getRectangle());
-                    }
-                }
-            }
-        }
     }
 
 
@@ -171,19 +173,31 @@ abstract class Entity {
 
     public void loadCollisionsBasHaut()
     {
-        RectangleMapObject[] list = {entityBas, entityHaut};
-        Rectangle[] list2 = {collisionBas, collisionHaut};
 
-        for (int i = 0; i < 2; i++)
+        ArrayList<RectangleMapObject> list = new ArrayList<>();
+        list.add(entityBas);
+        list.add(entityHaut);
+
+        ArrayList<Rectangle> list2 = new ArrayList<>();
+        list2.add(collisionBas);
+        list2.add(collisionHaut);
+
+        if (this instanceof Infrastructure)
         {
-            float décalageX = Math.abs(entity.getX()-list[i].getRectangle().x);
-            float décalageY = Math.abs(entity.getY()-list[i].getRectangle().y);
+            list.add(entityTeleportation);
+            list2.add(collisionTeleportation);
+        }
+
+        for (int i = 0; i < list.size(); i++)
+        {
+            float décalageX = Math.abs(entity.getX()-list.get(i).getRectangle().x);
+            float décalageY = Math.abs(entity.getY()-list.get(i).getRectangle().y);
 
 
-            list2[i].x = position.x + décalageX;
-            list2[i].y = position.y + décalageY;
-            list2[i].width = list[i].getRectangle().width;
-            list2[i].height = list[i].getRectangle().height;
+            list2.get(i).x = position.x + décalageX;
+            list2.get(i).y = position.y + décalageY;
+            list2.get(i).width = list.get(i).getRectangle().width;
+            list2.get(i).height = list.get(i).getRectangle().height;
 
         }
 
@@ -208,8 +222,6 @@ abstract class Entity {
         }
 
     }
-
-    public abstract void updateDirections();
 
     public boolean checkCollisionsWithFoot(Vector2 position)
     {
@@ -330,7 +342,11 @@ abstract class Entity {
     public void update()
     {
         // mise à jour
-        updateDirections();
+        if (this instanceof Personnage)
+        {
+            ((Personnage) this).updateDirections();
+        }
+
         updatePos();
         updateAnimation();
         // updateWorld();
@@ -360,7 +376,7 @@ abstract class Entity {
     }
 }
 
-class Player extends Entity implements InputProcessor {
+class Player extends Entity implements InputProcessor, Personnage {
 
     public Player(float x, float y, World currentWorld) {
         super("player", new Vector2(x, y), 2f, currentWorld);
@@ -493,7 +509,7 @@ class Player extends Entity implements InputProcessor {
     }
 }
 
-class Vache extends Entity {
+class Vache extends Entity implements Personnage {
 
     public Vache(float x, float y, World currentWorld)
     {
@@ -524,7 +540,7 @@ class Vache extends Entity {
     }
 }
 
-class Cochon extends Entity{
+class Cochon extends Entity implements Personnage {
 
     public Cochon(int x, int y, World currentWorld)
     {
@@ -555,7 +571,7 @@ class Cochon extends Entity{
     }
 }
 
-class Maison extends Entity {
+class Maison extends Entity implements Infrastructure {
 
     public Maison(float x, float y, World world)
     {
@@ -563,9 +579,6 @@ class Maison extends Entity {
 
         // animation par défaut
         currentAnimation = animations.get("idle");
-
-        // ajouter une collision téléportation pour entrer dans la maison
-        // Game.currentLevel.player.collisionsTeleportation.add(((RectangleMapObject) collisionsEntities.getLayers().get("teleportation").getObjects().get("maison")).getRectangle());
     }
 
     @Override
@@ -574,11 +587,6 @@ class Maison extends Entity {
         Animation.setSpriteSheet_Tileset(spriteSheet);
 
         animations.put("idle",  new Animation(new int[]{0, 0}, 15));
-    }
-
-    @Override
-    public void updateDirections() {
-
     }
 
     @Override

@@ -22,6 +22,6 @@
   <object id="32" name="vache" x="93.3125" y="-29.5" width="13.875" height="11.75"/>
  </objectgroup>
  <objectgroup id="7" name="teleportation">
-  <object id="35" name="maison" x="50.4545" y="-25.1818" width="14.6364" height="13.2727"/>
+  <object id="35" name="maison" x="52.7272" y="-52.7727" width="11.6364" height="8.72725"/>
  </objectgroup>
 </map>
