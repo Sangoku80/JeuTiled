@@ -10,7 +10,9 @@ public class DesktopLauncher {
 		config.setTitle("Jeu tiled");
 		config.setResizable(false);
 		config.setWindowIcon("Images/game-boy.png");
-		config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
+		config.setWindowedMode(600, 400);
+		// grand écran
+		// config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
 		new Lwjgl3Application(new Game(), config);
 	}
 }

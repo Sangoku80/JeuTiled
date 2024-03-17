@@ -22,7 +22,7 @@ public class Game extends ApplicationAdapter {
 		// création de la caméra
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		camera.zoom = 0.2f;
+		camera.zoom = 0.5f;
 		camera.position.x -= 200;
 		camera.position.y -= 120;
 
@@ -34,8 +34,6 @@ public class Game extends ApplicationAdapter {
 
 		// création du level1
 		currentLevel = new Level1();
-
-		// Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
 
 	}
 
@@ -67,8 +65,6 @@ public class Game extends ApplicationAdapter {
 		// dessin des collisions
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-
-		currentLevel.player.drawCollisions(shapeRenderer);
 
 		shapeRenderer.end();
 

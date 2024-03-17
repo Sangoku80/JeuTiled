@@ -93,7 +93,7 @@ abstract class Entity {
         if (this instanceof Infrastructure)
         {
             this.entityTeleportation = (RectangleMapObject) collisionsEntities.getLayers().get("teleportation").getObjects().get(name);
-            this.collisionTeleportation = entityTeleportation.getRectangle();
+            this.collisionTeleportation = new Rectangle();
         }
 
         // animations
@@ -105,7 +105,7 @@ abstract class Entity {
         this.layerHaut = layer;
 
         // chargement
-        loadCollisionsBasHaut();
+        loadCollisionsBasHautTeleportation();
         loadCollisionsEntitiesBasHaut();
         loadCollisions();
         loadSpriteSheet();
@@ -136,8 +136,7 @@ abstract class Entity {
 
                 if (entity instanceof Infrastructure)
                 {
-                    collisionsTeleportation.add(entity.entityTeleportation.getRectangle());
-                    System.out.println("ok");
+                    collisionsTeleportation.add(entity.collisionTeleportation);
                 }
             }
         }
@@ -171,7 +170,7 @@ abstract class Entity {
 
     public abstract void loadAnimations();
 
-    public void loadCollisionsBasHaut()
+    public void loadCollisionsBasHautTeleportation()
     {
 
         ArrayList<RectangleMapObject> list = new ArrayList<>();
@@ -187,12 +186,10 @@ abstract class Entity {
             list.add(entityTeleportation);
             list2.add(collisionTeleportation);
         }
-
         for (int i = 0; i < list.size(); i++)
         {
             float décalageX = Math.abs(entity.getX()-list.get(i).getRectangle().x);
             float décalageY = Math.abs(entity.getY()-list.get(i).getRectangle().y);
-
 
             list2.get(i).x = position.x + décalageX;
             list2.get(i).y = position.y + décalageY;
