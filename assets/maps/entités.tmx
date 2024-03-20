@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="8" tileheight="8" infinite="1" nextlayerid="9" nextobjectid="39">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="8" tileheight="8" infinite="1" nextlayerid="9" nextobjectid="41">
  <tileset firstgid="1" source="../data/sprite sheet.tsx"/>
  <tileset firstgid="65" source="../data/Tileset2.tsx"/>
  <tileset firstgid="79" source="../data/VikingTiles.tsx"/>
@@ -21,10 +21,11 @@
   <object id="29" name="cochon" x="124.125" y="-24.875" width="15.875" height="9.875"/>
   <object id="32" name="vache" x="93.5852" y="-29.5909" width="13.875" height="11.75"/>
  </objectgroup>
- <objectgroup id="8" name="entity_zone">
-  <object id="37" name="maison" x="-63.0909" y="-148.546" width="24.9091" height="10.3636"/>
- </objectgroup>
  <objectgroup id="7" name="teleportation">
-  <object id="35" name="maison" x="46.5454" y="-106.409" width="13.2728" height="12.3636"/>
+  <object id="39" name="maison" x="46.5455" y="-106.909" width="13.6364" height="13.0909">
+   <properties>
+    <property name="destination" value="Maison1"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

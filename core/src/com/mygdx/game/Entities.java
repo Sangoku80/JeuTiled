@@ -17,6 +17,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 abstract class Entity {
@@ -48,7 +49,7 @@ abstract class Entity {
 
     // collisions
     protected ArrayList<Rectangle> collisionsStop = new ArrayList<>();
-    protected ArrayList<Rectangle> collisionsTeleportation = new ArrayList<>();
+    protected HashMap<Rectangle, String> collisionsTeleportation = new HashMap<>();
 
     // collisions avec les entités et effet de profondeur
     protected ArrayList<Rectangle> collisionsEntitiesHaut = new ArrayList<>();
@@ -136,7 +137,7 @@ abstract class Entity {
 
                 if (entity instanceof Infrastructure)
                 {
-                    collisionsTeleportation.add(entity.collisionTeleportation);
+                    collisionsTeleportation.put(entity.collisionTeleportation, (String) collisionsEntities.getLayers().get("teleportation").getObjects().get(entity.entity.getName()).getProperties().get("destination"));
                 }
             }
         }
@@ -156,7 +157,7 @@ abstract class Entity {
                         switch (((RectangleMapObject) object).getName())
                         {
                             case "teleportation":
-                                collisionsTeleportation.add(((RectangleMapObject) object).getRectangle());
+                                collisionsTeleportation.put(((RectangleMapObject) object).getRectangle(), (String) tiledMap.getLayers().get("teleportation").getObjects().get(entity.getName()).getProperties().get("destination"));
 
                             case "stop":
                                 collisionsStop.add(((RectangleMapObject) object).getRectangle());
@@ -203,7 +204,7 @@ abstract class Entity {
     public void drawCollisions(ShapeRenderer shapeRenderer)
     {
 
-        ArrayList[] allCollisions = {collisionsStop, collisionsEntitiesBas, collisionsEntitiesHaut, collisionsTeleportation};
+        ArrayList[] allCollisions = {collisionsStop, collisionsEntitiesBas, collisionsEntitiesHaut};
 
         shapeRenderer.setColor(0, 0, 1, 0);
 
@@ -224,27 +225,28 @@ abstract class Entity {
     {
         boolean answer = false;
         int i = 0;
-        ArrayList[] allCollisions = {collisionsStop, collisionsEntitiesBas, collisionsTeleportation};
+        ArrayList[] allCollisions = {collisionsStop, collisionsEntitiesBas};
 
         for (ArrayList collisions : allCollisions)
         {
             i++;
             for (Object collision : collisions)
             {
-                if (collision instanceof Rectangle)
+                if (Intersector.overlaps(new Rectangle(position.x, position.y, collisionBas.width, collisionBas.height), (Rectangle) collision))
                 {
-                    if (Intersector.overlaps(new Rectangle(position.x, position.y, collisionBas.width, collisionBas.height), (Rectangle) collision))
-                    {
-                        if (i != 3)
-                        {
-                            answer = true;
-                        }
-                        else
-                        {
-                            changeWorld(new InternMaison());
-                        }
-                    }
+                    answer = true;
+                }
+            }
+        }
 
+        for (Map.Entry<Rectangle, String> collisionTeleportation : collisionsTeleportation.entrySet())
+        {
+            if (Intersector.overlaps(new Rectangle(position.x, position.y, collisionBas.width, collisionBas.height), collisionTeleportation.getKey()))
+            {
+                switch (collisionTeleportation.getValue())
+                {
+                    case "Maison1":
+                         changeWorld(new InternMaison());
                 }
             }
         }
