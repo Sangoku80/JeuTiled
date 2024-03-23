@@ -31,13 +31,8 @@ abstract class Entity {
     protected TextureMapObject entity;
     protected RectangleMapObject entityBas;
     protected RectangleMapObject entityHaut;
-    protected RectangleMapObject entityTeleportation; // pour les infrastructures
     protected Rectangle collisionBas;
     protected Rectangle collisionHaut;
-    protected Rectangle collisionTeleportation; // pour les infrastructures
-
-    // mouvements
-    protected boolean left, up, right, down;
 
     // carte actuelle
     protected TiledMap tiledMap;
@@ -45,27 +40,6 @@ abstract class Entity {
     // fichier qui stocke les collisions des entités
     protected TmxMapLoader mapLoader = new TmxMapLoader();
     protected TiledMap collisionsEntities;
-
-    // collisions
-    protected ArrayList<Rectangle> collisionsStop = new ArrayList<>();
-    protected HashMap<Rectangle, String> collisionsTeleportation = new HashMap<>();
-
-    // collisions avec les entités et effet de profondeur
-    protected ArrayList<Rectangle> collisionsEntitiesHaut = new ArrayList<>();
-    protected ArrayList<Rectangle> collisionsEntitiesBas = new ArrayList<>();
-
-    // animations
-    protected String spriteSheetPath;
-    protected ArrayList<TextureRegion> spriteSheet = new ArrayList<>();
-    protected HashMap<String, Animation> animations = new HashMap<>();
-    protected Animation currentAnimation;
-    protected String orientation = "bas";
-    protected Boolean moving = false;
-
-    // affichage
-    public int layer;
-    protected int layerBas;
-    protected int layerHaut;
 
     // monde dans lequel est notre entité
     protected World currentWorld;
