@@ -16,7 +16,7 @@ public class Animation {
     {
         this.aniSpeed = aniSpeed;
         loadFrames(framesIndex);
-    }
+    }je suis
 
     public ArrayList getSpriteSheet_Tileset()
     {
