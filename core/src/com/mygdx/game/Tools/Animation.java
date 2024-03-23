@@ -16,12 +16,12 @@ public class Animation {
     {
         this.aniSpeed = aniSpeed;
         loadFrames(framesIndex);
-    }je suis
+    }
 
     public ArrayList getSpriteSheet_Tileset()
     {
         return spriteSheet_Tileset;
-    }
+    }ghgh
     public static void setSpriteSheet_Tileset(ArrayList<TextureRegion> newSpriteSheet_Tileset)
     {
         spriteSheet_Tileset = newSpriteSheet_Tileset;
