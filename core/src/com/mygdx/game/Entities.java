@@ -26,7 +26,6 @@ abstract class Entity {
     public String name;
     public Vector2 position;
     protected int width, height;
-    protected float speed;
 
     // collisions
     protected TextureMapObject entity;
