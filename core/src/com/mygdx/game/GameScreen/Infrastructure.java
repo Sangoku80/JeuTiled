@@ -18,5 +18,8 @@ public class Infrastructure extends Entity {
         this.entityTeleportation = (RectangleMapObject) collisionsEntities.getLayers().get("teleportation").getObjects().get(name);
         this.collisionTeleportation = new Rectangle();
 
+        // affichage
+        this.image = entity.getTextureRegion();
+
     }
 }

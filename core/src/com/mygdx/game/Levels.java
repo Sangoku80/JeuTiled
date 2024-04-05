@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector3;
+import com.mygdx.game.GameScreen.Character;
 import com.mygdx.game.GameScreen.Entity;
 import com.mygdx.game.Tools.Animation;
 
@@ -169,10 +170,14 @@ public abstract class World {
     {
         for (Entity entity : entities)
         {
-            if (entity.layer == layerNumber)
+            if (entity instanceof Character)
             {
-                entity.Draw(batch);
+                if (((Character) entity).layer == layerNumber)
+                {
+                        entity.Draw(batch);
+                }
             }
+
         }
     }
 
@@ -180,7 +185,10 @@ public abstract class World {
     {
         for (Entity entity : entities)
         {
-            entity.update();
+            if (entity instanceof Character)
+            {
+                ((Character) entity).update();
+            }
         }
     }
 

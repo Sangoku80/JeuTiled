@@ -12,7 +12,7 @@ import com.mygdx.game.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
-abstract class Entity {
+public abstract class Entity {
 
     // caractéristiques
     public String name;
@@ -109,9 +109,9 @@ abstract class Entity {
 
         if (this instanceof Character)
         {
-
+            image = ((Character) this).currentAnimation.animate();
         }
         // dessiner
-        batch.draw(currentAnimation.animate(), position.x, position.y);
+        batch.draw(image, position.x, position.y);
     }
 }
