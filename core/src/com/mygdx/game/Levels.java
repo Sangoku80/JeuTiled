@@ -11,8 +11,11 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.GameScreen.Characters.Character;
+import com.mygdx.game.GameScreen.Characters.Cochon;
 import com.mygdx.game.GameScreen.Characters.Player;
+import com.mygdx.game.GameScreen.Characters.Vache;
 import com.mygdx.game.GameScreen.Entity;
+import com.mygdx.game.GameScreen.infrastructure.Maison;
 import com.mygdx.game.Tools.Animation;
 
 import java.util.ArrayList;
@@ -249,16 +252,3 @@ class Level1 extends World {
     }
 }
 
-public class InternMaison extends World {
-
-
-    public InternMaison() {
-        super("InternMaison", "Images/Tileset.png", "maps/test2.tmx", 8, 8, 1);
-    }
-
-    @Override
-    public void loadAnimatedTiles()
-    {
-
-    }
-}

@@ -27,7 +27,7 @@ public abstract class Character extends Entity {
     protected String spriteSheetPath;
     protected ArrayList<TextureRegion> spriteSheet = new ArrayList<>();
     protected HashMap<String, Animation> animations = new HashMap<>();
-    protected Animation currentAnimation;
+    public Animation currentAnimation;
     protected String orientation = "bas";
     protected Boolean moving = false;
 
@@ -38,9 +38,9 @@ public abstract class Character extends Entity {
 
     // other collisions
     protected ArrayList<Rectangle> collisionsStop = new ArrayList<>();
-    protected static HashMap<Rectangle, String> collisionsTeleportation = new HashMap<>();
-    protected static ArrayList<Rectangle> collisionsEntitiesHaut = new ArrayList<>();
-    protected static ArrayList<Rectangle> collisionsEntitiesBas = new ArrayList<>();
+    public static HashMap<Rectangle, String> collisionsTeleportation = new HashMap<>();
+    public static ArrayList<Rectangle> collisionsEntitiesHaut = new ArrayList<>();
+    public static ArrayList<Rectangle> collisionsEntitiesBas = new ArrayList<>();
 
     public Character(String name, Vector2 position, float speed, World world)
     {
