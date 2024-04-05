@@ -1,4 +1,4 @@
-package com.mygdx.game.GameScreen;
+package com.mygdx.game.GameScreen.Characters;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Game;
+import com.mygdx.game.GameScreen.Entity;
 import com.mygdx.game.InternMaison;
 import com.mygdx.game.Tools.Animation;
 import com.mygdx.game.World;
