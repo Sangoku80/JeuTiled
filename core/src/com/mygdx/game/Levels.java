@@ -7,11 +7,10 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.mygdx.game.GameScreen.Entity;
 import com.mygdx.game.Tools.Animation;
 
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-abstract class World {
+public abstract class World {
 
     // caractéristiques
     protected String name;
@@ -32,7 +31,7 @@ abstract class World {
     protected ArrayList<TextureRegion> tileset = new ArrayList<>();
     protected int ratioTilesetX, ratioTilesetY;
     protected TmxMapLoader mapLoader = new TmxMapLoader();
-    protected TiledMap tiledMap;
+    public TiledMap tiledMap;
     protected ArrayList<TiledMapTileLayer> layers = new ArrayList<>();
     protected ArrayList<String> nameLayers = new ArrayList<>();
     protected Vector3 tmpVector = new Vector3();
@@ -241,7 +240,7 @@ class Level1 extends World {
     }
 }
 
-class InternMaison extends World {
+public class InternMaison extends World {
 
 
     public InternMaison() {
