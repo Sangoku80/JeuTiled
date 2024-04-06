@@ -32,7 +32,6 @@ public abstract class Character extends Entity {
     protected Boolean moving = false;
 
     // affichage
-    public int layer;
     protected int layerBas;
     protected int layerHaut;
 
@@ -56,6 +55,11 @@ public abstract class Character extends Entity {
         this.layer = currentWorld.entitiesLayer;
         this.layerBas = layer - 1;
         this.layerHaut = layer;
+
+        // chargement
+        loadCollisions();
+        loadSpriteSheet();
+        loadAnimations();
     }
 
     // chargement

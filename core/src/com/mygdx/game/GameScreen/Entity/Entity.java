@@ -38,6 +38,7 @@ public abstract class Entity {
 
     // affichage
     protected TextureRegion image;
+    public int layer;
 
     // monde dans lequel est notre entité
     protected World currentWorld;
@@ -59,16 +60,17 @@ public abstract class Entity {
         this.collisionBas = new Rectangle();
         this.collisionHaut = new Rectangle();
 
+        if(this instanceof Infrastructure)
+        {
+            // collisions
+            ((Infrastructure) this).entityTeleportation = (RectangleMapObject) collisionsEntities.getLayers().get("teleportation").getObjects().get(name);
+            ((Infrastructure) this).collisionTeleportation = new Rectangle();
+            // affichage
+            this.image = entity.getTextureRegion();
+        }
+
         // chargement
         loadSelfCollisions();
-
-        // pour les personnages
-        if (this instanceof Character)
-        {
-            ((Character) this).loadCollisions();
-            ((Character) this).loadSpriteSheet();
-            ((Character) this).loadAnimations();
-        }
     }
 
     public void loadSelfCollisions() {

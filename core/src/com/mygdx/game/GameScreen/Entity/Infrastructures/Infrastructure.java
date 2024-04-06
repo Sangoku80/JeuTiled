@@ -15,12 +15,5 @@ public class Infrastructure extends Entity {
     public Infrastructure(String name, Vector2 position, World world) {
         super(name, position, world);
 
-        // collisions
-        this.entityTeleportation = (RectangleMapObject) collisionsEntities.getLayers().get("teleportation").getObjects().get(name);
-        this.collisionTeleportation = new Rectangle();
-
-        // affichage
-        this.image = entity.getTextureRegion();
-
     }
 }

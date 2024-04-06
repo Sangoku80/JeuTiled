@@ -173,12 +173,9 @@ public abstract class World {
     {
         for (Entity entity : entities)
         {
-            if (entity instanceof Character)
+            if (entity.layer == layerNumber)
             {
-                if (((Character) entity).layer == layerNumber)
-                {
-                    entity.Draw(batch);
-                }
+                entity.Draw(batch);
             }
 
         }
