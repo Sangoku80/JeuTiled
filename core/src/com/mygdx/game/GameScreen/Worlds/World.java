@@ -68,6 +68,7 @@ public abstract class World {
 
         // affichage du joueur avec effet profondeur avec les autres entités
         this.entitiesLayer = tiledMap.getLayers().getIndex("entités");
+        System.out.println(entitiesLayer);
 
         // on récupère le nom de chaque layer de la carte
         for (MapLayer layer : tiledMap.getLayers())
