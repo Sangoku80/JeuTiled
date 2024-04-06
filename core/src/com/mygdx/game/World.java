@@ -15,9 +15,8 @@ import com.mygdx.game.GameScreen.Characters.Cochon;
 import com.mygdx.game.GameScreen.Characters.Player;
 import com.mygdx.game.GameScreen.Characters.Vache;
 import com.mygdx.game.GameScreen.Entity;
-import com.mygdx.game.GameScreen.infrastructure.Maison;
+import com.mygdx.game.GameScreen.infrastructures.Maison;
 import com.mygdx.game.Tools.Animation;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,7 +56,7 @@ public abstract class World {
     // création du joueur
     public Player player;
 
-    public World(String name, String tilesetPath, String map, int ratioTilesetX, int ratioTilesetY, int entitiesLayer)
+    public World(String name, String tilesetPath, String map, int ratioTilesetX, int ratioTilesetY)
     {
         // caractéristiques
         this.name = name;
@@ -178,7 +177,7 @@ public abstract class World {
             {
                 if (((Character) entity).layer == layerNumber)
                 {
-                        entity.Draw(batch);
+                    entity.Draw(batch);
                 }
             }
 
@@ -237,18 +236,3 @@ public abstract class World {
         updateEntities();
     }
 }
-class Level1 extends World {
-
-    public Level1()
-    {
-        super("Level1", "Images/Tileset.png", "maps/test.tmx", 8, 8, 2);
-    }
-
-    @Override
-    public void loadAnimatedTiles()
-    {
-        Animation.setSpriteSheet_Tileset(tileset);
-        animatedTiles.put(655, (new Animation(new int[]{655, 656}, 15)));
-    }
-}
-

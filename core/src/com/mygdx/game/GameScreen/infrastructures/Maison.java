@@ -1,4 +1,4 @@
-package com.mygdx.game.GameScreen.infrastructure;
+package com.mygdx.game.GameScreen.infrastructures;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.World;

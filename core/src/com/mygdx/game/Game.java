@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.*;
 
+
 public class Game extends ApplicationAdapter {
 	public static OrthographicCamera camera;
 	private SpriteBatch batch;

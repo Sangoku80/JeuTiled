@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.*;
 import com.mygdx.game.GameScreen.Characters.Character;
-import com.mygdx.game.GameScreen.infrastructure.Infrastructure;
+import com.mygdx.game.GameScreen.infrastructures.Infrastructure;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -77,8 +77,8 @@ public abstract class Entity {
                 Character.collisionsEntitiesHaut.add(entity.collisionHaut);
                 Character.collisionsEntitiesBas.add(entity.collisionBas);
 
-                if (entity instanceof com.mygdx.game.GameScreen.infrastructure.Infrastructure) {
-                    Character.collisionsTeleportation.put(((com.mygdx.game.GameScreen.infrastructure.Infrastructure) entity).collisionTeleportation, (String) collisionsEntities.getLayers().get("teleportation").getObjects().get(entity.entity.getName()).getProperties().get("destination"));
+                if (entity instanceof com.mygdx.game.GameScreen.infrastructures.Infrastructure) {
+                    Character.collisionsTeleportation.put(((com.mygdx.game.GameScreen.infrastructures.Infrastructure) entity).collisionTeleportation, (String) collisionsEntities.getLayers().get("teleportation").getObjects().get(entity.entity.getName()).getProperties().get("destination"));
                 }
             }
         }
@@ -91,8 +91,8 @@ public abstract class Entity {
         list2.add(collisionBas);
         list2.add(collisionHaut);
 
-        if (this instanceof com.mygdx.game.GameScreen.infrastructure.Infrastructure) {
-            list.add(((com.mygdx.game.GameScreen.infrastructure.Infrastructure) this).entityTeleportation);
+        if (this instanceof com.mygdx.game.GameScreen.infrastructures.Infrastructure) {
+            list.add(((com.mygdx.game.GameScreen.infrastructures.Infrastructure) this).entityTeleportation);
             list2.add(((Infrastructure) this).collisionTeleportation);
         }
         for (int i = 0; i < list.size(); i++) {

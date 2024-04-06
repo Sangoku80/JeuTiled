@@ -1,4 +1,4 @@
-package com.mygdx.game.GameScreen.infrastructure;
+package com.mygdx.game.GameScreen.infrastructures;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
