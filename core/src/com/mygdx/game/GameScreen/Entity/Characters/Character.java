@@ -214,10 +214,14 @@ public abstract class Character extends Entity {
     public void updateLayer(Vector2 position) {
         layer = layerHaut;
         for (Rectangle collision : collisionsEntitiesHaut) {
-            if ((Intersector.overlaps(new Rectangle(position.x, position.y, collisionBas.width, collisionBas.height), collision))) {
-                layer = layerBas;
+            if (collision.x != collisionHaut.x && collision.y != collisionHaut.y && collision.width != collisionHaut.width && collision.height != collisionHaut.height)
+            {
+                if ((Intersector.overlaps(new Rectangle(position.x, position.y, collisionBas.width, collisionBas.height), collision))) {
+                    layer = layerBas;
+                }
             }
         }
+
     }
 
     public abstract void updateAnimation();

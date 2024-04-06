@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
@@ -62,6 +63,7 @@ public abstract class Entity {
 
         // affichage
         this.layer = world.entitiesLayer;
+        System.out.println(layer);
 
         if(this instanceof Infrastructure)
         {
@@ -77,16 +79,6 @@ public abstract class Entity {
     }
 
     public void loadSelfCollisions() {
-        for (Entity entity : currentWorld.entities) {
-            if (!Objects.equals(entity.name, name)) {
-                Character.collisionsEntitiesHaut.add(entity.collisionHaut);
-                Character.collisionsEntitiesBas.add(entity.collisionBas);
-
-                if (entity instanceof Infrastructure) {
-                    Character.collisionsTeleportation.put(((Infrastructure) entity).collisionTeleportation, (String) collisionsEntities.getLayers().get("teleportation").getObjects().get(entity.entity.getName()).getProperties().get("destination"));
-                }
-            }
-        }
 
         ArrayList<RectangleMapObject> list = new ArrayList<>();
         list.add(entityBas);
@@ -109,6 +101,18 @@ public abstract class Entity {
             list2.get(i).width = list.get(i).getRectangle().width;
             list2.get(i).height = list.get(i).getRectangle().height;
 
+        }
+
+        for (Entity entity : currentWorld.entities) {
+            if (!Objects.equals(entity.name, name)) {
+
+                Character.collisionsEntitiesHaut.add(entity.collisionHaut);
+                Character.collisionsEntitiesBas.add(entity.collisionBas);
+
+                if (entity instanceof Infrastructure) {
+                    Character.collisionsTeleportation.put(((Infrastructure) entity).collisionTeleportation, (String) collisionsEntities.getLayers().get("teleportation").getObjects().get(entity.entity.getName()).getProperties().get("destination"));
+                }
+            }
         }
 
     }
