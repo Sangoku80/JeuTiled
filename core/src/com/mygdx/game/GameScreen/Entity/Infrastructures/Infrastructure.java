@@ -1,9 +1,9 @@
-package com.mygdx.game.GameScreen.Infrastructures;
+package com.mygdx.game.GameScreen.Entity.Infrastructures;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.GameScreen.Entity;
+import com.mygdx.game.GameScreen.Entity.Entity;
 import com.mygdx.game.GameScreen.Worlds.World;
 
 public class Infrastructure extends Entity {

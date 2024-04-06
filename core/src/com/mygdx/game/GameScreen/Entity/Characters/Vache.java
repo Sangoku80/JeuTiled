@@ -1,4 +1,4 @@
-package com.mygdx.game.GameScreen.Characters;
+package com.mygdx.game.GameScreen.Entity.Characters;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameScreen.Tools.Animation;

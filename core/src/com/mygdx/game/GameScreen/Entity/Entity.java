@@ -1,4 +1,4 @@
-package com.mygdx.game.GameScreen;
+package com.mygdx.game.GameScreen.Entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -8,9 +8,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.GameScreen.Characters.Character;
+import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Worlds.World;
-import com.mygdx.game.GameScreen.Infrastructures.Infrastructure;
+import com.mygdx.game.GameScreen.Entity.Infrastructures.Infrastructure;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -77,8 +77,8 @@ public abstract class Entity {
                 Character.collisionsEntitiesHaut.add(entity.collisionHaut);
                 Character.collisionsEntitiesBas.add(entity.collisionBas);
 
-                if (entity instanceof com.mygdx.game.GameScreen.Infrastructures.Infrastructure) {
-                    Character.collisionsTeleportation.put(((com.mygdx.game.GameScreen.Infrastructures.Infrastructure) entity).collisionTeleportation, (String) collisionsEntities.getLayers().get("teleportation").getObjects().get(entity.entity.getName()).getProperties().get("destination"));
+                if (entity instanceof Infrastructure) {
+                    Character.collisionsTeleportation.put(((Infrastructure) entity).collisionTeleportation, (String) collisionsEntities.getLayers().get("teleportation").getObjects().get(entity.entity.getName()).getProperties().get("destination"));
                 }
             }
         }
@@ -91,8 +91,8 @@ public abstract class Entity {
         list2.add(collisionBas);
         list2.add(collisionHaut);
 
-        if (this instanceof com.mygdx.game.GameScreen.Infrastructures.Infrastructure) {
-            list.add(((com.mygdx.game.GameScreen.Infrastructures.Infrastructure) this).entityTeleportation);
+        if (this instanceof Infrastructure) {
+            list.add(((Infrastructure) this).entityTeleportation);
             list2.add(((Infrastructure) this).collisionTeleportation);
         }
         for (int i = 0; i < list.size(); i++) {
