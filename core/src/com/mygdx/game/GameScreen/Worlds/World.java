@@ -49,10 +49,6 @@ public abstract class World {
     // afficher l'ensemble des entités présentes dans le niveau
     public ArrayList<Entity> entities = new ArrayList<>();
 
-    // effet profondeur avec les autres entités
-    protected int effetProfondeurBas;
-    protected int effetProfondeurHaut;
-
     // création du joueur
     public Player player;
 
@@ -72,8 +68,6 @@ public abstract class World {
 
         // affichage du joueur avec effet profondeur avec les autres entités
         this.entitiesLayer = tiledMap.getLayers().getIndex("entités");
-        this.effetProfondeurBas = entitiesLayer;
-        this.effetProfondeurHaut = entitiesLayer + 1;
 
         // on récupère le nom de chaque layer de la carte
         for (MapLayer layer : tiledMap.getLayers())

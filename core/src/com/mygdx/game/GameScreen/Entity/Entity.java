@@ -60,6 +60,9 @@ public abstract class Entity {
         this.collisionBas = new Rectangle();
         this.collisionHaut = new Rectangle();
 
+        // affichage
+        this.layer = world.entitiesLayer;
+
         if(this instanceof Infrastructure)
         {
             // collisions

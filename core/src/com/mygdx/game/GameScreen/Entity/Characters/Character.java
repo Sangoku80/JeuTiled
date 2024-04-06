@@ -52,7 +52,6 @@ public abstract class Character extends Entity {
         this.spriteSheetPath = entity.getTextureRegion().getTexture().toString();
 
         // affichage
-        this.layer = currentWorld.entitiesLayer;
         this.layerBas = layer - 1;
         this.layerHaut = layer;
 
