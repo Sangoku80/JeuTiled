@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.GameScreen.Worlds;
 
 public class Level1 extends World {
 

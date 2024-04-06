@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.GameScreen.Worlds;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,7 +15,7 @@ import com.mygdx.game.GameScreen.Characters.Cochon;
 import com.mygdx.game.GameScreen.Characters.Player;
 import com.mygdx.game.GameScreen.Characters.Vache;
 import com.mygdx.game.GameScreen.Entity;
-import com.mygdx.game.GameScreen.infrastructures.Maison;
+import com.mygdx.game.GameScreen.Infrastructures.Maison;
 import com.mygdx.game.Tools.Animation;
 import java.util.ArrayList;
 import java.util.HashMap;

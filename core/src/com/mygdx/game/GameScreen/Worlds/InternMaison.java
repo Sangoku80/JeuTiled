@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package com.mygdx.game.GameScreen.Worlds;
 
 public class InternMaison extends World {
 

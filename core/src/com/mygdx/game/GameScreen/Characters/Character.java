@@ -9,9 +9,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Game;
 import com.mygdx.game.GameScreen.Entity;
-import com.mygdx.game.InternMaison;
-import com.mygdx.game.Tools.Animation;
-import com.mygdx.game.World;
+import com.mygdx.game.GameScreen.Worlds.InternMaison;
+import com.mygdx.game.GameScreen.Tools.Animation;
+import com.mygdx.game.GameScreen.Worlds.World;
 
 import java.util.ArrayList;
 import java.util.HashMap;

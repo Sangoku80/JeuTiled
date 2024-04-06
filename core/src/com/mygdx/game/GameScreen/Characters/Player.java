@@ -3,8 +3,8 @@ package com.mygdx.game.GameScreen.Characters;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.Tools.Animation;
-import com.mygdx.game.World;
+import com.mygdx.game.GameScreen.Tools.Animation;
+import com.mygdx.game.GameScreen.Worlds.World;
 
 public class Player extends Character implements InputProcessor {
 

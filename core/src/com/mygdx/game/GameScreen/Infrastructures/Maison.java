@@ -1,7 +1,7 @@
-package com.mygdx.game.GameScreen.infrastructures;
+package com.mygdx.game.GameScreen.Infrastructures;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.World;
+import com.mygdx.game.GameScreen.Worlds.World;
 
 public class Maison extends Infrastructure {
 

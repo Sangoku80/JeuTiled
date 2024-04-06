@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.*;
+import com.mygdx.game.GameScreen.Worlds.Level1;
+import com.mygdx.game.GameScreen.Worlds.World;
 
 
 public class Game extends ApplicationAdapter {
