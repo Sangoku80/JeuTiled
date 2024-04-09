@@ -9,9 +9,6 @@ public class Vache extends Character {
     public Vache(float x, float y, World currentWorld)
     {
         super("vache", new Vector2(x, y), 2f, currentWorld);
-
-        // animation par défaut
-        currentAnimation = animations.get("bas");
     }
 
     @Override
@@ -19,18 +16,13 @@ public class Vache extends Character {
 
         Animation.setSpriteSheet_Tileset(spriteSheet);
 
-        animations.put("bas", (new Animation(new int[]{91, 93}, 15)));
+        animations.put("bas_idle", (new Animation(new int[]{91, 93}, 15)));
         animations.put("haut", (new Animation(new int[]{115, 117}, 15)));
         animations.put("droite", (new Animation(new int[]{87, 89}, 15)));
     }
 
     @Override
     public void updateDirections() {
-
-    }
-
-    @Override
-    public void updateAnimation() {
-
+        setUp(true);
     }
 }

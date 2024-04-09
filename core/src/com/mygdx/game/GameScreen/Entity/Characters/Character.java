@@ -224,7 +224,20 @@ public abstract class Character extends Entity {
 
     }
 
-    public abstract void updateAnimation();
+    public void updateAnimation()
+    {
+        if (moving) {
+            if (animations.containsValue(animations.get(orientation)))
+            {
+                currentAnimation = animations.get(orientation);
+            }
+        } else {
+            if (animations.containsValue(animations.get(orientation + "_idle")))
+            {
+                currentAnimation = animations.get(orientation + "_idle");
+            }
+        }
+    }
 
     public void update() {
         // mise à jour

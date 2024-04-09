@@ -222,13 +222,13 @@ public abstract class World {
 
     public void drawLayers(SpriteBatch batch)
     {
+        // mettre à jour les entités
+        updateEntities();
+
         for (int layerNumber = 0; layerNumber < layers.size(); layerNumber++)
         {
             drawLayer(layers.get(layerNumber), batch);
             drawEntities(batch, layerNumber);
         }
-
-        // mettre à jour les entités
-        updateEntities();
     }
 }

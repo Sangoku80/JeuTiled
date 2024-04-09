@@ -121,9 +121,16 @@ public abstract class Entity {
 
         if (this instanceof Character)
         {
-            image = ((Character) this).currentAnimation.animate();
+            if (((Character) this).currentAnimation != null)
+            {
+                image = ((Character) this).currentAnimation.animate();
+            }
         }
         // dessiner
-        batch.draw(image, position.x, position.y);
+
+        if (image != null)
+        {
+            batch.draw(image, position.x, position.y);
+        }
     }
 }

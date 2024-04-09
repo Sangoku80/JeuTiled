@@ -10,9 +10,6 @@ public class Player extends Character implements InputProcessor {
 
     public Player(float x, float y, World currentWorld) {
         super("player", new Vector2(x, y), 2f, currentWorld);
-
-        // animation par défaut
-        currentAnimation = animations.get("bas_idle");
     }
 
     @Override
@@ -43,16 +40,6 @@ public class Player extends Character implements InputProcessor {
 
     @Override
     public void updateDirections() {
-    }
-
-    @Override
-    public void updateAnimation() {
-
-        if (moving) {
-            currentAnimation = animations.get(orientation);
-        } else {
-            currentAnimation = animations.get(orientation + "_idle");
-        }
     }
 
     @Override
