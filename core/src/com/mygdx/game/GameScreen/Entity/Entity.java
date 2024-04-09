@@ -75,10 +75,10 @@ public abstract class Entity {
         }
 
         // chargement
-        loadSelfCollisions();
+        loadEntitiesCollisions();
     }
 
-    public void loadSelfCollisions() {
+    public void loadEntitiesCollisions() {
 
         ArrayList<RectangleMapObject> list = new ArrayList<>();
         list.add(entityBas);

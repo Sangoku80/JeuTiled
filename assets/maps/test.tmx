@@ -118,6 +118,6 @@
  </layer>
  <objectgroup id="15" name="entités">
   <object id="111" name="maison" gid="1753" x="92.5181" y="193.038" width="56" height="56"/>
-  <object id="113" name="vache" gid="1220" x="186.397" y="129.761" width="16" height="16"/>
+  <object id="113" name="vache" gid="1220" x="185.162" y="168.443" width="16" height="16"/>
  </objectgroup>
 </map>

@@ -117,8 +117,14 @@ public abstract class Character extends Entity {
 
         for (ArrayList collisions : allCollisions) {
             for (Object collision : collisions) {
-                if (Intersector.overlaps(new Rectangle(position.x, position.y, collisionBas.width, collisionBas.height), (Rectangle) collision)) {
-                    answer = true;
+                if (collision instanceof Rectangle)
+                {
+                    if (((Rectangle) collision).x != collisionBas.x && ((Rectangle) collision).y != collisionBas.y && ((Rectangle) collision).width != collisionBas.width && ((Rectangle) collision).height != collisionBas.height)
+                    {
+                        if (Intersector.overlaps(new Rectangle(position.x, position.y, collisionBas.width, collisionBas.height), (Rectangle) collision)) {
+                            answer = true;
+                        }
+                    }
                 }
             }
         }
