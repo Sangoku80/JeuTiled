@@ -19,7 +19,7 @@ import java.util.Map;
 
 public abstract class Character extends Entity {
 
-    // mouvements des personnages
+    // mouvements
     protected float speed;
     protected boolean left, up, right, down;
 

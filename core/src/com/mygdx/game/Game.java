@@ -27,7 +27,7 @@ public class Game extends ApplicationAdapter {
 		// création de la caméra
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		camera.zoom = 0.5f;
+		camera.zoom = 0.2f; // (2)
 		camera.position.x -= 200;
 		camera.position.y -= 120;
 

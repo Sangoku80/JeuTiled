@@ -23,6 +23,6 @@ public class Vache extends Character {
 
     @Override
     public void updateDirections() {
-        setUp(true);
+
     }
 }
