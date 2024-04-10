@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Entity.Characters.Cochon;
+import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Enemy;
 import com.mygdx.game.GameScreen.Entity.Characters.Player;
 import com.mygdx.game.GameScreen.Entity.Characters.Vache;
 import com.mygdx.game.GameScreen.Entity.Entity;
@@ -134,39 +135,38 @@ public abstract class World {
     public void loadEntities()
     {
         // mettre dans le dico toutes les entities à créer dans le niveau
-        HashMap<String, Entity> entitiesAMettre = new HashMap<>();
 
         if (tiledMap.getLayers().get("entités") != null)
         {
             for (MapObject object : tiledMap.getLayers().get("entités").getObjects())
             {
-                if (object instanceof TextureMapObject)
-                {
-                    if (Objects.equals(object.getName(), "cochon"))
-                    {
-                        entities.add(new Cochon((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
-                    }
-                }
 
                 if (object instanceof TextureMapObject)
                 {
-                    if (Objects.equals(object.getName(), "maison"))
-                    {
-                        entities.add(new Maison((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
-                    }
-                }
+                    switch (object.getName()) {
+                        case "cochon":
+                            entities.add(new Cochon((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                            break;
 
-                if (object instanceof TextureMapObject)
-                {
-                    if (Objects.equals(object.getName(), "vache"))
-                    {
-                        entities.add(new Vache((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                        case "maison":
+                            entities.add(new Maison((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                            break;
+
+                        case "vache":
+                            entities.add(new Vache((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                            break;
+
+                        case "enemy":
+                            entities.add(new Enemy((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                            break;
+
                     }
                 }
             }
         }
 
     }
+
 
     public void drawEntities(SpriteBatch batch, int layerNumber)
     {

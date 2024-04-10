@@ -134,6 +134,7 @@ public abstract class Character extends Entity {
                 switch (collisionTeleportation.getValue()) {
                     case "Maison1":
                         changeWorld(new InternMaison());
+                        break;
                 }
             }
         }

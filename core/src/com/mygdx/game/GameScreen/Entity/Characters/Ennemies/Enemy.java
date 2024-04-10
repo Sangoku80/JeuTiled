@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Worlds.World;
 
-public class Ennemy extends Character {
+public class Enemy extends Character {
 
     // status
     protected static int status;
@@ -15,8 +15,8 @@ public class Ennemy extends Character {
     // cercle de détection du joueur
     protected Circle circleAttack = new Circle(position, 5);
 
-    public Ennemy(String name, Vector2 position, float speed, World world) {
-        super(name, position, speed, world);
+    public Enemy(int x, int y, World currentWorld) {
+        super("enemy", new Vector2(x, y), 2f, currentWorld);
 
         // status par défaut
         status = IDLE;
