@@ -22,6 +22,7 @@ public abstract class Entity {
     public String name;
     public Vector2 position;
     protected int width, height;
+    public Rectangle rect;
 
     // self collisions
     protected TextureMapObject entity;
@@ -60,6 +61,9 @@ public abstract class Entity {
         this.position = new Vector2(position.x, position.y);
         this.collisionBas = new Rectangle();
         this.collisionHaut = new Rectangle();
+
+        // rect
+        this.rect = new Rectangle(position.x, position.y, width, height);
 
         // affichage
         this.layer = world.entitiesLayer;

@@ -1,10 +1,13 @@
 package com.mygdx.game.GameScreen.Entity.Characters.Ennemies;
 
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.Game;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Tools.Animation;
 import com.mygdx.game.GameScreen.Worlds.World;
+import static com.mygdx.game.Game.shapeRenderer;
 
 public class Enemy extends Character {
 
@@ -14,10 +17,13 @@ public class Enemy extends Character {
     protected static int IDLE=1;
 
     // cercle de détection du joueur
-    protected Circle circleAttack = new Circle(position, 5);
+    protected Circle circleAttack;
 
     public Enemy(int x, int y, World currentWorld) {
         super("enemy", new Vector2(x, y), 2f, currentWorld);
+
+        // cercle de détection du joueur
+        this.circleAttack = new Circle();
 
         // status par défaut
         status = IDLE;
@@ -41,7 +47,27 @@ public class Enemy extends Character {
         animations.put("droite_idle", (new Animation(new int[]{138, 138}, 15)));
     }
 
+    public void drawCircleAttack()
+    {
+        shapeRenderer.circle(circleAttack.x, circleAttack.y, circleAttack.radius);
+    }
+
+    public void checkCollisionWithCircleAttack()
+    {
+        if (Intersector.overlaps(circleAttack, Game.currentLevel.player.rect))
+        {
+            System.out.println("ok");
+        }
+    }
+
     @Override
-    public void updateDirections() {
+    public void update() {
+
+        // mettre à jour la position du cercle
+        circleAttack.setPosition((position.x+ (float) width /2), (position.y+ (float) height /2));
+        circleAttack.setRadius(50);
+
+        // vérifier collision entre joueur et cercle
+        checkCollisionWithCircleAttack();
     }
 }

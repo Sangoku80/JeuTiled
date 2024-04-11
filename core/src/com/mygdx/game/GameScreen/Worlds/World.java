@@ -186,7 +186,7 @@ public abstract class World {
         {
             if (entity instanceof Character)
             {
-                ((Character) entity).update();
+                ((Character) entity).updates();
             }
         }
     }

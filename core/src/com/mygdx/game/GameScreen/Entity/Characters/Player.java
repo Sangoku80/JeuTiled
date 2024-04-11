@@ -39,7 +39,7 @@ public class Player extends Character implements InputProcessor {
     }
 
     @Override
-    public void updateDirections() {
+    public void update() {
     }
 
     @Override

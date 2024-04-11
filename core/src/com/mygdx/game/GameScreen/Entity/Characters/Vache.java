@@ -22,7 +22,7 @@ public class Vache extends Character {
     }
 
     @Override
-    public void updateDirections() {
+    public void update() {
 
     }
 }

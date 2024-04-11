@@ -22,6 +22,6 @@ public class Cochon extends Character {
     }
 
     @Override
-    public void updateDirections() {
+    public void update() {
     }
 }

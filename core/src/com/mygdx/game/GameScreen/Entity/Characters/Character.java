@@ -164,7 +164,7 @@ public abstract class Character extends Entity {
         this.down = down;
     }
 
-    public abstract void updateDirections();
+    public abstract void update();
     public void updatePos() {
         float xSpeed = 0, ySpeed = 0;
 
@@ -213,8 +213,12 @@ public abstract class Character extends Entity {
             position.y += ySpeed;
 
             // rectCollisions
-            collisionBas.y += ySpeed;
             collisionBas.x += xSpeed;
+            collisionBas.y += ySpeed;
+
+            // rect
+            rect.x += xSpeed;
+            rect.y += ySpeed;
         }
     }
 
@@ -246,9 +250,9 @@ public abstract class Character extends Entity {
         }
     }
 
-    public void update() {
+    public void updates() {
         // mise à jour
-        updateDirections();
+        update();
         updatePos();
         updateAnimation();
         updateLayer(new Vector2(collisionBas.x, collisionBas.y));

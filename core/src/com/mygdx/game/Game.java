@@ -9,14 +9,18 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
+import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Enemy;
+import com.mygdx.game.GameScreen.Entity.Entity;
 import com.mygdx.game.GameScreen.Worlds.Level1;
 import com.mygdx.game.GameScreen.Worlds.World;
+
+import java.util.Objects;
 
 
 public class Game extends ApplicationAdapter {
 	public static OrthographicCamera camera;
 	private SpriteBatch batch;
-	private ShapeRenderer shapeRenderer;
+	public static ShapeRenderer shapeRenderer;
 	public static TiledMap tiledMap;
 	private static final float CAMERA_SPEED = 200f;
 	public static World currentLevel;
@@ -70,6 +74,14 @@ public class Game extends ApplicationAdapter {
 		// dessin des collisions
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+
+		for (Entity entity : currentLevel.entities)
+		{
+			if (entity instanceof Enemy)
+			{
+				((Enemy) entity).drawCircleAttack();
+			}
+		}
 
 		shapeRenderer.end();
 
