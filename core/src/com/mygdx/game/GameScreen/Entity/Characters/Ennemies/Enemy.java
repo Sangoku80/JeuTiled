@@ -23,7 +23,7 @@ public class Enemy extends Character {
     protected Vector2 playerPosition;
 
     public Enemy(int x, int y, World currentWorld) {
-        super("enemy", new Vector2(x, y), 2f, 20, currentWorld);
+        super("enemy", new Vector2(x, y), 2f, 20, 2, currentWorld);
 
         // cercle de détection du joueur
         this.circleAttack = new Circle();
@@ -83,7 +83,6 @@ public class Enemy extends Character {
         checkCollisionWithCircleAttack();
 
         // directions
-
 
     }
 }

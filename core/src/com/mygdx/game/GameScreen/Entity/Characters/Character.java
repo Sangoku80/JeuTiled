@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.mygdx.game.Game.shapeRenderer;
+import static com.mygdx.game.Game.*;
 
 public abstract class Character extends Entity {
 
@@ -131,23 +131,6 @@ public abstract class Character extends Entity {
 
     public abstract void loadAnimations();
 
-    // draw
-    public void drawCollisions(ShapeRenderer shapeRenderer) {
-
-        ArrayList[] allCollisions = {collisionsStop, collisionsEntitiesBas, collisionsEntitiesHaut};
-
-        shapeRenderer.setColor(0, 0, 1, 0);
-
-        for (ArrayList collisions : allCollisions) {
-            for (Object collision : collisions) {
-                if (collision instanceof Rectangle) {
-                    shapeRenderer.rect((((Rectangle) collision).getX()), ((Rectangle) collision).getY(), ((Rectangle) collision).getWidth(), ((Rectangle) collision).getHeight());
-                }
-            }
-        }
-
-    }
-
     // collisions
     public boolean checkCollisionsWithFoot(Vector2 position) {
         boolean answer = false;
@@ -182,7 +165,7 @@ public abstract class Character extends Entity {
 
     // pour le changement de monde
     public void changeWorld(World newWorld) {
-        Game.currentLevel = newWorld;
+        currentLevel = newWorld;
     }
 
     // updates
@@ -202,6 +185,7 @@ public abstract class Character extends Entity {
         this.down = down;
     }
 
+    // updates
     public abstract void update();
     public void updatePos() {
         float xSpeed = 0, ySpeed = 0;
@@ -295,20 +279,6 @@ public abstract class Character extends Entity {
         circleAttack.setRadius(50);
     }
 
-    public void drawHealthBar()
-    {
-        shapeRenderer.setColor(Color.GRAY);
-        shapeRenderer.rect(position.x+1, position.y+height+2, 15, 2);
-        shapeRenderer.setColor(Color.GREEN);
-
-        if(this instanceof Enemy)
-        {
-            shapeRenderer.setColor(Color.RED);
-        }
-
-        shapeRenderer.rect(position.x+1, position.y+height+2, 15*(health/initHealth), 2);
-    }
-
     public void updates() {
         // mise à jour
         update();
@@ -320,6 +290,54 @@ public abstract class Character extends Entity {
         {
             updateCircleAttack();
         }
+    }
+
+    // draw
+    public void drawHealthBar()
+    {
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Color.GRAY);
+        shapeRenderer.rect(position.x+1, position.y+height+2, 15, 2);
+        shapeRenderer.setColor(Color.GREEN);
+
+        if(this instanceof Enemy)
+        {
+            shapeRenderer.setColor(Color.RED);
+        }
+
+        shapeRenderer.rect(position.x+1, position.y+height+2, 15*(health/initHealth), 2);
+
+        shapeRenderer.end();
+    }
+
+    public void drawCircleAttack()
+    {
+        // dessin des collisions
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.circle(circleAttack.x, circleAttack.y, circleAttack.radius);
+        shapeRenderer.end();
+    }
+
+    public void drawCollisions() {
+
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+
+        ArrayList[] allCollisions = {collisionsStop, collisionsEntitiesBas, collisionsEntitiesHaut};
+
+        shapeRenderer.setColor(0, 0, 1, 0);
+
+        for (ArrayList collisions : allCollisions) {
+            for (Object collision : collisions) {
+                if (collision instanceof Rectangle) {
+                    shapeRenderer.rect((((Rectangle) collision).getX()), ((Rectangle) collision).getY(), ((Rectangle) collision).getWidth(), ((Rectangle) collision).getHeight());
+                }
+            }
+        }
+
+        shapeRenderer.end();
     }
 
     // actions

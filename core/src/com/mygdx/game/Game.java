@@ -68,18 +68,29 @@ public class Game extends ApplicationAdapter {
 		batch.end();
 
 		// dessin des collisions
-		shapeRenderer.setProjectionMatrix(camera.combined);
-		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//		shapeRenderer.setProjectionMatrix(camera.combined);
+//		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//
+//		for (Entity entity : currentLevel.entities)
+//		{
+//			if (entity instanceof Character)
+//			{
+//				((Character) entity).drawHealthBar();
+//			}
+//		}
+//
+//		shapeRenderer.end();
 
+		// dessin des barres de vie
 		for (Entity entity : currentLevel.entities)
 		{
 			if (entity instanceof Character)
 			{
 				((Character) entity).drawHealthBar();
+				((Character) entity).drawCollisions();
 			}
 		}
 
-		shapeRenderer.end();
 
 		handleInput(System.currentTimeMillis());
 	}
