@@ -8,7 +8,7 @@ public class Cochon extends Character {
 
     public Cochon(int x, int y, World currentWorld)
     {
-        super("cochon", new Vector2(x, y), 2f, currentWorld);
+        super("cochon", new Vector2(x, y), 2f, 20, currentWorld);
     }
 
     @Override

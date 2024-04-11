@@ -9,7 +9,7 @@ import com.mygdx.game.GameScreen.Worlds.World;
 public class Player extends Character implements InputProcessor {
 
     public Player(float x, float y, World currentWorld) {
-        super("player", new Vector2(x, y), 2f, currentWorld);
+        super("player", new Vector2(x, y), 2f, 20, currentWorld);
     }
 
     @Override

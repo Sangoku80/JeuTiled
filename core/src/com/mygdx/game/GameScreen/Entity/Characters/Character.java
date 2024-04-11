@@ -1,5 +1,6 @@
 package com.mygdx.game.GameScreen.Entity.Characters;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -17,7 +18,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.mygdx.game.Game.shapeRenderer;
+
 public abstract class Character extends Entity {
+
+    // caractéristiques
+    public float health;
+    public float initHealth;
 
     // mouvements
     protected float speed;
@@ -41,9 +48,13 @@ public abstract class Character extends Entity {
     public static ArrayList<Rectangle> collisionsEntitiesHaut = new ArrayList<>();
     public static ArrayList<Rectangle> collisionsEntitiesBas = new ArrayList<>();
 
-    public Character(String name, Vector2 position, float speed, World world)
+    public Character(String name, Vector2 position, float speed, float health, World world)
     {
         super(name, position, world);
+
+        // caractéristiques
+        this.health = health;
+        this.initHealth = health;
 
         // mouvements
         this.speed = speed;
@@ -248,6 +259,14 @@ public abstract class Character extends Entity {
                 currentAnimation = animations.get(orientation + "_idle");
             }
         }
+    }
+
+    public void drawHealthBar()
+    {
+        shapeRenderer.setColor(Color.GRAY);
+        shapeRenderer.rect(position.x+1, position.y+height+2, 15, 2);
+        shapeRenderer.setColor(Color.GREEN);
+        shapeRenderer.rect(position.x+1, position.y+height+2, 15*(health/initHealth), 2);
     }
 
     public void updates() {

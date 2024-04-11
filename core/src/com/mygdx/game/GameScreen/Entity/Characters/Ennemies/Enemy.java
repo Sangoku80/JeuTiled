@@ -20,13 +20,10 @@ public class Enemy extends Character {
     protected Circle circleAttack;
 
     public Enemy(int x, int y, World currentWorld) {
-        super("enemy", new Vector2(x, y), 2f, currentWorld);
+        super("enemy", new Vector2(x, y), 2f, 20, currentWorld);
 
         // cercle de détection du joueur
         this.circleAttack = new Circle();
-
-        // status par défaut
-        status = IDLE;
     }
 
     @Override
@@ -56,7 +53,11 @@ public class Enemy extends Character {
     {
         if (Intersector.overlaps(circleAttack, Game.currentLevel.player.rect))
         {
-            System.out.println("ok");
+            status = PURSUING;
+        }
+        else
+        {
+            status = IDLE;
         }
     }
 
@@ -69,5 +70,7 @@ public class Enemy extends Character {
 
         // vérifier collision entre joueur et cercle
         checkCollisionWithCircleAttack();
+
+
     }
 }

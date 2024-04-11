@@ -8,7 +8,7 @@ public class Vache extends Character {
 
     public Vache(float x, float y, World currentWorld)
     {
-        super("vache", new Vector2(x, y), 2f, currentWorld);
+        super("vache", new Vector2(x, y), 2f, 20, currentWorld);
     }
 
     @Override

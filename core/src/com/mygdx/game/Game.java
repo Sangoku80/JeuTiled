@@ -73,13 +73,18 @@ public class Game extends ApplicationAdapter {
 
 		// dessin des collisions
 		shapeRenderer.setProjectionMatrix(camera.combined);
-		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
 		for (Entity entity : currentLevel.entities)
 		{
 			if (entity instanceof Enemy)
 			{
 				((Enemy) entity).drawCircleAttack();
+			}
+
+			if (entity instanceof Character)
+			{
+				((Character) entity).drawHealthBar();
 			}
 		}
 
