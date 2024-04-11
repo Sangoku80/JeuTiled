@@ -1,6 +1,7 @@
-package com.mygdx.game.GameScreen.Entity.Characters;
+package com.mygdx.game.GameScreen.Entity.Characters.PNJ.Animals;
 
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Tools.Animation;
 import com.mygdx.game.GameScreen.Worlds.World;
 

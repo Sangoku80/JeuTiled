@@ -1,4 +1,4 @@
-package com.mygdx.game.GameScreen.Entity.Characters.Ennemies;
+package com.mygdx.game.GameScreen.Entity.Characters.PJ.Ennemies;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
@@ -19,11 +19,17 @@ public class Enemy extends Character {
     // cercle de détection du joueur
     protected Circle circleAttack;
 
+    // position du joueur
+    protected Vector2 playerPosition;
+
     public Enemy(int x, int y, World currentWorld) {
         super("enemy", new Vector2(x, y), 2f, 20, currentWorld);
 
         // cercle de détection du joueur
         this.circleAttack = new Circle();
+
+        // joueur
+        // this.playerPosition = Game.currentLevel.player.position;
     }
 
     @Override
@@ -61,6 +67,11 @@ public class Enemy extends Character {
         }
     }
 
+    public Vector2 pursuing()
+    {
+        return new Vector2(playerPosition.x-position.x, playerPosition.y-position.y);
+    }
+
     @Override
     public void update() {
 
@@ -70,6 +81,8 @@ public class Enemy extends Character {
 
         // vérifier collision entre joueur et cercle
         checkCollisionWithCircleAttack();
+
+        // directions
 
 
     }

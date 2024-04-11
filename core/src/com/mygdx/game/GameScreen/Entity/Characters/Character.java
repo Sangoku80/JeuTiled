@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Game;
+import com.mygdx.game.GameScreen.Entity.Characters.PJ.Ennemies.Enemy;
 import com.mygdx.game.GameScreen.Entity.Entity;
 import com.mygdx.game.GameScreen.Worlds.InternMaison;
 import com.mygdx.game.GameScreen.Tools.Animation;
@@ -266,6 +267,12 @@ public abstract class Character extends Entity {
         shapeRenderer.setColor(Color.GRAY);
         shapeRenderer.rect(position.x+1, position.y+height+2, 15, 2);
         shapeRenderer.setColor(Color.GREEN);
+
+        if(this instanceof Enemy)
+        {
+            shapeRenderer.setColor(Color.RED);
+        }
+
         shapeRenderer.rect(position.x+1, position.y+height+2, 15*(health/initHealth), 2);
     }
 

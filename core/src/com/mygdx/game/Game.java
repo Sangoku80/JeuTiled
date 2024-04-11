@@ -7,14 +7,10 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.*;
-import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
-import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Enemy;
 import com.mygdx.game.GameScreen.Entity.Entity;
 import com.mygdx.game.GameScreen.Worlds.Level1;
 import com.mygdx.game.GameScreen.Worlds.World;
-
-import java.util.Objects;
 
 
 public class Game extends ApplicationAdapter {
@@ -77,11 +73,6 @@ public class Game extends ApplicationAdapter {
 
 		for (Entity entity : currentLevel.entities)
 		{
-			if (entity instanceof Enemy)
-			{
-				((Enemy) entity).drawCircleAttack();
-			}
-
 			if (entity instanceof Character)
 			{
 				((Character) entity).drawHealthBar();
