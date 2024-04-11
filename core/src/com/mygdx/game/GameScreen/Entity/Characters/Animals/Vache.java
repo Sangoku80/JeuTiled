@@ -1,4 +1,4 @@
-package com.mygdx.game.GameScreen.Entity.Characters.PNJ.Animals;
+package com.mygdx.game.GameScreen.Entity.Characters.Animals;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;

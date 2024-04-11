@@ -1,4 +1,4 @@
-package com.mygdx.game.GameScreen.Entity.Characters.PNJ;
+package com.mygdx.game.GameScreen.Entity.Characters;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -14,14 +14,8 @@ import java.util.Objects;
 
 public class Player extends Character implements InputProcessor {
 
-    public float attack = 2;
-    private final Circle circleAttack;
-
     public Player(float x, float y, World currentWorld) {
-        super("player", new Vector2(x, y), 2f, 20, currentWorld);
-
-        // circleAttack
-        this.circleAttack = new Circle();
+        super("player", new Vector2(x, y), 2f, 20, 5, currentWorld);
     }
 
     @Override
@@ -50,26 +44,9 @@ public class Player extends Character implements InputProcessor {
         animations.put("droite_idle", (new Animation(new int[]{48, 48}, 15)));
     }
 
-    public void attack()
-    {
-        for (Entity entity : currentWorld.entities)
-        {
-            if (Intersector.overlaps(entity.rect, this.rect))
-            {
-                if (entity instanceof Character && !Objects.equals(entity.name, "player") && ((Character) entity).health>0)
-                {
-                    ((Character) entity).health -= attack;
-                }
-            }
-        }
-    }
-
     @Override
     public void update() {
 
-        // cercle d'attaque
-        circleAttack.setPosition((position.x+ (float) width /2), (position.y+ (float) height /2));
-        circleAttack.setRadius(50);
     }
 
     @Override
@@ -94,6 +71,7 @@ public class Player extends Character implements InputProcessor {
 
             case Input.Keys.SPACE:
                 attack();
+                break;
         }
 
         return false;

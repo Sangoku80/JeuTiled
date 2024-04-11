@@ -5,11 +5,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Game;
-import com.mygdx.game.GameScreen.Entity.Characters.PJ.Ennemies.Enemy;
+import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Enemy;
 import com.mygdx.game.GameScreen.Entity.Entity;
 import com.mygdx.game.GameScreen.Worlds.InternMaison;
 import com.mygdx.game.GameScreen.Tools.Animation;
@@ -18,6 +19,7 @@ import com.mygdx.game.GameScreen.Worlds.World;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.mygdx.game.Game.shapeRenderer;
 
@@ -26,6 +28,8 @@ public abstract class Character extends Entity {
     // caractéristiques
     public float health;
     public float initHealth;
+    public float attack;
+    public Circle circleAttack = new Circle();
 
     // mouvements
     protected float speed;
@@ -49,6 +53,30 @@ public abstract class Character extends Entity {
     public static ArrayList<Rectangle> collisionsEntitiesHaut = new ArrayList<>();
     public static ArrayList<Rectangle> collisionsEntitiesBas = new ArrayList<>();
 
+    public Character(String name, Vector2 position, float speed, float health, float attack, World world)
+    {
+        super(name, position, world);
+
+        // caractéristiques
+        this.health = health;
+        this.initHealth = health;
+        this.speed = speed;
+        this.attack = attack;
+
+        // animations
+        this.spriteSheetPath = entity.getTextureRegion().getTexture().toString();
+
+        // affichage
+        this.layerBas = layer - 1;
+        this.layerHaut = layer;
+
+        // chargement
+        loadCollisions();
+        loadSpriteSheet();
+        loadAnimations();
+    }
+
+    // personnages qui attaquent
     public Character(String name, Vector2 position, float speed, float health, World world)
     {
         super(name, position, world);
@@ -56,8 +84,6 @@ public abstract class Character extends Entity {
         // caractéristiques
         this.health = health;
         this.initHealth = health;
-
-        // mouvements
         this.speed = speed;
 
         // animations
@@ -262,6 +288,13 @@ public abstract class Character extends Entity {
         }
     }
 
+    public void updateCircleAttack()
+    {
+        // cercle d'attaque
+        circleAttack.setPosition((position.x+ (float) width /2), (position.y+ (float) height /2));
+        circleAttack.setRadius(50);
+    }
+
     public void drawHealthBar()
     {
         shapeRenderer.setColor(Color.GRAY);
@@ -282,6 +315,26 @@ public abstract class Character extends Entity {
         updatePos();
         updateAnimation();
         updateLayer(new Vector2(collisionBas.x, collisionBas.y));
+
+        if (attack != 0)
+        {
+            updateCircleAttack();
+        }
+    }
+
+    // actions
+    public void attack()
+    {
+        for (Entity entity : currentWorld.entities)
+        {
+            if (Intersector.overlaps(circleAttack, entity.rect))
+            {
+                if (entity instanceof Character && ((Character) entity).health>0 && !Objects.equals(entity.name, "player"))
+                {
+                    ((Character) entity).health -= attack;
+                }
+            }
+        }
     }
 
 }
