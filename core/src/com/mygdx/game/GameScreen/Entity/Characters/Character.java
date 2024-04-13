@@ -16,10 +16,7 @@ import com.mygdx.game.GameScreen.Worlds.InternMaison;
 import com.mygdx.game.GameScreen.Tools.Animation;
 import com.mygdx.game.GameScreen.Worlds.World;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static com.mygdx.game.Game.*;
 
@@ -286,7 +283,8 @@ public abstract class Character extends Entity {
         updateAnimation();
         updateLayer(new Vector2(collisionBas.x, collisionBas.y));
 
-        if (attack != 0)
+        // action attack
+        if (attack > 0)
         {
             updateCircleAttack();
         }
@@ -343,16 +341,30 @@ public abstract class Character extends Entity {
     // actions
     public void attack()
     {
-        for (Entity entity : currentWorld.entities)
+        // utilisation d'un itérateur pour parcourir la liste
+        Iterator<Entity> iterator = currentWorld.entities.iterator();
+
+        while (iterator.hasNext())
         {
+            Entity entity = iterator.next();
+
             if (Intersector.overlaps(circleAttack, entity.rect))
             {
                 if (entity instanceof Character && ((Character) entity).health>0 && !Objects.equals(entity.name, "player"))
                 {
                     ((Character) entity).health -= attack;
+
+                    // enlever le perso s'il a plus de vie
+                    if (((Character) entity).health <= 0)
+                    {
+                        iterator.remove();
+                    }
                 }
+
             }
         }
+
+
     }
 
 }

@@ -87,7 +87,7 @@ public class Game extends ApplicationAdapter {
 			if (entity instanceof Character)
 			{
 				((Character) entity).drawHealthBar();
-				((Character) entity).drawCollisions();
+				// ((Character) entity).drawCollisions();
 			}
 		}
 
