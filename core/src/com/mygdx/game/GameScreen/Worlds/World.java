@@ -16,7 +16,7 @@ import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Enemy;
 import com.mygdx.game.GameScreen.Entity.Characters.Player;
 import com.mygdx.game.GameScreen.Entity.Characters.Animals.Vache;
 import com.mygdx.game.GameScreen.Entity.Entity;
-import com.mygdx.game.GameScreen.Entity.Infrastructures.Maison;
+import com.mygdx.game.GameScreen.Entity.Infrastructures.House;
 import com.mygdx.game.GameScreen.Tools.Animation;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -149,7 +149,7 @@ public abstract class World {
                             break;
 
                         case "maison":
-                            entities.add(new Maison((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                            entities.add(new House((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
                             break;
 
                         case "vache":
