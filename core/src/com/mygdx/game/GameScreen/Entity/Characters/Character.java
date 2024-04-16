@@ -36,8 +36,13 @@ public abstract class Character extends Entity {
     protected ArrayList<TextureRegion> spriteSheet = new ArrayList<>();
     protected HashMap<String, Animation> animations = new HashMap<>();
     public Animation currentAnimation;
-    protected String orientation = "bas";
+    // protected String orientation = "bas";
     protected Boolean moving = false;
+
+    // orientations
+    public static int DOWN=270, UP=90, LEFT=180, RIGHT=0, DOWN_LEFT=225, DOWN_RIGHT=315, UP_LEFT=135, UP_RIGHT=45;
+    protected int orientation = DOWN;
+    protected String MOVE="_move", IDLE="_idle";
 
     // affichage
     protected int layerBas;
@@ -196,31 +201,31 @@ public abstract class Character extends Entity {
             // bouger en fonction de la direction
             if (left && !right) {
                 xSpeed -= speed;
-                orientation = "gauche";
+                orientation = LEFT;
 
             } else if (right && !left) {
                 xSpeed = speed;
-                orientation = "droite";
+                orientation = RIGHT;
             }
 
             if (up && !down) {
                 ySpeed = speed;
-                orientation = "haut";
+                orientation = UP;
 
             } else if (down && !up) {
 
                 ySpeed = -speed;
-                orientation = "bas";
+                orientation = DOWN;
             }
             if (right && up) {
-                orientation = "haut droite";
+                orientation = UP_RIGHT;
             } else if (right && down) {
-                orientation = "bas droite";
+                orientation = DOWN_RIGHT;
             }
             if (left && up) {
-                orientation = "haut gauche";
+                orientation = UP_LEFT;
             } else if (left && down) {
-                orientation = "bas gauche";
+                orientation = DOWN_LEFT;
             }
         }
 
@@ -256,14 +261,14 @@ public abstract class Character extends Entity {
     public void updateAnimation()
     {
         if (moving) {
-            if (animations.containsValue(animations.get(orientation)))
+            if (animations.containsValue(animations.get(orientation+MOVE)))
             {
-                currentAnimation = animations.get(orientation);
+                currentAnimation = animations.get(orientation+MOVE);
             }
         } else {
-            if (animations.containsValue(animations.get(orientation + "_idle")))
+            if (animations.containsValue(animations.get(orientation+IDLE)))
             {
-                currentAnimation = animations.get(orientation + "_idle");
+                currentAnimation = animations.get(orientation+IDLE);
             }
         }
     }

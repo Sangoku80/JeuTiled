@@ -17,9 +17,9 @@ public class Cochon extends Character {
 
         Animation.setSpriteSheet_Tileset(spriteSheet);
 
-        animations.put("gauche", (new Animation(new int[]{87, 89}, 15)));
-        animations.put("haut", (new Animation(new int[]{111, 113}, 15)));
-        animations.put("bas_idle", (new Animation(new int[]{135, 136}, 15)));
+        animations.put(LEFT+MOVE, (new Animation(new int[]{87, 89}, 15)));
+        animations.put(UP+MOVE, (new Animation(new int[]{111, 113}, 15)));
+        animations.put(DOWN+IDLE, (new Animation(new int[]{135, 136}, 15)));
     }
 
     @Override

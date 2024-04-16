@@ -13,8 +13,8 @@ public class Enemy extends Character {
 
     // status
     protected static int status;
-    protected static int PURSUING=0;
-    protected static int IDLE=1;
+    protected static int pursing=0;
+    protected static int idle=1;
 
     // cercle de détection du joueur
     protected Circle circleAttack;
@@ -38,16 +38,16 @@ public class Enemy extends Character {
         Animation.setSpriteSheet_Tileset(spriteSheet);
 
         // en mouvement
-        animations.put("bas", (new Animation(new int[]{140, 141},15)));
-        animations.put("gauche", (new Animation(new int[]{144, 145}, 15)));
-        animations.put("haut", (new Animation(new int[]{142, 143}, 15)));
-        animations.put("droite", (new Animation(new int[]{144, 145}, 15)));
+        animations.put(DOWN+MOVE, (new Animation(new int[]{140, 141},15)));
+        animations.put(LEFT+MOVE, (new Animation(new int[]{144, 145}, 15)));
+        animations.put(UP+MOVE, (new Animation(new int[]{142, 143}, 15)));
+        animations.put(RIGHT+MOVE, (new Animation(new int[]{144, 145}, 15)));
 
         // sans mouvement
-        animations.put("bas_idle", (new Animation(new int[]{136, 136}, 15)));
-        animations.put("gauche_idle", (new Animation(new int[]{138, 138}, 15)));
-        animations.put("haut_idle", (new Animation(new int[]{137, 137}, 15)));
-        animations.put("droite_idle", (new Animation(new int[]{138, 138}, 15)));
+        animations.put(DOWN+IDLE, (new Animation(new int[]{136, 136}, 15)));
+        animations.put(LEFT+IDLE, (new Animation(new int[]{138, 138}, 15)));
+        animations.put(UP+IDLE, (new Animation(new int[]{137, 137}, 15)));
+        animations.put(RIGHT+IDLE, (new Animation(new int[]{138, 138}, 15)));
     }
 
     public void drawCircleAttack()
@@ -59,11 +59,11 @@ public class Enemy extends Character {
     {
         if (Intersector.overlaps(circleAttack, Game.currentLevel.player.rect))
         {
-            status = PURSUING;
+            status = pursing;
         }
         else
         {
-            status = IDLE;
+            status = idle;
         }
     }
 

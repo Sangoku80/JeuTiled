@@ -17,9 +17,9 @@ public class Vache extends Character {
 
         Animation.setSpriteSheet_Tileset(spriteSheet);
 
-        animations.put("bas_idle", (new Animation(new int[]{91, 93}, 15)));
-        animations.put("haut", (new Animation(new int[]{115, 117}, 15)));
-        animations.put("droite", (new Animation(new int[]{87, 89}, 15)));
+        animations.put(DOWN+IDLE, (new Animation(new int[]{91, 93}, 15)));
+        animations.put(UP+MOVE, (new Animation(new int[]{115, 117}, 15)));
+        animations.put(RIGHT+MOVE, (new Animation(new int[]{87, 89}, 15)));
     }
 
     @Override
