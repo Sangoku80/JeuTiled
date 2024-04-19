@@ -26,6 +26,7 @@ public abstract class Character extends Entity {
     public float initHealth;
     public float attack;
     public Circle circleAttack = new Circle();
+    protected Boolean heightDirections;
 
     // mouvements
     protected float speed;
@@ -36,9 +37,10 @@ public abstract class Character extends Entity {
     protected ArrayList<TextureRegion> spriteSheet = new ArrayList<>();
     protected HashMap<String, Animation> animations = new HashMap<>();
     public Animation currentAnimation;
-    protected String orientation = "bas";
+    protected String bas="bas", haut="haut", gauche="gauche", droite="droite", bas_gauche="bas_gauche", bas_droite="bas_droite", haut_gauche="haut_gauche", haut_droite="haut_droite";
+    protected String orientation = bas;
     protected Boolean moving = false;
-    protected String MOVE="_move", IDLE="_idle";
+    protected String move ="_move", idle ="_idle";
 
     // directions
     public static int DOWN=270, UP=90, LEFT=180, RIGHT=0, DOWN_LEFT=225, DOWN_RIGHT=315, UP_LEFT=135, UP_RIGHT=45;
@@ -55,7 +57,7 @@ public abstract class Character extends Entity {
     public static ArrayList<Rectangle> collisionsEntitiesHaut = new ArrayList<>();
     public static ArrayList<Rectangle> collisionsEntitiesBas = new ArrayList<>();
 
-    public Character(String name, Vector2 position, float speed, float health, float attack, World world)
+    public Character(String name, Vector2 position, float speed, float health, float attack, World world, Boolean heightDirections)
     {
         super(name, position, world);
 
@@ -64,6 +66,7 @@ public abstract class Character extends Entity {
         this.initHealth = health;
         this.speed = speed;
         this.attack = attack;
+        this.heightDirections = heightDirections;
 
         // animations
         this.spriteSheetPath = entity.getTextureRegion().getTexture().toString();
@@ -79,7 +82,7 @@ public abstract class Character extends Entity {
     }
 
     // personnages qui attaquent
-    public Character(String name, Vector2 position, float speed, float health, World world)
+    public Character(String name, Vector2 position, float speed, float health, World world, Boolean heightDirections)
     {
         super(name, position, world);
 
@@ -87,6 +90,7 @@ public abstract class Character extends Entity {
         this.health = health;
         this.initHealth = health;
         this.speed = speed;
+        this.heightDirections = heightDirections;
 
         // animations
         this.spriteSheetPath = entity.getTextureRegion().getTexture().toString();
@@ -192,7 +196,60 @@ public abstract class Character extends Entity {
 
     public void updateOrientation()
     {
-
+        if (!heightDirections)
+        {
+            if (direction > DOWN && direction < UP)
+            {
+                orientation = droite;
+            }
+            else if (direction == UP)
+            {
+                orientation = haut;
+            }
+            else if (direction > UP && direction < DOWN)
+            {
+                orientation = gauche;
+            }
+            else if (direction == DOWN)
+            {
+                orientation = bas;
+            }
+        }
+        else
+        {
+            if (direction == RIGHT)
+            {
+                orientation = droite;
+            }
+            else if (direction == LEFT)
+            {
+                orientation = gauche;
+            }
+            else if (direction == UP)
+            {
+                orientation = haut;
+            }
+            else if (direction == DOWN)
+            {
+                orientation = bas;
+            }
+            else if (direction == DOWN_LEFT)
+            {
+                orientation = bas_gauche;
+            }
+            else if (direction == DOWN_RIGHT)
+            {
+                orientation = bas_droite;
+            }
+            else if (direction == UP_LEFT)
+            {
+                orientation = haut_gauche;
+            }
+            else if (direction == UP_RIGHT)
+            {
+                orientation = haut_droite;
+            }
+        }
     }
 
     public void updateDirection()
@@ -268,14 +325,14 @@ public abstract class Character extends Entity {
     public void updateAnimation()
     {
         if (moving) {
-            if (animations.containsValue(animations.get(orientation+MOVE)))
+            if (animations.containsValue(animations.get(orientation+ move)))
             {
-                currentAnimation = animations.get(orientation+MOVE);
+                currentAnimation = animations.get(orientation+ move);
             }
         } else {
-            if (animations.containsValue(animations.get(orientation+IDLE)))
+            if (animations.containsValue(animations.get(orientation+ idle)))
             {
-                currentAnimation = animations.get(orientation+IDLE);
+                currentAnimation = animations.get(orientation+ idle);
             }
         }
     }
@@ -292,6 +349,7 @@ public abstract class Character extends Entity {
         update();
         updateDirection();
         updatePos();
+        updateOrientation();
         updateAnimation();
         updateLayer(new Vector2(collisionBas.x, collisionBas.y));
 

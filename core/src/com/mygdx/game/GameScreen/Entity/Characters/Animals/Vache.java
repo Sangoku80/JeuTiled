@@ -9,7 +9,7 @@ public class Vache extends Character {
 
     public Vache(float x, float y, World currentWorld)
     {
-        super("vache", new Vector2(x, y), 2f, 20, currentWorld);
+        super("vache", new Vector2(x, y), 2f, 20, currentWorld, false);
     }
 
     @Override
@@ -17,9 +17,9 @@ public class Vache extends Character {
 
         Animation.setSpriteSheet_Tileset(spriteSheet);
 
-        animations.put(DOWN+IDLE, (new Animation(new int[]{91, 93}, 15)));
-        animations.put(UP+MOVE, (new Animation(new int[]{115, 117}, 15)));
-        animations.put(RIGHT+MOVE, (new Animation(new int[]{87, 89}, 15)));
+        animations.put(DOWN+ idle, (new Animation(new int[]{91, 93}, 15)));
+        animations.put(UP+ move, (new Animation(new int[]{115, 117}, 15)));
+        animations.put(RIGHT+ move, (new Animation(new int[]{87, 89}, 15)));
     }
 
     @Override

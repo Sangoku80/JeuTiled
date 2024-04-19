@@ -9,7 +9,7 @@ import com.mygdx.game.GameScreen.Worlds.World;
 public abstract class Projectile extends Character {
 
     public Projectile(String name, Vector2 position, float speed, float health, World world) {
-        super(name, position, speed, health, world);
+        super(name, position, speed, health, world, false);
     }
 
     public abstract void attack();

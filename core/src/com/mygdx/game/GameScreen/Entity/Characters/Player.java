@@ -9,7 +9,7 @@ import com.mygdx.game.GameScreen.Worlds.World;
 public class Player extends Character implements InputProcessor {
 
     public Player(float x, float y, World currentWorld) {
-        super("player", new Vector2(x, y), 2f, 20, 5, currentWorld);
+        super("player", new Vector2(x, y), 2f, 20, 5, currentWorld, true);
     }
 
     @Override
@@ -18,14 +18,14 @@ public class Player extends Character implements InputProcessor {
         Animation.setSpriteSheet_Tileset(spriteSheet);
 
         // en mouvement
-        animations.put("bas"+MOVE, (new Animation(new int[]{0, 3},15)));
-        animations.put("bas droite"+MOVE, (new Animation(new int[]{56, 59}, 15)));
-        animations.put("bas gauche"+MOVE, (new Animation(new int[]{8, 11}, 15)));
-        animations.put("gauche", (new Animation(new int[]{16, 19}, 15)));
-        animations.put("haut", (new Animation(new int[]{32, 35}, 15)));
-        animations.put("haut droite", (new Animation(new int[]{40, 43},  15)));
-        animations.put("haut gauche", (new Animation(new int[]{24, 27},  15)));
-        animations.put("droite", (new Animation(new int[]{48, 51}, 15)));
+        animations.put(bas+move, (new Animation(new int[]{0, 3},15)));
+        animations.put(bas_droite+move, (new Animation(new int[]{56, 59}, 15)));
+        animations.put(bas_gauche+move, (new Animation(new int[]{8, 11}, 15)));
+        animations.put(gauche+move, (new Animation(new int[]{16, 19}, 15)));
+        animations.put(haut+move, (new Animation(new int[]{32, 35}, 15)));
+        animations.put(haut_droite+move, (new Animation(new int[]{40, 43},  15)));
+        animations.put(haut_gauche+move, (new Animation(new int[]{24, 27},  15)));
+        animations.put(droite+move, (new Animation(new int[]{48, 51}, 15)));
 
         // sans mouvement
         animations.put("bas_idle", (new Animation(new int[]{0, 0}, 15)));

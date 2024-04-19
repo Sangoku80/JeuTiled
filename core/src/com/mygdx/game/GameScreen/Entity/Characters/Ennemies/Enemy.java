@@ -13,8 +13,8 @@ public class Enemy extends Character {
 
     // status
     protected static int status;
-    protected static int pursing=0;
-    protected static int idle=1;
+    protected static int Pursing=0;
+    protected static int Idle=1;
 
     // cercle de détection du joueur
     protected Circle circleAttack;
@@ -23,7 +23,7 @@ public class Enemy extends Character {
     protected Vector2 playerPosition;
 
     public Enemy(int x, int y, World currentWorld) {
-        super("enemy", new Vector2(x, y), 2f, 20, 2, currentWorld);
+        super("enemy", new Vector2(x, y), 2f, 20, 2, currentWorld, false);
 
         // cercle de détection du joueur
         this.circleAttack = new Circle();
@@ -38,16 +38,16 @@ public class Enemy extends Character {
         Animation.setSpriteSheet_Tileset(spriteSheet);
 
         // en mouvement
-        animations.put(DOWN+MOVE, (new Animation(new int[]{140, 141},15)));
-        animations.put(LEFT+MOVE, (new Animation(new int[]{144, 145}, 15)));
-        animations.put(UP+MOVE, (new Animation(new int[]{142, 143}, 15)));
-        animations.put(RIGHT+MOVE, (new Animation(new int[]{144, 145}, 15)));
+        animations.put(DOWN+ move, (new Animation(new int[]{140, 141},15)));
+        animations.put(LEFT+ move, (new Animation(new int[]{144, 145}, 15)));
+        animations.put(UP+ move, (new Animation(new int[]{142, 143}, 15)));
+        animations.put(RIGHT+ move, (new Animation(new int[]{144, 145}, 15)));
 
         // sans mouvement
-        animations.put(DOWN+IDLE, (new Animation(new int[]{136, 136}, 15)));
-        animations.put(LEFT+IDLE, (new Animation(new int[]{138, 138}, 15)));
-        animations.put(UP+IDLE, (new Animation(new int[]{137, 137}, 15)));
-        animations.put(RIGHT+IDLE, (new Animation(new int[]{138, 138}, 15)));
+        animations.put(DOWN+ idle, (new Animation(new int[]{136, 136}, 15)));
+        animations.put(LEFT+ idle, (new Animation(new int[]{138, 138}, 15)));
+        animations.put(UP+ idle, (new Animation(new int[]{137, 137}, 15)));
+        animations.put(RIGHT+ idle, (new Animation(new int[]{138, 138}, 15)));
     }
 
     public void drawCircleAttack()
@@ -59,11 +59,11 @@ public class Enemy extends Character {
     {
         if (Intersector.overlaps(circleAttack, Game.currentLevel.player.rect))
         {
-            status = pursing;
+            status = Pursing;
         }
         else
         {
-            status = idle;
+            status = Idle;
         }
     }
 
