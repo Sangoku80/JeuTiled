@@ -144,7 +144,7 @@ public abstract class World {
                 if (object instanceof TextureMapObject)
                 {
                     switch (object.getName()) {
-                        case "cochon":
+/*                        case "cochon":
                             entities.add(new Cochon((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
                             break;
 
@@ -158,7 +158,7 @@ public abstract class World {
 
                         case "enemy":
                             entities.add(new Enemy((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
-                            break;
+                            break;*/
 
                     }
                 }
@@ -210,7 +210,6 @@ public abstract class World {
                         if (layer.getCell(x, y).getTile().getTextureRegion() == key.getValue().animate())
                         {
                             layer.getCell(x, y).getTile().setTextureRegion(animatedTiles.get(key.getKey()).animate());
-                            System.out.println("ok");
                         }
                     }
 

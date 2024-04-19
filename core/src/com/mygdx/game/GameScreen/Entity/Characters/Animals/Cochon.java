@@ -17,12 +17,18 @@ public class Cochon extends Character {
 
         Animation.setSpriteSheet_Tileset(spriteSheet);
 
+        // en mouvement
         animations.put(LEFT+MOVE, (new Animation(new int[]{87, 89}, 15)));
         animations.put(UP+MOVE, (new Animation(new int[]{111, 113}, 15)));
+
+        // immobile
         animations.put(DOWN+IDLE, (new Animation(new int[]{135, 136}, 15)));
+
+
     }
 
     @Override
     public void update() {
+        setDown(true);
     }
 }

@@ -36,13 +36,14 @@ public abstract class Character extends Entity {
     protected ArrayList<TextureRegion> spriteSheet = new ArrayList<>();
     protected HashMap<String, Animation> animations = new HashMap<>();
     public Animation currentAnimation;
-    // protected String orientation = "bas";
+    protected String orientation = "bas";
     protected Boolean moving = false;
-
-    // orientations
-    public static int DOWN=270, UP=90, LEFT=180, RIGHT=0, DOWN_LEFT=225, DOWN_RIGHT=315, UP_LEFT=135, UP_RIGHT=45;
-    protected int orientation = DOWN;
     protected String MOVE="_move", IDLE="_idle";
+
+    // directions
+    public static int DOWN=270, UP=90, LEFT=180, RIGHT=0, DOWN_LEFT=225, DOWN_RIGHT=315, UP_LEFT=135, UP_RIGHT=45;
+    protected int direction = DOWN;
+
 
     // affichage
     protected int layerBas;
@@ -119,7 +120,7 @@ public abstract class Character extends Entity {
                     if (object instanceof RectangleMapObject) {
                         switch (((RectangleMapObject) object).getName()) {
                             case "teleportation":
-                                collisionsTeleportation.put(((RectangleMapObject) object).getRectangle(), (String) tiledMap.getLayers().get("teleportation").getObjects().get(entity.getName()).getProperties().get("destination"));
+                                collisionsTeleportation.put(((RectangleMapObject) object).getRectangle(), (String) ((RectangleMapObject) object).getProperties().get("destination"));
 
                             case "stop":
                                 collisionsStop.add(((RectangleMapObject) object).getRectangle());
@@ -188,9 +189,14 @@ public abstract class Character extends Entity {
 
     // updates
     public abstract void update();
-    public void updatePos() {
-        float xSpeed = 0, ySpeed = 0;
 
+    public void updateOrientation()
+    {
+
+    }
+
+    public void updateDirection()
+    {
         // vérifier s'il n'y a aucun mouvement
         if (!left && !right && !up && !down) {
             moving = false;
@@ -200,37 +206,38 @@ public abstract class Character extends Entity {
 
             // bouger en fonction de la direction
             if (left && !right) {
-                xSpeed -= speed;
-                orientation = LEFT;
+                direction = LEFT;
 
             } else if (right && !left) {
-                xSpeed = speed;
-                orientation = RIGHT;
+                direction = RIGHT;
             }
 
             if (up && !down) {
-                ySpeed = speed;
-                orientation = UP;
+                direction = UP;
 
             } else if (down && !up) {
-
-                ySpeed = -speed;
-                orientation = DOWN;
+                direction = DOWN;
             }
             if (right && up) {
-                orientation = UP_RIGHT;
+                direction = UP_RIGHT;
             } else if (right && down) {
-                orientation = DOWN_RIGHT;
+                direction = DOWN_RIGHT;
             }
             if (left && up) {
-                orientation = UP_LEFT;
+                direction = UP_LEFT;
             } else if (left && down) {
-                orientation = DOWN_LEFT;
+                direction = DOWN_LEFT;
             }
         }
+    }
+    public void updatePos() {
+        float xSpeed, ySpeed;
+
+        xSpeed = (float) (speed*Math.cos(Math.toRadians(direction)));
+        ySpeed = (float) (speed*Math.sin(Math.toRadians(direction)));
 
         // vérifier les collisions
-        if (!checkCollisionsWithFoot(new Vector2(collisionBas.x + xSpeed, collisionBas.y + ySpeed))) {
+        if (!checkCollisionsWithFoot(new Vector2(collisionBas.x + xSpeed, collisionBas.y + ySpeed)) && moving) {
             // entité
             position.x += xSpeed;
             position.y += ySpeed;
@@ -283,6 +290,7 @@ public abstract class Character extends Entity {
     public void updates() {
         // mise à jour
         update();
+        updateDirection();
         updatePos();
         updateAnimation();
         updateLayer(new Vector2(collisionBas.x, collisionBas.y));
