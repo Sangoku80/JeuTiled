@@ -9,7 +9,7 @@ import com.mygdx.game.GameScreen.Worlds.World;
 public class Player extends Character implements InputProcessor {
 
     public Player(float x, float y, World currentWorld) {
-        super("player", new Vector2(x, y), 2f, 20, 5, currentWorld, true);
+        super("player", new Vector2(x, y), 2f, 20, 5, currentWorld, false);
     }
 
     @Override
@@ -29,12 +29,12 @@ public class Player extends Character implements InputProcessor {
 
         // sans mouvement
         animations.put("bas_idle", (new Animation(new int[]{0, 0}, 15)));
-        animations.put("bas droite_idle", (new Animation(new int[]{56, 56}, 15)));
-        animations.put("bas gauche_idle", (new Animation(new int[]{8, 8},  15)));
+        animations.put("bas_droite_idle", (new Animation(new int[]{56, 56}, 15)));
+        animations.put("bas_gauche_idle", (new Animation(new int[]{8, 8},  15)));
         animations.put("gauche_idle", (new Animation(new int[]{16, 16}, 15)));
         animations.put("haut_idle", (new Animation(new int[]{32, 32}, 15)));
-        animations.put("haut droite_idle", (new Animation(new int[]{40, 40}, 15)));
-        animations.put("haut gauche_idle", (new Animation(new int[]{24, 24}, 15)));
+        animations.put("haut_droite_idle", (new Animation(new int[]{40, 40}, 15)));
+        animations.put("haut_gauche_idle", (new Animation(new int[]{24, 24}, 15)));
         animations.put("droite_idle", (new Animation(new int[]{48, 48}, 15)));
     }
 

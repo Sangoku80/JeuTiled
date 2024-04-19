@@ -15,6 +15,7 @@ import com.mygdx.game.GameScreen.Worlds.InternMaison;
 import com.mygdx.game.GameScreen.Tools.Animation;
 import com.mygdx.game.GameScreen.Worlds.World;
 
+import java.awt.*;
 import java.util.*;
 
 import static com.mygdx.game.Game.*;
@@ -198,7 +199,7 @@ public abstract class Character extends Entity {
     {
         if (!heightDirections)
         {
-            if (direction > DOWN && direction < UP)
+            if (direction < DOWN && direction < UP)
             {
                 orientation = droite;
             }
@@ -257,6 +258,7 @@ public abstract class Character extends Entity {
         // vérifier s'il n'y a aucun mouvement
         if (!left && !right && !up && !down) {
             moving = false;
+
         } else {
 
             moving = true;
@@ -268,7 +270,6 @@ public abstract class Character extends Entity {
             } else if (right && !left) {
                 direction = RIGHT;
             }
-
             if (up && !down) {
                 direction = UP;
 
@@ -277,11 +278,13 @@ public abstract class Character extends Entity {
             }
             if (right && up) {
                 direction = UP_RIGHT;
+
             } else if (right && down) {
                 direction = DOWN_RIGHT;
             }
             if (left && up) {
                 direction = UP_LEFT;
+
             } else if (left && down) {
                 direction = DOWN_LEFT;
             }
