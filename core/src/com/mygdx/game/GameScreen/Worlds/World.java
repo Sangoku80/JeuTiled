@@ -10,13 +10,13 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Entity.Characters.Animals.Cochon;
-import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Enemy;
-import com.mygdx.game.GameScreen.Entity.Characters.Player;
 import com.mygdx.game.GameScreen.Entity.Characters.Animals.Vache;
-import com.mygdx.game.GameScreen.Entity.Entity;
+import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Enemy;
 import com.mygdx.game.GameScreen.Entity.Infrastructures.House;
+import com.mygdx.game.GameScreen.Entity.Objects.Projectile.Character;
+import com.mygdx.game.GameScreen.Entity.Objects.Projectile.Player;
+import com.mygdx.game.GameScreen.Entity.Entity;
 import com.mygdx.game.GameScreen.Tools.Animation;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -144,7 +144,7 @@ public abstract class World {
                 if (object instanceof TextureMapObject)
                 {
                     switch (object.getName()) {
-/*                        case "cochon":
+                        case "cochon":
                             entities.add(new Cochon((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
                             break;
 
@@ -158,7 +158,7 @@ public abstract class World {
 
                         case "enemy":
                             entities.add(new Enemy((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
-                            break;*/
+                            break;
 
                     }
                 }

@@ -1,8 +1,7 @@
-package com.mygdx.game.GameScreen.Entity.Characters.Projectile;
+package com.mygdx.game.GameScreen.Entity.Objects.Projectile;
 
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Entity.Entity;
 import com.mygdx.game.GameScreen.Worlds.World;
 

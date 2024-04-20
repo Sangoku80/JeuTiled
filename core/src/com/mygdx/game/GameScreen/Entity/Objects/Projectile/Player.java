@@ -1,4 +1,4 @@
-package com.mygdx.game.GameScreen.Entity.Characters;
+package com.mygdx.game.GameScreen.Entity.Objects.Projectile;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;

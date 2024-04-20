@@ -1,4 +1,4 @@
-package com.mygdx.game.GameScreen.Entity.Characters;
+package com.mygdx.game.GameScreen.Entity.Objects.Projectile;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,7 +15,6 @@ import com.mygdx.game.GameScreen.Worlds.InternMaison;
 import com.mygdx.game.GameScreen.Tools.Animation;
 import com.mygdx.game.GameScreen.Worlds.World;
 
-import java.awt.*;
 import java.util.*;
 
 import static com.mygdx.game.Game.*;
