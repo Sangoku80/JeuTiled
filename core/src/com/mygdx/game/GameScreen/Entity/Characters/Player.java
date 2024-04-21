@@ -1,4 +1,4 @@
-package com.mygdx.game.GameScreen.Entity.Objects.Projectile;
+package com.mygdx.game.GameScreen.Entity.Characters;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -9,7 +9,7 @@ import com.mygdx.game.GameScreen.Worlds.World;
 public class Player extends Character implements InputProcessor {
 
     public Player(float x, float y, World currentWorld) {
-        super("player", new Vector2(x, y), 2f, 20, 5, currentWorld, false);
+        super("player", new Vector2(x, y), 2f, 20, 5, currentWorld, true);
     }
 
     @Override

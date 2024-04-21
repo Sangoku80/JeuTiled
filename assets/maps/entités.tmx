@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="8" tileheight="8" infinite="1" nextlayerid="10" nextobjectid="49">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="8" tileheight="8" infinite="1" nextlayerid="10" nextobjectid="59">
  <tileset firstgid="1" source="../data/sprite sheet.tsx"/>
  <tileset firstgid="65" source="../data/Tileset2.tsx"/>
  <tileset firstgid="79" source="../data/VikingTiles.tsx"/>
  <tileset firstgid="703" source="../data/sprite sheet 2.tsx"/>
+ <tileset firstgid="1043" source="../data/Entités Images.tsx"/>
  <objectgroup id="4" name="entités_bas ">
   <object id="18" name="player" x="5" y="-15.2614" width="8.375" height="2"/>
   <object id="22" name="maison" x="26.5227" y="-27.58" width="51.125" height="14.25"/>
   <object id="23" name="vache" x="94.25" y="-17.875" width="12.25" height="4.125"/>
   <object id="24" name="cochon" x="125.5" y="-15" width="12.625" height="2.25"/>
   <object id="42" name="enemy" x="154.739" y="-14.2174" width="7.91304" height="2.08696"/>
+  <object id="51" name="Buisson" x="-20.5" y="-20.3125" width="14" height="5.125"/>
+  <object id="56" name="arbre" x="-45.5625" y="-24.0625" width="13.9375" height="9"/>
  </objectgroup>
  <objectgroup id="2" name="entités">
   <object id="14" name="player" gid="1" x="1.125" y="-13.1364" width="16" height="16"/>
@@ -17,16 +20,24 @@
   <object id="16" name="vache" gid="170" x="92.375" y="-13.75" width="16" height="16"/>
   <object id="17" name="cochon" gid="166" x="124.125" y="-12.75" width="16" height="16"/>
   <object id="46" name="enemy" gid="839" x="150.875" y="-12" width="16" height="16"/>
+  <object id="50" name="Buisson" gid="1044" x="-20.4545" y="-15.1818" width="14" height="14"/>
+  <object id="55" name="arbre" gid="1045" x="-52.5" y="-15" width="28" height="40"/>
  </objectgroup>
  <objectgroup id="3" name="entités_haut">
   <object id="26" name="player" x="2" y="-28.1989" width="14.25" height="12.625"/>
   <object id="27" name="maison" x="26.2727" y="-69.693" width="51.6932" height="42.8636"/>
   <object id="29" name="cochon" x="124.125" y="-24.875" width="15.875" height="9.875"/>
-  <object id="32" name="vache" x="93.5852" y="-29.5909" width="13.875" height="11.75"/>
+  <object id="32" name="vache" x="93.5852" y="-29.5909" width="13.875" height="11.75">
+   <properties>
+    <property name="character" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="45" name="enemy" x="151.813" y="-28.25" width="14" height="14.0625"/>
+  <object id="53" name="Buisson" x="-20.625" y="-29.1563" width="14.125" height="9.25"/>
+  <object id="58" name="arbre" x="-52.5" y="-55.125" width="27.9375" height="31.0625"/>
  </objectgroup>
  <objectgroup id="7" name="teleportation">
-  <object id="39" name="maison" x="49.0455" y="-25.659" width="13.6364" height="13.0909">
+  <object id="39" name="maison" x="49.0455" y="-25.659" width="13.6364" height="12.3636">
    <properties>
     <property name="destination" value="Maison1"/>
    </properties>

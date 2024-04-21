@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.*;
-import com.mygdx.game.GameScreen.Entity.Objects.Projectile.Character;
+import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Entity.Entity;
 import com.mygdx.game.GameScreen.Worlds.Level1;
 import com.mygdx.game.GameScreen.Worlds.World;
@@ -27,7 +27,7 @@ public class Game extends ApplicationAdapter {
 		// création de la caméra
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		camera.zoom = 0.5f; // (0.2)
+		camera.zoom = 0.2f; // (0.2)
 		camera.position.x -= 200;
 		camera.position.y -= 120;
 

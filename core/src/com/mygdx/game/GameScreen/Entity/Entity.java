@@ -1,5 +1,6 @@
 package com.mygdx.game.GameScreen.Entity;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -8,14 +9,15 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.GameScreen.Entity.Objects.Projectile.Character;
+import com.mygdx.game.Game;
+import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Worlds.World;
 import com.mygdx.game.GameScreen.Entity.Infrastructures.Infrastructure;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public abstract class Entity {
+public class Entity {
 
     // caractéristiques
     public String name;
@@ -66,7 +68,6 @@ public abstract class Entity {
 
         // affichage
         this.layer = world.entitiesLayer;
-        System.out.println(layer);
 
         if(this instanceof Infrastructure)
         {
@@ -129,6 +130,11 @@ public abstract class Entity {
                 image = ((Character) this).currentAnimation.animate();
             }
         }
+        else
+        {
+            image = entity.getTextureRegion();
+        }
+
         // dessiner
 
         if (image != null)

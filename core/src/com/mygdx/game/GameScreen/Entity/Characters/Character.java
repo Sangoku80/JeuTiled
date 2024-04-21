@@ -1,4 +1,4 @@
-package com.mygdx.game.GameScreen.Entity.Objects.Projectile;
+package com.mygdx.game.GameScreen.Entity.Characters;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;

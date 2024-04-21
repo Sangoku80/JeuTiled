@@ -9,14 +9,15 @@ import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.GameScreen.Entity.Characters.Animals.Cochon;
 import com.mygdx.game.GameScreen.Entity.Characters.Animals.Vache;
+import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Enemy;
-import com.mygdx.game.GameScreen.Entity.Infrastructures.House;
-import com.mygdx.game.GameScreen.Entity.Objects.Projectile.Character;
-import com.mygdx.game.GameScreen.Entity.Objects.Projectile.Player;
+import com.mygdx.game.GameScreen.Entity.Characters.Player;
 import com.mygdx.game.GameScreen.Entity.Entity;
+import com.mygdx.game.GameScreen.Entity.Infrastructures.House;
 import com.mygdx.game.GameScreen.Tools.Animation;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -143,24 +144,29 @@ public abstract class World {
 
                 if (object instanceof TextureMapObject)
                 {
-                    switch (object.getName()) {
-                        case "cochon":
-                            entities.add(new Cochon((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
-                            break;
+                    entities.add(new Entity(object.getName(), new Vector2(((TextureMapObject) object).getX(), ((TextureMapObject) object).getY()), this));
+                }
+            }
 
-                        case "maison":
-                            entities.add(new House((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
-                            break;
+            for (MapObject object : tiledMap.getLayers().get("character").getObjects())
+            {
+                switch (object.getName()) {
 
-                        case "vache":
-                            entities.add(new Vache((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
-                            break;
+                    case "cochon":
+                        entities.add(new Cochon((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                        break;
 
-                        case "enemy":
-                            entities.add(new Enemy((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
-                            break;
+                    case "maison":
+                        entities.add(new House((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                        break;
 
-                    }
+                    case "vache":
+                        entities.add(new Vache((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                        break;
+
+                    case "enemy":
+                        entities.add(new Enemy((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                        break;
                 }
             }
         }

@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Game;
-import com.mygdx.game.GameScreen.Entity.Objects.Projectile.Character;
+import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Tools.Animation;
 import com.mygdx.game.GameScreen.Worlds.World;
 import static com.mygdx.game.Game.shapeRenderer;
