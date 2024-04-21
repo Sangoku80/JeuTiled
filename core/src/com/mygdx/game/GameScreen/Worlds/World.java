@@ -18,6 +18,7 @@ import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Enemy;
 import com.mygdx.game.GameScreen.Entity.Characters.Player;
 import com.mygdx.game.GameScreen.Entity.Entity;
 import com.mygdx.game.GameScreen.Entity.Infrastructures.House;
+import com.mygdx.game.GameScreen.Entity.Infrastructures.Infrastructure;
 import com.mygdx.game.GameScreen.Tools.Animation;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -141,32 +142,48 @@ public abstract class World {
         {
             for (MapObject object : tiledMap.getLayers().get("entités").getObjects())
             {
-
                 if (object instanceof TextureMapObject)
                 {
                     entities.add(new Entity(object.getName(), new Vector2(((TextureMapObject) object).getX(), ((TextureMapObject) object).getY()), this));
                 }
             }
+        }
 
+        if (tiledMap.getLayers().get("character") != null)
+        {
             for (MapObject object : tiledMap.getLayers().get("character").getObjects())
             {
-                switch (object.getName()) {
+                if (object instanceof TextureMapObject)
+                {
+                    switch (object.getName()) {
 
-                    case "cochon":
-                        entities.add(new Cochon((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
-                        break;
+                        case "cochon":
+                            entities.add(new Cochon((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                            break;
 
-                    case "maison":
-                        entities.add(new House((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
-                        break;
+                        case "maison":
+                            entities.add(new House((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                            break;
 
-                    case "vache":
-                        entities.add(new Vache((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
-                        break;
+                        case "vache":
+                            entities.add(new Vache((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                            break;
 
-                    case "enemy":
-                        entities.add(new Enemy((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
-                        break;
+                        case "enemy":
+                            entities.add(new Enemy((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                            break;
+                    }
+                }
+            }
+        }
+
+        if (tiledMap.getLayers().get("infrastructure") != null)
+        {
+            for (MapObject object : tiledMap.getLayers().get("infrastructure").getObjects())
+            {
+                if (object instanceof TextureMapObject)
+                {
+                    entities.add(new Infrastructure(object.getName(), new Vector2(((TextureMapObject) object).getX(), ((TextureMapObject) object).getY()), this));
                 }
             }
         }
