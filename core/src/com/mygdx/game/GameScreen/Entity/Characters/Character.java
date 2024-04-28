@@ -52,7 +52,7 @@ public abstract class Character extends Entity {
     protected int layerHaut;
 
     // other collisions
-    protected ArrayList<Rectangle> collisionsStop = new ArrayList<>();
+    protected static ArrayList<Rectangle> collisionsStop = new ArrayList<>();
     public static HashMap<Rectangle, String> collisionsTeleportation = new HashMap<>();
     public static ArrayList<Rectangle> collisionsEntitiesHaut = new ArrayList<>();
     public static ArrayList<Rectangle> collisionsEntitiesBas = new ArrayList<>();
@@ -429,6 +429,7 @@ public abstract class Character extends Entity {
                     // enlever le perso s'il a plus de vie
                     if (((Character) entity).health <= 0)
                     {
+
                         iterator.remove();
                     }
                 }

@@ -27,9 +27,6 @@ public class Enemy extends Character {
 
         // cercle de détection du joueur
         this.circleAttack = new Circle();
-
-        // joueur
-        // this.playerPosition = Game.currentLevel.player.position;
     }
 
     @Override
@@ -67,11 +64,6 @@ public class Enemy extends Character {
         }
     }
 
-    public Vector2 pursuing()
-    {
-        return new Vector2(playerPosition.x-position.x, playerPosition.y-position.y);
-    }
-
     @Override
     public void update() {
 
@@ -83,6 +75,9 @@ public class Enemy extends Character {
         checkCollisionWithCircleAttack();
 
         // directions
+        if (status==Pursing)
+        {
 
+        }
     }
 }

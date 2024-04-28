@@ -17,7 +17,6 @@ import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Enemy;
 import com.mygdx.game.GameScreen.Entity.Characters.Player;
 import com.mygdx.game.GameScreen.Entity.Entity;
-import com.mygdx.game.GameScreen.Entity.Infrastructures.House;
 import com.mygdx.game.GameScreen.Entity.Infrastructures.Infrastructure;
 import com.mygdx.game.GameScreen.Tools.Animation;
 import java.util.ArrayList;
@@ -149,9 +148,9 @@ public abstract class World {
             }
         }
 
-        if (tiledMap.getLayers().get("character") != null)
+        if (tiledMap.getLayers().get("characters") != null)
         {
-            for (MapObject object : tiledMap.getLayers().get("character").getObjects())
+            for (MapObject object : tiledMap.getLayers().get("characters").getObjects())
             {
                 if (object instanceof TextureMapObject)
                 {
@@ -159,10 +158,6 @@ public abstract class World {
 
                         case "cochon":
                             entities.add(new Cochon((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
-                            break;
-
-                        case "maison":
-                            entities.add(new House((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
                             break;
 
                         case "vache":
@@ -177,9 +172,9 @@ public abstract class World {
             }
         }
 
-        if (tiledMap.getLayers().get("infrastructure") != null)
+        if (tiledMap.getLayers().get("infrastructures") != null)
         {
-            for (MapObject object : tiledMap.getLayers().get("infrastructure").getObjects())
+            for (MapObject object : tiledMap.getLayers().get("infrastructures").getObjects())
             {
                 if (object instanceof TextureMapObject)
                 {

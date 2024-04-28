@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="8" tileheight="8" infinite="0" nextlayerid="12" nextobjectid="7">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="8" tileheight="8" infinite="0" nextlayerid="16" nextobjectid="13">
  <tileset firstgid="1" source="../data/Tileset.tsx"/>
  <tileset firstgid="1001" source="../data/VikingTiles.tsx"/>
+ <tileset firstgid="1625" source="../data/Entités Images.tsx"/>
  <layer id="1" name="fond" width="30" height="20">
   <data encoding="csv">
 512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,
@@ -26,14 +27,10 @@
 512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512
 </data>
  </layer>
- <objectgroup id="6" name="entités">
-  <object id="6" name="cochon" gid="1088" x="104" y="45.25" width="16" height="16"/>
+ <objectgroup id="13" name="entités">
+  <object id="9" name="arbre" gid="1627" x="127.333" y="94" width="28" height="40"/>
  </objectgroup>
- <objectgroup id="7" name="teleportation">
-  <object id="2" name="jardin" x="69.5" y="47" width="9.5" height="16.25">
-   <properties>
-    <property name="destination" value="Maison2"/>
-   </properties>
-  </object>
+ <objectgroup id="14" name="characters">
+  <object id="10" name="enemy" gid="1633" x="69.6667" y="58.6667" width="14" height="17"/>
  </objectgroup>
 </map>
