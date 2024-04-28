@@ -156,14 +156,21 @@ public abstract class Character extends Entity {
             }
         }
 
+        String destination = "";
+
         for (Map.Entry<Rectangle, String> collisionTeleportation : collisionsTeleportation.entrySet()) {
-            if (Intersector.overlaps(new Rectangle(position.x, position.y, collisionBas.width, collisionBas.height), collisionTeleportation.getKey())) {
-                switch (collisionTeleportation.getValue()) {
-                    case "Maison1":
-                        changeWorld(new InternMaison());
-                        break;
-                }
+
+            if (Intersector.overlaps(new Rectangle(position.x, position.y, collisionBas.width, collisionBas.height), collisionTeleportation.getKey()))
+            {
+                destination=collisionTeleportation.getValue();
+                break;
             }
+        }
+
+        switch (destination) {
+            case "Maison1":
+                changeWorld(new InternMaison());
+                break;
         }
 
         return answer;
