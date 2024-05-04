@@ -41,7 +41,6 @@ public class Entity {
 
     // affichage
     protected TextureRegion image;
-    public int layer;
 
     // monde dans lequel est notre entité
     protected World currentWorld;
@@ -65,9 +64,6 @@ public class Entity {
 
         // rect
         this.rect = new Rectangle(position.x, position.y, width, height);
-
-        // affichage
-        this.layer = world.entitiesLayer;
 
         if(this instanceof Infrastructure)
         {

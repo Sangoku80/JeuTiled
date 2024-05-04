@@ -19,10 +19,9 @@ import com.mygdx.game.GameScreen.Entity.Characters.Player;
 import com.mygdx.game.GameScreen.Entity.Entity;
 import com.mygdx.game.GameScreen.Entity.Infrastructures.Infrastructure;
 import com.mygdx.game.GameScreen.Tools.Animation;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+
+import javax.swing.text.Position;
+import java.util.*;
 
 public abstract class World {
 
@@ -185,19 +184,27 @@ public abstract class World {
 
     }
 
+    public static void sortByY(ArrayList<Entity> entities) {
+        Collections.sort(entities, new Comparator<Entity>() {
+            @Override
+            public int compare(Entity entity1, Entity entity2) {
+                return Float.compare(entity2.position.y, entity1.position.y); // Inversion de l'ordre de comparaison
+            }
+        });
+    }
 
-    public void drawEntities(SpriteBatch batch, int layerNumber)
+    public void drawEntities(SpriteBatch batch)
     {
+        ArrayList<Vector2> positions = new ArrayList<>();
+        sortByY(entities);
+
         for (Entity entity : entities)
         {
-            if (entity.layer == layerNumber)
-            {
-                entity.Draw(batch);
-            }
-
+            entity.Draw(batch);
         }
     }
 
+    // updates
     public void updateEntities()
     {
         for (Entity entity : entities)
@@ -245,7 +252,8 @@ public abstract class World {
         for (int layerNumber = 0; layerNumber < layers.size(); layerNumber++)
         {
             drawLayer(layers.get(layerNumber), batch);
-            drawEntities(batch, layerNumber);
         }
+
+        drawEntities(batch);
     }
 }

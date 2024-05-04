@@ -46,7 +46,6 @@ public abstract class Character extends Entity {
     public static int DOWN=270, UP=90, LEFT=180, RIGHT=0, DOWN_LEFT=225, DOWN_RIGHT=315, UP_LEFT=135, UP_RIGHT=45;
     protected int direction = DOWN;
 
-
     // affichage
     protected int layerBas;
     protected int layerHaut;
@@ -71,10 +70,6 @@ public abstract class Character extends Entity {
         // animations
         this.spriteSheetPath = entity.getTextureRegion().getTexture().toString();
 
-        // affichage
-        this.layerBas = layer-1;
-        this.layerHaut = layer;
-
         // chargement
         loadCollisions();
         loadSpriteSheet();
@@ -94,10 +89,6 @@ public abstract class Character extends Entity {
 
         // animations
         this.spriteSheetPath = entity.getTextureRegion().getTexture().toString();
-
-        // affichage
-        this.layerBas = layer - 1;
-        this.layerHaut = layer;
 
         // chargement
         loadCollisions();
@@ -318,19 +309,6 @@ public abstract class Character extends Entity {
         }
     }
 
-    public void updateLayer(Vector2 position) {
-        layer = layerHaut;
-        for (Rectangle collision : collisionsEntitiesHaut) {
-            if (collision.x != collisionHaut.x && collision.y != collisionHaut.y && collision.width != collisionHaut.width && collision.height != collisionHaut.height)
-            {
-                if ((Intersector.overlaps(new Rectangle(position.x, position.y, collisionBas.width, collisionBas.height), collision))) {
-                    layer = layerBas;
-                }
-            }
-        }
-
-    }
-
     public void updateAnimation()
     {
         if (moving) {
@@ -360,7 +338,6 @@ public abstract class Character extends Entity {
         updatePos();
         updateOrientation();
         updateAnimation();
-        updateLayer(new Vector2(collisionBas.x, collisionBas.y));
 
         // action attack
         if (attack > 0)
@@ -436,7 +413,6 @@ public abstract class Character extends Entity {
                     // enlever le perso s'il a plus de vie
                     if (((Character) entity).health <= 0)
                     {
-
                         iterator.remove();
                     }
                 }
