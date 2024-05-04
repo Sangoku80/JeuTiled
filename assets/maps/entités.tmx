@@ -23,19 +23,6 @@
   <object id="50" name="Buisson" gid="1044" x="-20.4545" y="-15.1818" width="14" height="14"/>
   <object id="55" name="arbre" gid="1045" x="-52.5" y="-15" width="28" height="40"/>
  </objectgroup>
- <objectgroup id="3" name="entités_haut">
-  <object id="26" name="player" x="2" y="-28.1989" width="14.25" height="12.625"/>
-  <object id="27" name="maison" x="26.2727" y="-69.693" width="51.6932" height="42.8636"/>
-  <object id="29" name="cochon" x="124.125" y="-24.875" width="15.875" height="9.875"/>
-  <object id="32" name="vache" x="93.5852" y="-29.5909" width="13.875" height="11.75">
-   <properties>
-    <property name="character" type="bool" value="true"/>
-   </properties>
-  </object>
-  <object id="45" name="enemy" x="151.813" y="-28.25" width="14" height="14.0625"/>
-  <object id="53" name="Buisson" x="-20.625" y="-29.1563" width="14.125" height="9.25"/>
-  <object id="58" name="arbre" x="-52.5" y="-55.125" width="27.9375" height="31.0625"/>
- </objectgroup>
  <objectgroup id="7" name="teleportation">
   <object id="39" name="maison" x="49.0455" y="-25.659" width="13.6364" height="12.3636">
    <properties>

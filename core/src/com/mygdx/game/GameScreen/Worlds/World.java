@@ -80,7 +80,6 @@ public abstract class World {
         }
 
         // on vide les listes statiques
-        Character.collisionsEntitiesHaut.clear();
         Character.collisionsEntitiesBas.clear();
         Character.collisionsTeleportation.clear();
 
@@ -123,13 +122,6 @@ public abstract class World {
         {
             layers.add((TiledMapTileLayer) tiledMap.getLayers().get(nameLayers.get(i)));
         }
-
-        // pour l'effet profondeur
-        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
-        int largeur = layer.getWidth();
-        int hauteur = layer.getHeight();
-        TiledMapTileLayer newLayer = new TiledMapTileLayer(largeur, hauteur, layer.getTileWidth(), layer.getTileHeight());
-        layers.add(entitiesLayer, newLayer);
     }
 
     public void loadEntities()

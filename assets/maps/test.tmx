@@ -118,25 +118,18 @@
 512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512
 </data>
  </layer>
- <objectgroup id="15" name="entités">
-  <object id="225" name="Buisson" gid="2108" x="99.5" y="96.75" width="14" height="14"/>
-  <object id="229" name="arbre" gid="2109" x="145" y="64.25" width="28" height="40"/>
-  <object id="230" name="arbre" gid="2109" x="142" y="150.75" width="28" height="40"/>
- </objectgroup>
  <objectgroup id="46" name="characters">
   <object id="233" name="cochon" gid="2108" x="39.5" y="76.25" width="14" height="14"/>
   <object id="234" name="vache" gid="2108" x="86.25" y="60.5" width="14" height="14"/>
   <object id="258" name="player" gid="2115" x="188.667" y="81.6667" width="14" height="17"/>
  </objectgroup>
- <objectgroup id="56" name="infrastructures">
-  <object id="249" name="maison" gid="2110" x="32.3333" y="211" width="52" height="56"/>
-  <object id="256" name="maison" gid="2110" x="120.333" y="194.667" width="52" height="56"/>
+ <objectgroup id="15" name="entités">
+  <object id="225" name="Buisson" gid="2108" x="99.5" y="96.75" width="14" height="14"/>
+  <object id="229" name="arbre" gid="2109" x="145" y="64.25" width="28" height="40"/>
+  <object id="230" name="arbre" gid="2109" x="85.3333" y="159.75" width="28" height="40"/>
  </objectgroup>
- <objectgroup id="60" name="collisions">
-  <object id="257" name="teleportation" x="49.6667" y="113.333" width="12.6667" height="1.66667">
-   <properties>
-    <property name="destination" value="Maison1"/>
-   </properties>
-  </object>
+ <objectgroup id="56" name="infrastructures">
+  <object id="249" name="maison" gid="2110" x="7.99997" y="200.333" width="52" height="56"/>
+  <object id="256" name="maison" gid="2110" x="158.666" y="137" width="52" height="56"/>
  </objectgroup>
 </map>

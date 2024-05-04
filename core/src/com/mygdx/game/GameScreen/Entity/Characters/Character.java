@@ -53,7 +53,6 @@ public abstract class Character extends Entity {
     // other collisions
     protected static ArrayList<Rectangle> collisionsStop = new ArrayList<>();
     public static HashMap<Rectangle, String> collisionsTeleportation = new HashMap<>();
-    public static ArrayList<Rectangle> collisionsEntitiesHaut = new ArrayList<>();
     public static ArrayList<Rectangle> collisionsEntitiesBas = new ArrayList<>();
 
     public Character(String name, Vector2 position, float speed, float health, float attack, World world, Boolean heightDirections)
@@ -379,7 +378,7 @@ public abstract class Character extends Entity {
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
-        ArrayList[] allCollisions = {collisionsStop, collisionsEntitiesBas, collisionsEntitiesHaut};
+        ArrayList[] allCollisions = {collisionsStop, collisionsEntitiesBas};
 
         shapeRenderer.setColor(0, 0, 1, 0);
 

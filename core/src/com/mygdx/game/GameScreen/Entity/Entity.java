@@ -30,7 +30,6 @@ public class Entity {
     protected RectangleMapObject entityBas;
     protected RectangleMapObject entityHaut;
     protected Rectangle collisionBas;
-    protected Rectangle collisionHaut;
 
     // carte actuelle
     protected TiledMap tiledMap;
@@ -55,12 +54,10 @@ public class Entity {
         this.tiledMap = world.tiledMap;
         this.entity = (TextureMapObject) collisionsEntities.getLayers().get("entités").getObjects().get(name);
         this.entityBas = (RectangleMapObject) collisionsEntities.getLayers().get("entités_bas").getObjects().get(name);
-        this.entityHaut = (RectangleMapObject) collisionsEntities.getLayers().get("entités_haut").getObjects().get(name);
         this.width = entity.getTextureRegion().getRegionWidth();
         this.height = entity.getTextureRegion().getRegionHeight();
         this.position = new Vector2(position.x, position.y);
         this.collisionBas = new Rectangle();
-        this.collisionHaut = new Rectangle();
 
         // rect
         this.rect = new Rectangle(position.x, position.y, width, height);
@@ -82,11 +79,9 @@ public class Entity {
 
         ArrayList<RectangleMapObject> list = new ArrayList<>();
         list.add(entityBas);
-        list.add(entityHaut);
 
         ArrayList<Rectangle> list2 = new ArrayList<>();
         list2.add(collisionBas);
-        list2.add(collisionHaut);
 
         if (this instanceof Infrastructure) {
             list.add(((Infrastructure) this).entityTeleportation);
@@ -106,7 +101,6 @@ public class Entity {
         for (Entity entity : currentWorld.entities) {
             if (!Objects.equals(entity.name, name)) {
 
-                Character.collisionsEntitiesHaut.add(entity.collisionHaut);
                 Character.collisionsEntitiesBas.add(entity.collisionBas);
 
                 if (entity instanceof Infrastructure) {
