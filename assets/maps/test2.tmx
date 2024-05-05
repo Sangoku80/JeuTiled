@@ -27,9 +27,6 @@
 512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512
 </data>
  </layer>
- <objectgroup id="13" name="entités">
-  <object id="9" name="arbre" gid="1627" x="127.333" y="94" width="28" height="40"/>
- </objectgroup>
  <objectgroup id="14" name="characters">
   <object id="10" name="enemy" gid="1633" x="69.6667" y="58.6667" width="14" height="17"/>
  </objectgroup>

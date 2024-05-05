@@ -15,13 +15,13 @@ import com.mygdx.game.GameScreen.Entity.Characters.Animals.Cochon;
 import com.mygdx.game.GameScreen.Entity.Characters.Animals.Vache;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Enemy;
-import com.mygdx.game.GameScreen.Entity.Characters.Player;
+import com.mygdx.game.GameScreen.Entity.Player;
 import com.mygdx.game.GameScreen.Entity.Entity;
 import com.mygdx.game.GameScreen.Entity.Infrastructures.Infrastructure;
 import com.mygdx.game.GameScreen.Tools.Animation;
-
-import javax.swing.text.Position;
 import java.util.*;
+
+import static com.mygdx.game.GameScreen.Tools.staticFunctions.*;
 
 public abstract class World {
 
@@ -67,9 +67,6 @@ public abstract class World {
         // on ajoute ce monde à la liste des mondes
         worlds.add(this);
 
-        // affichage du joueur avec effet profondeur avec les autres entités
-        this.entitiesLayer = tiledMap.getLayers().getIndex("entités");
-
         // on récupère le nom de chaque layer de la carte
         for (MapLayer layer : tiledMap.getLayers())
         {
@@ -88,6 +85,7 @@ public abstract class World {
         loadTileset();
         loadLayers();
         loadAnimatedTiles();
+        loadCollisions();
 
         // création du joueur
         this.entities.add(new Player(120, 120, this));
@@ -111,6 +109,20 @@ public abstract class World {
             {
                 tileset.add(new TextureRegion(img, x*ratioTilesetX, y*ratioTilesetY, ratioTilesetX, ratioTilesetY));
             }
+        }
+    }
+
+    public void loadCollisions()
+    {
+        TextureRegion textureRegion;
+        Texture texture;
+
+        for (Entity entity : entities)
+        {
+            textureRegion=entity.entity.getTextureRegion();
+            texture=entity.entity.getTextureRegion().getTexture();
+            System.out.println(texture.toString());
+/*            for (Rectangle rect : getCollisionsTile("assets/"+texture.toString(), ))*/
         }
     }
 
@@ -176,18 +188,8 @@ public abstract class World {
 
     }
 
-    public static void sortByY(ArrayList<Entity> entities) {
-        Collections.sort(entities, new Comparator<Entity>() {
-            @Override
-            public int compare(Entity entity1, Entity entity2) {
-                return Float.compare(entity2.position.y, entity1.position.y); // Inversion de l'ordre de comparaison
-            }
-        });
-    }
-
     public void drawEntities(SpriteBatch batch)
     {
-        ArrayList<Vector2> positions = new ArrayList<>();
         sortByY(entities);
 
         for (Entity entity : entities)

@@ -51,7 +51,7 @@ public abstract class Character extends Entity {
     protected int layerHaut;
 
     // other collisions
-    protected static ArrayList<Rectangle> collisionsStop = new ArrayList<>();
+    public static ArrayList<Rectangle> collisionsStop = new ArrayList<>();
     public static HashMap<Rectangle, String> collisionsTeleportation = new HashMap<>();
     public static ArrayList<Rectangle> collisionsEntitiesBas = new ArrayList<>();
 

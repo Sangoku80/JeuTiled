@@ -9,8 +9,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.*;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Entity.Entity;
+import com.mygdx.game.GameScreen.Tools.staticFunctions;
 import com.mygdx.game.GameScreen.Worlds.Level1;
 import com.mygdx.game.GameScreen.Worlds.World;
+
+import java.io.IOException;
 
 
 public class Game extends ApplicationAdapter {
@@ -40,6 +43,7 @@ public class Game extends ApplicationAdapter {
 		// création du level1
 		currentLevel = new Level1();
 
+		System.out.println(staticFunctions.getCollisionsTile("assets/data/sprite sheet 2.tsx", 264));
 	}
 
 	@Override
@@ -76,9 +80,14 @@ public class Game extends ApplicationAdapter {
 			}
 		}
 
-
 		handleInput(System.currentTimeMillis());
-	}
+
+        try {
+            System.out.println(staticFunctions.parcourirPackages("extends Character", "C:\\Users\\Sacha\\LibGDXProjects\\JeuTiled\\core\\src\\com\\mygdx\\game"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 	@Override
 	public void dispose() {

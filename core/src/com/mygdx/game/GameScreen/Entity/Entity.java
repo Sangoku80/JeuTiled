@@ -1,6 +1,5 @@
 package com.mygdx.game.GameScreen.Entity;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -9,7 +8,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.Game;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Worlds.World;
 import com.mygdx.game.GameScreen.Entity.Infrastructures.Infrastructure;
@@ -26,7 +24,7 @@ public class Entity {
     public Rectangle rect;
 
     // self collisions
-    protected TextureMapObject entity;
+    public TextureMapObject entity;
     protected RectangleMapObject entityBas;
     protected RectangleMapObject entityHaut;
     protected Rectangle collisionBas;
@@ -126,7 +124,6 @@ public class Entity {
         }
 
         // dessiner
-
         if (image != null)
         {
             batch.draw(image, position.x, position.y);

@@ -1,8 +1,9 @@
-package com.mygdx.game.GameScreen.Entity.Characters;
+package com.mygdx.game.GameScreen.Entity;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Tools.Animation;
 import com.mygdx.game.GameScreen.Worlds.World;
 
@@ -46,6 +47,7 @@ public class Player extends Character implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
 
+        // flèches
         switch (keycode) {
             case Input.Keys.UP:
                 setUp(true);
@@ -75,6 +77,8 @@ public class Player extends Character implements InputProcessor {
     public boolean keyUp(int keycode) {
 
         switch (keycode) {
+
+            // flèches
             case Input.Keys.UP:
                 setUp(false);
                 break;
