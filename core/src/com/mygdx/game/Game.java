@@ -43,7 +43,7 @@ public class Game extends ApplicationAdapter {
 		// création du level1
 		currentLevel = new Level1();
 
-		System.out.println(staticFunctions.getCollisionsTile("assets/data/sprite sheet 2.tsx", 264));
+	/*	System.out.println(staticFunctions.getCollisionsTile("assets/data/sprite sheet 2.tsx", 264));*/
 	}
 
 	@Override
@@ -80,13 +80,9 @@ public class Game extends ApplicationAdapter {
 			}
 		}
 
-		handleInput(System.currentTimeMillis());
+		currentLevel.player.drawCollisions();
 
-        try {
-            System.out.println(staticFunctions.parcourirPackages("extends Character", "C:\\Users\\Sacha\\LibGDXProjects\\JeuTiled\\core\\src\\com\\mygdx\\game"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+		handleInput(System.currentTimeMillis());
     }
 
 	@Override

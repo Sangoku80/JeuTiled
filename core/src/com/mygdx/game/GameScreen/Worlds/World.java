@@ -5,10 +5,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.GameScreen.Entity.Characters.Animals.Cochon;
@@ -78,6 +81,7 @@ public abstract class World {
 
         // on vide les listes statiques
         Character.collisionsEntitiesBas.clear();
+        Character.collisionsStop.clear();
         Character.collisionsTeleportation.clear();
 
         // chargement
@@ -114,16 +118,47 @@ public abstract class World {
 
     public void loadCollisions()
     {
-        TextureRegion textureRegion;
-        Texture texture;
+        TiledMapTileLayer layer;
+        TiledMapTileLayer.Cell cell;
 
-        for (Entity entity : entities)
+        for (int layerNumber = 0; layerNumber < layers.size(); layerNumber++)
         {
-            textureRegion=entity.entity.getTextureRegion();
-            texture=entity.entity.getTextureRegion().getTexture();
-            System.out.println(texture.toString());
-/*            for (Rectangle rect : getCollisionsTile("assets/"+texture.toString(), ))*/
+            layer = layers.get(layerNumber);
+
+            for (int y = 0; y < layer.getHeight(); y++) {
+                for (int x = 0; x < layer.getWidth(); x++) {
+                    float tileWidth = layer.getTileWidth();
+                    float tileHeight = layer.getTileHeight();
+
+                    cell = layer.getCell(x, y);
+
+                    // Vérifier si la cellule n'est pas vide
+                    if (cell != null)
+                    {
+                        // Convertir les coordonnées du monde en coordonnées d'écran
+                        tmpVector.set(x * tileWidth, y * tileHeight, 0);
+
+                        // ajouter les collisions de la tuile
+                        for (MapObject object : cell.getTile().getObjects())
+                        {
+                            if (object instanceof RectangleMapObject)
+                            {
+                                if (Objects.equals(object.getName(), "stop"))
+                                {
+                                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                                    Character.collisionsStop.add(new Rectangle(tmpVector.x+rect.x, tmpVector.y+rect.y, rect.getWidth(), rect.getHeight()));
+                                }
+                                else if (Objects.equals(object.getName(), "teleportation"))
+                                {
+                                    Character.collisionsTeleportation.put(((RectangleMapObject) object).getRectangle(), (String) object.getProperties().get("destination"));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
+
     }
 
     public abstract void loadAnimatedTiles();

@@ -3,6 +3,7 @@ package com.mygdx.game.GameScreen.Tools;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.GameScreen.Entity.Entity;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -132,5 +133,37 @@ public class staticFunctions {
     public static boolean contientExtendsEntity(String strToCheck, Path filePath) throws IOException {
         String content = Files.readString(filePath);
         return content.contains(strToCheck);
+    }
+
+    public static int returnIdTextureRegion(Texture texture, TextureRegion textureRegion)
+    {
+        int answer=0;
+
+        int heightTexture = texture.getHeight();
+        int widthTexture = texture.getWidth();
+
+        int heightTextureRegion = textureRegion.getRegionHeight();
+        int widthTextureRegion = textureRegion.getRegionWidth();
+
+        int xTextureRegion = textureRegion.getRegionX();
+        int yTextureRegion = textureRegion.getRegionY();
+
+        int id = 0;
+
+        for (int y = 0; y < widthTexture/widthTextureRegion; y += widthTextureRegion)
+        {
+            id++;
+
+            for (int x = 0; x < heightTexture/heightTextureRegion; x += heightTextureRegion)
+            {
+                id++;
+
+                if (x == xTextureRegion && y==yTextureRegion)
+                {
+                    answer = id;
+                }
+            }
+        }
+        return answer;
     }
 }
