@@ -6,14 +6,19 @@
    <object id="1" name="stop" x="2.375" y="3.5" width="4.8125" height="3.6875"/>
   </objectgroup>
  </tile>
+ <tile id="105">
+  <objectgroup draworder="index" id="2">
+   <object id="1" name="stop" x="4.125" y="0.6875" width="2.375" height="7.5"/>
+  </objectgroup>
+ </tile>
  <tile id="231">
   <objectgroup draworder="index" id="2">
    <object id="1" name="stop" x="3.25" y="3" width="2.5" height="4.5"/>
   </objectgroup>
  </tile>
- <tile id="511">
-  <objectgroup draworder="index" id="3">
-   <object id="2" name="stop" x="2.75" y="1.5" width="1.75" height="4"/>
+ <tile id="253">
+  <objectgroup draworder="index" id="2">
+   <object id="1" name="stop" x="1.875" y="4.0625" width="6" height="4"/>
   </objectgroup>
  </tile>
 </tileset>

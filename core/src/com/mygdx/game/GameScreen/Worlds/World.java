@@ -10,7 +10,6 @@ import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -89,7 +88,7 @@ public abstract class World {
         loadTileset();
         loadLayers();
         loadAnimatedTiles();
-        loadCollisions();
+        loadCollisionsAnimationTile();
 
         // création du joueur
         this.entities.add(new Player(120, 120, this));
@@ -116,7 +115,8 @@ public abstract class World {
         }
     }
 
-    public void loadCollisions()
+    // tile
+    public void loadCollisionsTile()
     {
         TiledMapTileLayer layer;
         TiledMapTileLayer.Cell cell;

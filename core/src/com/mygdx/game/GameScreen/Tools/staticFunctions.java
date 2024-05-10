@@ -3,7 +3,7 @@ package com.mygdx.game.GameScreen.Tools;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.game.GameScreen.Entity.Entity;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -16,9 +16,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
-import com.badlogic.gdx.math.Rectangle;
-
 
 public class staticFunctions {
 
@@ -70,6 +69,45 @@ public class staticFunctions {
             e.printStackTrace();
         }
         return rectangles;
+    }
+
+    public static HashMap<Integer, Float> getAnimationTile(String pathFile, int id) {
+        HashMap<Integer, Float> animation = new HashMap<>();
+
+        try {
+            // Charger le fichier XML
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(pathFile);
+
+            // Récupérer la liste des tuiles
+            NodeList tileList = doc.getElementsByTagName("tile");
+
+            // Parcourir les tuiles
+            for (int i = 0; i < tileList.getLength(); i++) {
+                Element tile = (Element) tileList.item(i);
+                int Id = Integer.parseInt(tile.getAttribute("id"));
+
+                if (Id == id) {
+                    // Récupérer la liste des objets de la tuile
+                    NodeList objectList = tile.getElementsByTagName("frame");
+
+                    // Parcourir les objets de la tuile
+                    for (int j = 0; j < objectList.getLength(); j++) {
+                        Element object = (Element) objectList.item(j);
+                        int tileId = (int) Float.parseFloat(object.getAttribute("tileid"));
+                        float duration = Float.parseFloat(object.getAttribute("duration"));
+
+                        // ajouter la frame et la durée au dico
+                        animation.put(tileId, duration);
+                    }
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return animation;
     }
 
     public static int getRegionId(int regionX, int regionY, int regionWidth, int regionHeight, int textureWidth) {
@@ -130,40 +168,10 @@ public class staticFunctions {
         return classesWithEntity;
     }
 
+
+
     public static boolean contientExtendsEntity(String strToCheck, Path filePath) throws IOException {
         String content = Files.readString(filePath);
         return content.contains(strToCheck);
-    }
-
-    public static int returnIdTextureRegion(Texture texture, TextureRegion textureRegion)
-    {
-        int answer=0;
-
-        int heightTexture = texture.getHeight();
-        int widthTexture = texture.getWidth();
-
-        int heightTextureRegion = textureRegion.getRegionHeight();
-        int widthTextureRegion = textureRegion.getRegionWidth();
-
-        int xTextureRegion = textureRegion.getRegionX();
-        int yTextureRegion = textureRegion.getRegionY();
-
-        int id = 0;
-
-        for (int y = 0; y < widthTexture/widthTextureRegion; y += widthTextureRegion)
-        {
-            id++;
-
-            for (int x = 0; x < heightTexture/heightTextureRegion; x += heightTextureRegion)
-            {
-                id++;
-
-                if (x == xTextureRegion && y==yTextureRegion)
-                {
-                    answer = id;
-                }
-            }
-        }
-        return answer;
     }
 }
