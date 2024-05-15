@@ -88,7 +88,7 @@ public abstract class World {
         loadTileset();
         loadLayers();
         loadAnimatedTiles();
-        loadCollisionsAnimationTile();
+        loadCollisionsTile();
 
         // création du joueur
         this.entities.add(new Player(120, 120, this));

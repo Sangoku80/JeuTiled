@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.*;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
+import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Enemy;
 import com.mygdx.game.GameScreen.Entity.Entity;
 import com.mygdx.game.GameScreen.Tools.staticFunctions;
 import com.mygdx.game.GameScreen.Worlds.Level1;
@@ -42,8 +43,6 @@ public class Game extends ApplicationAdapter {
 
 		// création du level1
 		currentLevel = new Level1();
-
-	/*	System.out.println(staticFunctions.getCollisionsTile("assets/data/sprite sheet 2.tsx", 264));*/
 	}
 
 	@Override
@@ -77,10 +76,15 @@ public class Game extends ApplicationAdapter {
 			if (entity instanceof Character)
 			{
 				((Character) entity).drawHealthBar();
+
+				if (entity instanceof Enemy)
+				{
+					// ((Enemy) entity).drawCircleAttack();
+				}
 			}
 		}
 
-		currentLevel.player.drawCollisions();
+		// currentLevel.player.drawCollisions();
 
 		handleInput(System.currentTimeMillis());
     }

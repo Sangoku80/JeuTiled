@@ -39,9 +39,47 @@ public class Player extends Character implements InputProcessor {
         animations.put("droite_idle", (new Animation(new int[]{48, 48}, 15)));
     }
 
+    public void updateDirection()
+    {
+        // vérifier s'il n'y a aucun mouvement
+        if (!left && !right && !up && !down) {
+            moving = false;
+
+        } else {
+
+            moving = true;
+
+            // bouger en fonction de la direction
+            if (left && !right) {
+                direction = LEFT;
+
+            } else if (right && !left) {
+                direction = RIGHT;
+            }
+            if (up && !down) {
+                direction = UP;
+
+            } else if (down && !up) {
+                direction = DOWN;
+            }
+            if (right && up) {
+                direction = UP_RIGHT;
+
+            } else if (right && down) {
+                direction = DOWN_RIGHT;
+            }
+            if (left && up) {
+                direction = UP_LEFT;
+
+            } else if (left && down) {
+                direction = DOWN_LEFT;
+            }
+        }
+    }
+
     @Override
     public void update() {
-
+        updateDirection();
     }
 
     @Override

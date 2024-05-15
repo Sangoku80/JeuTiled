@@ -44,7 +44,7 @@ public abstract class Character extends Entity {
 
     // directions
     public static int DOWN=270, UP=90, LEFT=180, RIGHT=0, DOWN_LEFT=225, DOWN_RIGHT=315, UP_LEFT=135, UP_RIGHT=45;
-    protected int direction = DOWN;
+    public int direction = DOWN;
 
     // affichage
     protected int layerBas;
@@ -193,99 +193,45 @@ public abstract class Character extends Entity {
 
     public void updateOrientation()
     {
-        if (!heightDirections)
-        {
-            if (direction < DOWN && direction < UP)
-            {
-                orientation = droite;
-            }
-            else if (direction == UP)
-            {
-                orientation = haut;
-            }
-            else if (direction > UP && direction < DOWN)
-            {
-                orientation = gauche;
-            }
-            else if (direction == DOWN)
-            {
-                orientation = bas;
-            }
-        }
-        else
-        {
-            if (direction == RIGHT)
-            {
-                orientation = droite;
-            }
-            else if (direction == LEFT)
-            {
-                orientation = gauche;
-            }
-            else if (direction == UP)
-            {
-                orientation = haut;
-            }
-            else if (direction == DOWN)
-            {
-                orientation = bas;
-            }
-            else if (direction == DOWN_LEFT)
-            {
-                orientation = bas_gauche;
-            }
-            else if (direction == DOWN_RIGHT)
-            {
-                orientation = bas_droite;
-            }
-            else if (direction == UP_LEFT)
-            {
-                orientation = haut_gauche;
-            }
-            else if (direction == UP_RIGHT)
-            {
-                orientation = haut_droite;
+        // Nombre à comparer
+        float nombreAComparer = direction;
+
+        // Liste de nombres
+        float[] listeNombres = {DOWN, UP, LEFT, RIGHT, DOWN_LEFT, DOWN_RIGHT, UP_LEFT, UP_RIGHT};
+
+        // Initialisation du nombre le plus proche et de sa différence
+        float nombrePlusProche = listeNombres[0];
+        float differenceMin = Math.abs(nombreAComparer - listeNombres[0]);
+
+        // Parcours de la liste pour trouver le nombre le plus proche
+        for (float nombre : listeNombres) {
+            float difference = Math.abs(nombreAComparer - nombre);
+            if (difference < differenceMin) {
+                differenceMin = difference;
+                nombrePlusProche = nombre;
+                System.out.println(nombrePlusProche);
             }
         }
+
+        if (nombrePlusProche==UP)
+        {
+            orientation=haut;
+        }
+        else if (nombrePlusProche==DOWN)
+        {
+            orientation=bas;
+        }
+        if (nombrePlusProche==RIGHT)
+        {
+            orientation=droite;
+        }
+        else if (nombrePlusProche==LEFT)
+        {
+            orientation=gauche;
+        }
+
     }
 
-    public void updateDirection()
-    {
-        // vérifier s'il n'y a aucun mouvement
-        if (!left && !right && !up && !down) {
-            moving = false;
-
-        } else {
-
-            moving = true;
-
-            // bouger en fonction de la direction
-            if (left && !right) {
-                direction = LEFT;
-
-            } else if (right && !left) {
-                direction = RIGHT;
-            }
-            if (up && !down) {
-                direction = UP;
-
-            } else if (down && !up) {
-                direction = DOWN;
-            }
-            if (right && up) {
-                direction = UP_RIGHT;
-
-            } else if (right && down) {
-                direction = DOWN_RIGHT;
-            }
-            if (left && up) {
-                direction = UP_LEFT;
-
-            } else if (left && down) {
-                direction = DOWN_LEFT;
-            }
-        }
-    }
     public void updatePos() {
         float xSpeed, ySpeed;
 
@@ -306,6 +252,7 @@ public abstract class Character extends Entity {
             rect.x += xSpeed;
             rect.y += ySpeed;
         }
+
     }
 
     public void updateAnimation()
@@ -333,7 +280,6 @@ public abstract class Character extends Entity {
     public void updates() {
         // mise à jour
         update();
-        updateDirection();
         updatePos();
         updateOrientation();
         updateAnimation();

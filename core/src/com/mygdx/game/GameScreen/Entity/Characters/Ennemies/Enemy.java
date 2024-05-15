@@ -1,13 +1,19 @@
 package com.mygdx.game.GameScreen.Entity.Characters.Ennemies;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.Game;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Tools.Animation;
 import com.mygdx.game.GameScreen.Worlds.World;
-import static com.mygdx.game.Game.shapeRenderer;
+
+import java.util.ArrayList;
+
+import static com.mygdx.game.Game.*;
 
 public class Enemy extends Character {
 
@@ -19,14 +25,25 @@ public class Enemy extends Character {
     // cercle de détection du joueur
     protected Circle circleAttack;
 
-    // position du joueur
-    protected Vector2 playerPosition;
+    // compteur
+    long currentTime = 0;
+    float deltaTime = 0;
+    long lastTime = 0;
+
+    // ancienne position
+    protected Vector2 lastPosition;
+
+    // liste de positions du joueur
+    protected ArrayList<Vector2> playerPositions = new ArrayList<>();
 
     public Enemy(int x, int y, World currentWorld) {
-        super("enemy", new Vector2(x, y), 2f, 20, 2, currentWorld, false);
+        super("enemy", new Vector2(x, y), 2f, 20, 2, currentWorld, true);
 
         // cercle de détection du joueur
         this.circleAttack = new Circle();
+
+        // mettre l'ennemie en idle
+        status = Idle;
     }
 
     @Override
@@ -49,7 +66,11 @@ public class Enemy extends Character {
 
     public void drawCircleAttack()
     {
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.BLUE);
         shapeRenderer.circle(circleAttack.x, circleAttack.y, circleAttack.radius);
+        shapeRenderer.end();
     }
 
     public void checkCollisionWithCircleAttack()
@@ -58,14 +79,59 @@ public class Enemy extends Character {
         {
             status = Pursing;
         }
-        else
+    }
+
+    public void setupPursuing()
+    {
+        playerPositions.add(position);
+    }
+
+    public void pursuing()
+    {
+        // décalage horaire actuel et passé
+        deltaTime = (currentTime - lastTime) / 1000f;
+
+        // Position du point cible
+        Vector2 targetPosition = playerPositions.get(playerPositions.size()-1);
+
+        // Calcul du vecteur direction
+        Vector2 directionVector = new Vector2(targetPosition.x - position.x, targetPosition.y - position.y);
+
+        // Calcul de l'angle en radians entre les deux points
+        float angleRad = directionVector.angleRad();
+
+        // Convertit l'angle en degrés
+        float angleDeg = (float) Math.toDegrees(angleRad);
+
+        // mettre à jour la direction
+        direction = (int) angleDeg;
+        moving = true;
+
+
+        // si on est 0.3 seconde
+        if (deltaTime >= 0.5)
         {
-            status = Idle;
+            // on remet à jour le premier temps
+            lastTime = currentTime;
+
+            // vérifier si le joueur à bouger
+            lastPosition = position;
+
+            // on vérifie s'il est arrivé à sa destination
+            if(position.x >= targetPosition.x && position.y >= targetPosition.y)
+            {
+                // mise à jour de la liste des positions
+                playerPositions.remove(targetPosition);
+                playerPositions.add(position);
+            }
         }
     }
 
     @Override
-    public void update() {
+    public void update()
+    {
+        // mise à jour du temps actuel en millisecondes
+        currentTime = TimeUtils.millis();
 
         // mettre à jour la position du cercle
         circleAttack.setPosition((position.x+ (float) width /2), (position.y+ (float) height /2));
@@ -77,7 +143,8 @@ public class Enemy extends Character {
         // directions
         if (status==Pursing)
         {
-
+            setupPursuing();
+            pursuing();
         }
     }
 }
