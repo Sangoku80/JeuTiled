@@ -25,7 +25,7 @@ public abstract class Character extends Entity {
     public float health;
     public float initHealth;
     public float attack;
-    public Circle circleAttack = new Circle();
+    public Circle circleDetection = new Circle();
     protected Boolean heightDirections;
 
     // mouvements
@@ -46,10 +46,6 @@ public abstract class Character extends Entity {
     public static int DOWN=270, UP=90, LEFT=180, RIGHT=0, DOWN_LEFT=225, DOWN_RIGHT=315, UP_LEFT=135, UP_RIGHT=45;
     public int direction = DOWN;
 
-    // affichage
-    protected int layerBas;
-    protected int layerHaut;
-
     // other collisions
     public static ArrayList<Rectangle> collisionsStop = new ArrayList<>();
     public static HashMap<Rectangle, String> collisionsTeleportation = new HashMap<>();
@@ -65,6 +61,9 @@ public abstract class Character extends Entity {
         this.speed = speed;
         this.attack = attack;
         this.heightDirections = heightDirections;
+
+        // world
+        this.currentWorld = world;
 
         // animations
         this.spriteSheetPath = entity.getTextureRegion().getTexture().toString();
@@ -88,6 +87,9 @@ public abstract class Character extends Entity {
 
         // animations
         this.spriteSheetPath = entity.getTextureRegion().getTexture().toString();
+
+        // world
+        this.currentWorld = world;
 
         // chargement
         loadCollisions();
@@ -193,43 +195,60 @@ public abstract class Character extends Entity {
 
     public void updateOrientation()
     {
-        // Nombre à comparer
-        float nombreAComparer = direction;
-
-        // Liste de nombres
-        float[] listeNombres = {DOWN, UP, LEFT, RIGHT, DOWN_LEFT, DOWN_RIGHT, UP_LEFT, UP_RIGHT};
-
-        // Initialisation du nombre le plus proche et de sa différence
-        float nombrePlusProche = listeNombres[0];
-        float differenceMin = Math.abs(nombreAComparer - listeNombres[0]);
-
-        // Parcours de la liste pour trouver le nombre le plus proche
-        for (float nombre : listeNombres) {
-            float difference = Math.abs(nombreAComparer - nombre);
-            if (difference < differenceMin) {
-                differenceMin = difference;
-                nombrePlusProche = nombre;
-                System.out.println(nombrePlusProche);
+        if (!heightDirections)
+        {
+            if (direction < DOWN && direction < UP)
+            {
+                orientation = droite;
+            }
+            else if (direction == UP)
+            {
+                orientation = haut;
+            }
+            else if (direction > UP && direction < DOWN)
+            {
+                orientation = gauche;
+            }
+            else if (direction == DOWN)
+            {
+                orientation = bas;
             }
         }
-
-        if (nombrePlusProche==UP)
+        else
         {
-            orientation=haut;
+            if (direction == RIGHT)
+            {
+                orientation = droite;
+            }
+            else if (direction == LEFT)
+            {
+                orientation = gauche;
+            }
+            else if (direction == UP)
+            {
+                orientation = haut;
+            }
+            else if (direction == DOWN)
+            {
+                orientation = bas;
+            }
+            else if (direction == DOWN_LEFT)
+            {
+                orientation = bas_gauche;
+            }
+            else if (direction == DOWN_RIGHT)
+            {
+                orientation = bas_droite;
+            }
+            else if (direction == UP_LEFT)
+            {
+                orientation = haut_gauche;
+            }
+            else if (direction == UP_RIGHT)
+            {
+                orientation = haut_droite;
+            }
         }
-        else if (nombrePlusProche==DOWN)
-        {
-            orientation=bas;
-        }
-        if (nombrePlusProche==RIGHT)
-        {
-            orientation=droite;
-        }
-        else if (nombrePlusProche==LEFT)
-        {
-            orientation=gauche;
-        }
-
     }
 
     public void updatePos() {
@@ -273,8 +292,8 @@ public abstract class Character extends Entity {
     public void updateCircleAttack()
     {
         // cercle d'attaque
-        circleAttack.setPosition((position.x+ (float) width /2), (position.y+ (float) height /2));
-        circleAttack.setRadius(50);
+        circleDetection.setPosition((position.x+ (float) width /2), (position.y+ (float) height /2));
+        circleDetection.setRadius(50);
     }
 
     public void updates() {
@@ -315,7 +334,7 @@ public abstract class Character extends Entity {
         // dessin des collisions
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.circle(circleAttack.x, circleAttack.y, circleAttack.radius);
+        shapeRenderer.circle(circleDetection.x, circleDetection.y, circleDetection.radius);
         shapeRenderer.end();
     }
 
@@ -349,7 +368,7 @@ public abstract class Character extends Entity {
         {
             Entity entity = iterator.next();
 
-            if (Intersector.overlaps(circleAttack, entity.rect))
+            if (Intersector.overlaps(circleDetection, entity.rect))
             {
                 if (entity instanceof Character && ((Character) entity).health>0 && !Objects.equals(entity.name, "player"))
                 {

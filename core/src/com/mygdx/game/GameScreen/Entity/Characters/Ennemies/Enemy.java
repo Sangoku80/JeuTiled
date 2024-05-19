@@ -1,17 +1,20 @@
 package com.mygdx.game.GameScreen.Entity.Characters.Ennemies;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.mygdx.game.Game;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Tools.Animation;
+import com.mygdx.game.GameScreen.Tools.staticFunctions;
 import com.mygdx.game.GameScreen.Worlds.World;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import static com.mygdx.game.Game.*;
 
@@ -27,23 +30,56 @@ public class Enemy extends Character {
 
     // compteur
     long currentTime = 0;
-    float deltaTime = 0;
-    long lastTime = 0;
-
-    // ancienne position
-    protected Vector2 lastPosition;
 
     // liste de positions du joueur
     protected ArrayList<Vector2> playerPositions = new ArrayList<>();
 
+    // random
+    protected Random random = new Random();
+
+    // possibles destinations
+    protected HashMap<Circle, String> possibleDestinations = new HashMap<>();
+
     public Enemy(int x, int y, World currentWorld) {
-        super("enemy", new Vector2(x, y), 2f, 20, 2, currentWorld, true);
+        super("enemy", new Vector2(x, y), 0.5f, 20, 2, currentWorld, true);
 
         // cercle de détection du joueur
         this.circleAttack = new Circle();
 
         // mettre l'ennemie en idle
         status = Idle;
+
+        // chargement
+        loadPossibleDestinations();
+
+        updateDirection();
+    }
+
+    // loads
+    public void loadPossibleDestinations()
+    {
+        for (TiledMapTileLayer layer : currentWorld.layers)
+        {
+            for (int y = 0; y < layer.getHeight(); y++) {
+                for (int x = 0; x < layer.getWidth(); x++) {
+
+                    float tileWidth = layer.getTileWidth();
+                    float tileHeight = layer.getTileHeight();
+
+                    // Vérifier si la cellule n'est pas vide
+                    if (layer.getCell(x, y) != null)
+                    {
+                        // pour que l'on ait le milieu de la tuile
+                        TextureRegion textureRegion = layer.getCell(x, y).getTile().getTextureRegion();
+
+                        float X = x*tileHeight+ (float) textureRegion.getRegionHeight() /2;
+                        float Y = y*tileWidth + (float) textureRegion.getRegionWidth() /2;
+
+                        possibleDestinations.put(new Circle(X, Y, 1), "");
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -64,6 +100,7 @@ public class Enemy extends Character {
         animations.put(droite+ idle, (new Animation(new int[]{138, 138}, 15)));
     }
 
+    // draws
     public void drawCircleAttack()
     {
         shapeRenderer.setProjectionMatrix(camera.combined);
@@ -73,9 +110,31 @@ public class Enemy extends Character {
         shapeRenderer.end();
     }
 
+    public void drawPossibleDestinations()
+    {
+        for (Map.Entry<Circle, String> position : possibleDestinations.entrySet())
+        {
+            // dessin des destinations possibles
+            shapeRenderer.setProjectionMatrix(camera.combined);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
+            if (Objects.equals(position.getValue(), "disponible"))
+            {
+                shapeRenderer.setColor(Color.BLUE);
+            }
+            else
+            {
+                shapeRenderer.setColor(Color.YELLOW);
+            }
+
+            shapeRenderer.circle(position.getKey().x, position.getKey().y, 1);
+            shapeRenderer.end();
+        }
+    }
+
     public void checkCollisionWithCircleAttack()
     {
-        if (Intersector.overlaps(circleAttack, Game.currentLevel.player.rect))
+        if (Intersector.overlaps(circleAttack, currentLevel.player.rect))
         {
             status = Pursing;
         }
@@ -88,41 +147,44 @@ public class Enemy extends Character {
 
     public void pursuing()
     {
-        // décalage horaire actuel et passé
-        deltaTime = (currentTime - lastTime) / 1000f;
 
-        // Position du point cible
-        Vector2 targetPosition = playerPositions.get(playerPositions.size()-1);
+    }
 
-        // Calcul du vecteur direction
-        Vector2 directionVector = new Vector2(targetPosition.x - position.x, targetPosition.y - position.y);
-
-        // Calcul de l'angle en radians entre les deux points
-        float angleRad = directionVector.angleRad();
-
-        // Convertit l'angle en degrés
-        float angleDeg = (float) Math.toDegrees(angleRad);
-
-        // mettre à jour la direction
-        direction = (int) angleDeg;
-        moving = true;
-
-
-        // si on est 0.3 seconde
-        if (deltaTime >= 0.5)
+    // updates
+    public void updatePossibleDestinations()
+    {
+        for (Map.Entry<Circle, String> element : possibleDestinations.entrySet())
         {
-            // on remet à jour le premier temps
-            lastTime = currentTime;
-
-            // vérifier si le joueur à bouger
-            lastPosition = position;
-
-            // on vérifie s'il est arrivé à sa destination
-            if(position.x >= targetPosition.x && position.y >= targetPosition.y)
+            for (Rectangle rect : collisionsEntitiesBas)
             {
-                // mise à jour de la liste des positions
-                playerPositions.remove(targetPosition);
-                playerPositions.add(position);
+                if (Intersector.overlaps(element.getKey(), rect) || Intersector.overlaps(element.getKey(), currentLevel.player.circleDetection))
+                {
+                    possibleDestinations.put(element.getKey(), "no disponible");
+                }
+                else
+                {
+                    possibleDestinations.put(element.getKey(), "disponible");
+                }
+            }
+
+        }
+
+    }
+
+    public void updateDirection()
+    {
+        int value = random.nextInt(possibleDestinations.size());
+        int i = 0;
+        System.out.println(value);
+
+        for (Map.Entry<Circle, String> element : possibleDestinations.entrySet())
+        {
+            i++;
+
+            if (i==value)
+            {
+                moving = true;
+                direction = staticFunctions.getDirection(position, new Vector2(element.getKey().x, element.getKey().y));
             }
         }
     }
@@ -133,18 +195,17 @@ public class Enemy extends Character {
         // mise à jour du temps actuel en millisecondes
         currentTime = TimeUtils.millis();
 
-        // mettre à jour la position du cercle
-        circleAttack.setPosition((position.x+ (float) width /2), (position.y+ (float) height /2));
-        circleAttack.setRadius(50);
-
         // vérifier collision entre joueur et cercle
         checkCollisionWithCircleAttack();
 
-        // directions
-        if (status==Pursing)
-        {
-            setupPursuing();
-            pursuing();
-        }
+        // mise à jour des destinations possibles
+        updatePossibleDestinations();
+
+        // updateDirection
+        updateDirection();
+
+        // mettre à jour la position du cercle
+        circleAttack.setPosition((position.x+ (float) width /2), (position.y+ (float) height /2));
+        circleAttack.setRadius(50);
     }
 }

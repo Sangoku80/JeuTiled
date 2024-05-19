@@ -39,9 +39,9 @@ public abstract class World {
     protected int ratioTilesetX, ratioTilesetY;
     protected TmxMapLoader mapLoader = new TmxMapLoader();
     public TiledMap tiledMap;
-    protected ArrayList<TiledMapTileLayer> layers = new ArrayList<>();
+    public ArrayList<TiledMapTileLayer> layers = new ArrayList<>();
     protected ArrayList<String> nameLayers = new ArrayList<>();
-    protected Vector3 tmpVector = new Vector3();
+    public static Vector3 tmpVector = new Vector3();
 
     // animation des tuiles
     protected HashMap<Integer, Animation> animatedTiles = new HashMap<>();
@@ -84,11 +84,11 @@ public abstract class World {
         Character.collisionsTeleportation.clear();
 
         // chargement
+        loadLayers();
+        loadCollisionsTile();
         loadEntities();
         loadTileset();
-        loadLayers();
         loadAnimatedTiles();
-        loadCollisionsTile();
 
         // création du joueur
         this.entities.add(new Player(120, 120, this));
@@ -131,6 +131,7 @@ public abstract class World {
                     float tileHeight = layer.getTileHeight();
 
                     cell = layer.getCell(x, y);
+
 
                     // Vérifier si la cellule n'est pas vide
                     if (cell != null)

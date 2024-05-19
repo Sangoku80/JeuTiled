@@ -2,10 +2,13 @@ package com.mygdx.game.GameScreen.Entity;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Tools.Animation;
 import com.mygdx.game.GameScreen.Worlds.World;
+
+import java.util.HashMap;
 
 public class Player extends Character implements InputProcessor {
 
@@ -39,6 +42,7 @@ public class Player extends Character implements InputProcessor {
         animations.put("droite_idle", (new Animation(new int[]{48, 48}, 15)));
     }
 
+    // updates
     public void updateDirection()
     {
         // vérifier s'il n'y a aucun mouvement

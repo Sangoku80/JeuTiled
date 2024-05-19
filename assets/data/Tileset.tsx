@@ -21,4 +21,9 @@
    <object id="1" name="stop" x="1.875" y="4.0625" width="6" height="4"/>
   </objectgroup>
  </tile>
+ <tile id="401">
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="2.02169" y="1.51229" width="5.90588" height="4.87116"/>
+  </objectgroup>
+ </tile>
 </tileset>

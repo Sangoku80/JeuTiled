@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameScreen.Entity.Entity;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -14,10 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class staticFunctions {
 
@@ -168,10 +166,43 @@ public class staticFunctions {
         return classesWithEntity;
     }
 
-
-
     public static boolean contientExtendsEntity(String strToCheck, Path filePath) throws IOException {
         String content = Files.readString(filePath);
         return content.contains(strToCheck);
+    }
+
+    public static int getDirection(Vector2 targetPosition, Vector2 startPosition)
+    {
+        // Calcul du vecteur direction
+        Vector2 directionVector = new Vector2(targetPosition.x - startPosition.x, targetPosition.y - startPosition.y);
+
+        // Calcul de l'angle en radians entre les deux points
+        float angleRad = directionVector.angleRad();
+
+        // Convertit l'angle en degrés
+        float angleDeg = (float) Math.toDegrees(angleRad);
+
+        // mettre à jour la direction
+
+        return (int) angleDeg;
+    }
+
+    public static <K, V> Map.Entry<K, V> getRandomEntry(Map<K, V> map) {
+        if (map.isEmpty()) {
+            return null; // Retourne null si la map est vide
+        }
+
+        // Convertir la Map en une liste d'entrées
+        int size = map.size();
+        int item = new Random().nextInt(size); // Sélectionner un index au hasard
+        int i = 0;
+
+        for (Map.Entry<K, V> entry : map.entrySet()) {
+            if (i == item) {
+                return entry;
+            }
+            i++;
+        }
+        return null;
     }
 }
