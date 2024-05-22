@@ -15,6 +15,8 @@ import com.mygdx.game.GameScreen.Entity.Infrastructures.Infrastructure;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static com.mygdx.game.GameScreen.Entity.Characters.Character.collisionsEntitiesBas;
+
 public class Entity {
 
     // caractéristiques
@@ -25,9 +27,9 @@ public class Entity {
 
     // self collisions
     public TextureMapObject entity;
-    protected RectangleMapObject entityBas;
+    public RectangleMapObject entityBas;
     protected RectangleMapObject entityHaut;
-    protected Rectangle collisionBas;
+    public Rectangle collisionBas;
 
     // carte actuelle
     protected TiledMap tiledMap;
@@ -99,14 +101,18 @@ public class Entity {
         for (Entity entity : currentWorld.entities) {
             if (!Objects.equals(entity.name, name)) {
 
-                Character.collisionsEntitiesBas.add(entity.collisionBas);
+                collisionsEntitiesBas.add(entity.collisionBas);
 
                 if (entity instanceof Infrastructure) {
                     Character.collisionsTeleportation.put(((Infrastructure) entity).collisionTeleportation, (String) collisionsEntities.getLayers().get("teleportation").getObjects().get(entity.entity.getName()).getProperties().get("destination"));
                 }
             }
         }
+    }
 
+    public void deleteCollisionBas()
+    {
+        collisionsEntitiesBas.removeIf(rect -> rect.x == collisionBas.x);
     }
 
     public void Draw(SpriteBatch batch) {

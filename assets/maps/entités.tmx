@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="8" tileheight="8" infinite="1" nextlayerid="10" nextobjectid="59">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="8" tileheight="8" infinite="1" nextlayerid="10" nextobjectid="65">
  <tileset firstgid="1" source="../data/sprite sheet.tsx"/>
  <tileset firstgid="65" source="../data/Tileset2.tsx"/>
  <tileset firstgid="79" source="../data/VikingTiles.tsx"/>
@@ -24,6 +24,9 @@
   <object id="55" name="arbre" gid="1045" x="-52.5" y="-15" width="28" height="40"/>
  </objectgroup>
  <objectgroup id="7" name="teleportation">
+  <properties>
+   <property name="destination" value="Maison1"/>
+  </properties>
   <object id="39" name="maison" x="49.0455" y="-25.659" width="13.6364" height="12.3636">
    <properties>
     <property name="destination" value="Maison1"/>

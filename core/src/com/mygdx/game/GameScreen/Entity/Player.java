@@ -12,6 +12,9 @@ import java.util.HashMap;
 
 public class Player extends Character implements InputProcessor {
 
+    // mouvements
+    protected boolean left, up, right, down;
+
     public Player(float x, float y, World currentWorld) {
         super("player", new Vector2(x, y), 2f, 20, 5, currentWorld, true);
     }
@@ -174,5 +177,22 @@ public class Player extends Character implements InputProcessor {
     @Override
     public boolean scrolled(float amountX, float amountY) {
         return false;
+    }
+
+    // updates
+    public void setLeft(boolean left) {
+        this.left = left;
+    }
+
+    public void setUp(boolean up) {
+        this.up = up;
+    }
+
+    public void setRight(boolean right) {
+        this.right = right;
+    }
+
+    public void setDown(boolean down) {
+        this.down = down;
     }
 }

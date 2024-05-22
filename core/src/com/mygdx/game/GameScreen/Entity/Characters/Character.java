@@ -30,7 +30,6 @@ public abstract class Character extends Entity {
 
     // mouvements
     protected float speed;
-    protected boolean left, up, right, down;
 
     // animations
     protected String spriteSheetPath;
@@ -171,23 +170,6 @@ public abstract class Character extends Entity {
     // pour le changement de monde
     public void changeWorld(World newWorld) {
         currentLevel = newWorld;
-    }
-
-    // updates
-    public void setLeft(boolean left) {
-        this.left = left;
-    }
-
-    public void setUp(boolean up) {
-        this.up = up;
-    }
-
-    public void setRight(boolean right) {
-        this.right = right;
-    }
-
-    public void setDown(boolean down) {
-        this.down = down;
     }
 
     // updates
@@ -377,6 +359,7 @@ public abstract class Character extends Entity {
                     // enlever le perso s'il a plus de vie
                     if (((Character) entity).health <= 0)
                     {
+                        entity.deleteCollisionBas();
                         iterator.remove();
                     }
                 }

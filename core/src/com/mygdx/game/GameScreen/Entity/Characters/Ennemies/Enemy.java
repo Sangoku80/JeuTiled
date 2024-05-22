@@ -51,8 +51,6 @@ public class Enemy extends Character {
 
         // chargement
         loadPossibleDestinations();
-
-        updateDirection();
     }
 
     // loads
@@ -202,7 +200,7 @@ public class Enemy extends Character {
         updatePossibleDestinations();
 
         // updateDirection
-        updateDirection();
+        //updateDirection();
 
         // mettre à jour la position du cercle
         circleAttack.setPosition((position.x+ (float) width /2), (position.y+ (float) height /2));

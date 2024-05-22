@@ -79,13 +79,13 @@ public class Game extends ApplicationAdapter {
 
 				if (entity instanceof Enemy)
 				{
-					((Enemy) entity).drawCircleAttack();
-					((Enemy) entity).drawPossibleDestinations();
+					//((Enemy) entity).drawCircleAttack();
+					//((Enemy) entity).drawPossibleDestinations();
 				}
 			}
 		}
 
-		// currentLevel.player.drawCollisions();
+		currentLevel.player.drawCollisions();
 
 		handleInput(System.currentTimeMillis());
     }
