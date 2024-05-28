@@ -131,7 +131,7 @@ public abstract class Character extends Entity {
     // collisions
     public boolean checkCollisionsWithFoot(Vector2 position) {
         boolean answer = false;
-        ArrayList[] allCollisions = {collisionsStop, collisionsEntitiesBas};
+        ArrayList[] allCollisions = {collisionsStop};
 
         for (ArrayList collisions : allCollisions) {
             for (Object collision : collisions) {

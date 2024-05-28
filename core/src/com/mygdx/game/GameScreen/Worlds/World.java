@@ -30,9 +30,6 @@ public abstract class World {
     // caractéristiques
     protected String name;
 
-    // static
-    protected static ArrayList<World> worlds = new ArrayList<>();
-
     // affichage des layers et des tuiles
     protected String tilesetPath;
     protected ArrayList<TextureRegion> tileset = new ArrayList<>();
@@ -45,9 +42,6 @@ public abstract class World {
 
     // animation des tuiles
     protected HashMap<Integer, Animation> animatedTiles = new HashMap<>();
-
-    // affichage du joueur
-    public int entitiesLayer;
 
     // afficher l'ensemble des entités présentes dans le niveau
     public ArrayList<Entity> entities = new ArrayList<>();
@@ -65,9 +59,6 @@ public abstract class World {
         this.tilesetPath = tilesetPath;
         this.ratioTilesetX = ratioTilesetX;
         this.ratioTilesetY = ratioTilesetY;
-
-        // on ajoute ce monde à la liste des mondes
-        worlds.add(this);
 
         // on récupère le nom de chaque layer de la carte
         for (MapLayer layer : tiledMap.getLayers())

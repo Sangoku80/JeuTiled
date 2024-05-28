@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import static com.mygdx.game.GameScreen.Entity.Characters.Character.collisionsEntitiesBas;
+import static com.mygdx.game.GameScreen.Entity.Characters.Character.collisionsStop;
 
 public class Entity {
 
@@ -101,7 +102,10 @@ public class Entity {
         for (Entity entity : currentWorld.entities) {
             if (!Objects.equals(entity.name, name)) {
 
-                collisionsEntitiesBas.add(entity.collisionBas);
+                if (!collisionsStop.contains(entity.collisionBas))
+                {
+                    collisionsStop.add(entity.collisionBas);
+                }
 
                 if (entity instanceof Infrastructure) {
                     Character.collisionsTeleportation.put(((Infrastructure) entity).collisionTeleportation, (String) collisionsEntities.getLayers().get("teleportation").getObjects().get(entity.entity.getName()).getProperties().get("destination"));

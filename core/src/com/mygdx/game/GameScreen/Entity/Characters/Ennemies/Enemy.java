@@ -153,9 +153,9 @@ public class Enemy extends Character {
     {
         for (Map.Entry<Circle, String> element : possibleDestinations.entrySet())
         {
-            for (Rectangle rect : collisionsEntitiesBas)
+            for (Rectangle rect : collisionsStop)
             {
-                if (Intersector.overlaps(element.getKey(), rect) || Intersector.overlaps(element.getKey(), currentLevel.player.circleDetection))
+                if (Intersector.overlaps(element.getKey(), rect))
                 {
                     possibleDestinations.put(element.getKey(), "no disponible");
                 }
@@ -173,7 +173,6 @@ public class Enemy extends Character {
     {
         int value = random.nextInt(possibleDestinations.size());
         int i = 0;
-        System.out.println(value);
 
         for (Map.Entry<Circle, String> element : possibleDestinations.entrySet())
         {
