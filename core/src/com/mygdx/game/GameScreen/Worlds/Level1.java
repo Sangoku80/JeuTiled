@@ -8,6 +8,5 @@ public class Level1 extends World {
 
     @Override
     public void loadAnimatedTiles() {
-
     }
 }

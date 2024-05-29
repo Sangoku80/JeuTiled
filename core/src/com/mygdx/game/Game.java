@@ -80,7 +80,7 @@ public class Game extends ApplicationAdapter {
 				if (entity instanceof Enemy)
 				{
 					//((Enemy) entity).drawCircleAttack();
-					((Enemy) entity).drawPossibleDestinations();
+					//((Enemy) entity).drawPossibleDestinations();
 				}
 			}
 		}

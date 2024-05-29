@@ -251,13 +251,12 @@ public abstract class World {
                     tmpVector.set(x * tileWidth, y * tileHeight, 0);
 
                     // animer les tuiles animées
-                    for (Map.Entry<Integer, Animation> key : animatedTiles.entrySet())
+                    if (animatedTiles.containsKey(layer.getCell(x, y).getTile().getId()-1))
                     {
-                        if (layer.getCell(x, y).getTile().getTextureRegion() == key.getValue().animate())
-                        {
-                            layer.getCell(x, y).getTile().setTextureRegion(animatedTiles.get(key.getKey()).animate());
-                        }
+                        layer.getCell(x, y).getTile().setTextureRegion(animatedTiles.get(layer.getCell(x, y).getTile().getId()-1).animate());
                     }
+
+                    System.out.println(layer.getCell(x, y).getTile().getId());
 
                     batch.draw(layer.getCell(x, y).getTile().getTextureRegion(), tmpVector.x, tmpVector.y);
                 }

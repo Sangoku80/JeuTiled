@@ -100,16 +100,13 @@ public class Entity {
         }
 
         for (Entity entity : currentWorld.entities) {
-            if (!Objects.equals(entity.name, name)) {
+            if (!collisionsStop.contains(entity.collisionBas))
+            {
+                collisionsStop.add(entity.collisionBas);
+            }
 
-                if (!collisionsStop.contains(entity.collisionBas))
-                {
-                    collisionsStop.add(entity.collisionBas);
-                }
-
-                if (entity instanceof Infrastructure) {
-                    Character.collisionsTeleportation.put(((Infrastructure) entity).collisionTeleportation, (String) collisionsEntities.getLayers().get("teleportation").getObjects().get(entity.entity.getName()).getProperties().get("destination"));
-                }
+            if (entity instanceof Infrastructure) {
+                Character.collisionsTeleportation.put(((Infrastructure) entity).collisionTeleportation, (String) collisionsEntities.getLayers().get("teleportation").getObjects().get(entity.entity.getName()).getProperties().get("destination"));
             }
         }
     }
