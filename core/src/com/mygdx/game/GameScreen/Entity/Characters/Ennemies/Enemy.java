@@ -96,7 +96,7 @@ public class Enemy extends Character {
 
         // en mouvement
         animations.put(bas+ move, (new Animation(new int[]{140, 141},15)));
-        animations.put(gauche+ move, (new Animation(new int[]{144, 145}, 15)));
+        animations.put(gauche+ move, (new Animation(new int[]{140, 141}, 15)));
         animations.put(haut+ move, (new Animation(new int[]{142, 143}, 15)));
         animations.put(droite+ move, (new Animation(new int[]{144, 145}, 15)));
 

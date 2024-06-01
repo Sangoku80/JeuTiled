@@ -158,10 +158,13 @@ public abstract class Character extends Entity {
             }
         }
 
-        switch (destination) {
-            case "Maison1":
-                changeWorld(new InternMaison());
-                break;
+        if (Objects.equals(this.name, "player"))
+        {
+            switch (destination) {
+                case "Maison1":
+                    changeWorld(new InternMaison());
+                    break;
+            }
         }
 
         return answer;
@@ -230,6 +233,11 @@ public abstract class Character extends Entity {
             {
                 orientation = haut_droite;
             }
+        }
+
+        if (Objects.equals(this.name, "enemy"))
+        {
+            System.out.println(direction);
         }
     }
 

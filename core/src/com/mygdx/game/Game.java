@@ -73,7 +73,7 @@ public class Game extends ApplicationAdapter {
 		{
 			if (entity instanceof Character)
 			{
-				((Character) entity).drawHealthBar();
+				// ((Character) entity).drawHealthBar();
 
 				if (entity instanceof Enemy)
 				{
