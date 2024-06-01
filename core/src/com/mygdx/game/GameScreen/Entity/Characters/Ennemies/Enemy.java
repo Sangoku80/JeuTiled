@@ -11,7 +11,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Tools.Animation;
-import com.mygdx.game.GameScreen.Tools.staticFunctions;
 import com.mygdx.game.GameScreen.Worlds.World;
 
 import java.util.*;
@@ -22,8 +21,8 @@ public class Enemy extends Character {
 
     // status
     protected static int status;
-    protected static int Pursing=0;
-    protected static int Idle=1;
+    protected static int PURSUING =0;
+    protected static int IDLE =1;
 
     // cercle de détection du joueur
     protected Circle circleAttack;
@@ -41,13 +40,13 @@ public class Enemy extends Character {
     protected HashMap<Circle, String> possibleDestinations = new HashMap<>();
 
     public Enemy(int x, int y, World currentWorld) {
-        super("enemy", new Vector2(x, y), 0.5f, 20, 2, currentWorld, true);
+        super("enemy", new Vector2(x, y), 1f, 20, 2, currentWorld, true);
 
         // cercle de détection du joueur
         this.circleAttack = new Circle();
 
         // mettre l'ennemie en idle
-        status = Idle;
+        status = IDLE;
 
         // chargement
         loadPossibleDestinations();
@@ -134,13 +133,13 @@ public class Enemy extends Character {
     {
         if (Intersector.overlaps(circleAttack, currentLevel.player.rect))
         {
-            status = Pursing;
+            status = PURSUING;
         }
     }
 
-    public void setupPursuing()
+    public void lineOfSight()
     {
-        playerPositions.add(position);
+
     }
 
     public void pursuing()
@@ -169,20 +168,32 @@ public class Enemy extends Character {
 
     }
 
+    public int getDirection(Vector2 targetPosition, Vector2 startPosition)
+    {
+        // Calcul du vecteur direction
+        Vector2 directionVector = new Vector2(targetPosition.x - startPosition.x,  targetPosition.y - startPosition.y);
+
+        // Calcul de l'angle en radians entre les deux points
+        float angleRad = directionVector.angleRad();
+
+        // Convertit l'angle en degrés
+        float angleDeg = (float) Math.toDegrees(angleRad);
+
+        // mettre à jour la direction
+        return (int) angleDeg;
+    }
+
+    public int fromToVector(Vector2 fromPosition, Vector2 toPosition)
+    {
+        return getDirection(new Vector2(toPosition.x - fromPosition.x, toPosition.y - fromPosition.y), position);
+    }
+
     public void updateDirection()
     {
-        int value = random.nextInt(possibleDestinations.size());
-        int i = 0;
-
-        for (Map.Entry<Circle, String> element : possibleDestinations.entrySet())
+        if (status==PURSUING)
         {
-            i++;
-
-            if (i==value)
-            {
-                moving = true;
-                direction = staticFunctions.getDirection(position, new Vector2(element.getKey().x, element.getKey().y));
-            }
+            direction = fromToVector(position, currentLevel.player.position);
+            moving = true;
         }
     }
 
@@ -199,7 +210,7 @@ public class Enemy extends Character {
         updatePossibleDestinations();
 
         // updateDirection
-        // updateDirection();
+        updateDirection();
 
         // mettre à jour la position du cercle
         circleAttack.setPosition((position.x+ (float) width /2), (position.y+ (float) height /2));

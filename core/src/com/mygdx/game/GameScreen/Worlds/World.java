@@ -256,8 +256,6 @@ public abstract class World {
                         layer.getCell(x, y).getTile().setTextureRegion(animatedTiles.get(layer.getCell(x, y).getTile().getId()-1).animate());
                     }
 
-                    System.out.println(layer.getCell(x, y).getTile().getId());
-
                     batch.draw(layer.getCell(x, y).getTile().getTextureRegion(), tmpVector.x, tmpVector.y);
                 }
             }

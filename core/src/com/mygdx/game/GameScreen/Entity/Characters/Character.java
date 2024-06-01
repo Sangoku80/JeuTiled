@@ -38,7 +38,7 @@ public abstract class Character extends Entity {
     public Animation currentAnimation;
     protected String bas="bas", haut="haut", gauche="gauche", droite="droite", bas_gauche="bas_gauche", bas_droite="bas_droite", haut_gauche="haut_gauche", haut_droite="haut_droite";
     protected String orientation = bas;
-    protected Boolean moving = false;
+    public Boolean moving = false;
     protected String move ="_move", idle ="_idle";
 
     // directions
@@ -131,7 +131,7 @@ public abstract class Character extends Entity {
     // collisions
     public boolean checkCollisionsWithFoot(Vector2 position) {
         boolean answer = false;
-        ArrayList[] allCollisions = {collisionsStop};
+        ArrayList[] allCollisions = {collisionsStop, collisionsEntitiesBas};
 
         for (ArrayList collisions : allCollisions) {
             for (Object collision : collisions) {

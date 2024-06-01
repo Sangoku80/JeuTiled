@@ -100,9 +100,9 @@ public class Entity {
         }
 
         for (Entity entity : currentWorld.entities) {
-            if (!collisionsStop.contains(entity.collisionBas))
+            if (!collisionsEntitiesBas.contains(entity.collisionBas))
             {
-                collisionsStop.add(entity.collisionBas);
+                collisionsEntitiesBas.add(entity.collisionBas);
             }
 
             if (entity instanceof Infrastructure) {

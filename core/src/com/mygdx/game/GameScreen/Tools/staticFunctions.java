@@ -171,22 +171,6 @@ public class staticFunctions {
         return content.contains(strToCheck);
     }
 
-    public static int getDirection(Vector2 targetPosition, Vector2 startPosition)
-    {
-        // Calcul du vecteur direction
-        Vector2 directionVector = new Vector2(targetPosition.x - startPosition.x, targetPosition.y - startPosition.y);
-
-        // Calcul de l'angle en radians entre les deux points
-        float angleRad = directionVector.angleRad();
-
-        // Convertit l'angle en degrés
-        float angleDeg = (float) Math.toDegrees(angleRad);
-
-        // mettre à jour la direction
-
-        return (int) angleDeg;
-    }
-
     public static <K, V> Map.Entry<K, V> getRandomEntry(Map<K, V> map) {
         if (map.isEmpty()) {
             return null; // Retourne null si la map est vide

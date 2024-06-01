@@ -10,11 +10,8 @@ import com.badlogic.gdx.maps.tiled.*;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Enemy;
 import com.mygdx.game.GameScreen.Entity.Entity;
-import com.mygdx.game.GameScreen.Tools.staticFunctions;
 import com.mygdx.game.GameScreen.Worlds.Level1;
 import com.mygdx.game.GameScreen.Worlds.World;
-
-import java.io.IOException;
 
 
 public class Game extends ApplicationAdapter {
@@ -79,13 +76,13 @@ public class Game extends ApplicationAdapter {
 
 				if (entity instanceof Enemy)
 				{
-					//((Enemy) entity).drawCircleAttack();
-					//((Enemy) entity).drawPossibleDestinations();
+					((Enemy) entity).drawCircleAttack();
+					// ((Enemy) entity).drawPossibleDestinations();
 				}
 			}
 		}
 
-		// currentLevel.player.drawCollisions();
+		currentLevel.player.drawCollisions();
 
 		handleInput(System.currentTimeMillis());
     }
@@ -94,6 +91,7 @@ public class Game extends ApplicationAdapter {
 	public void dispose() {
 		batch.dispose();
 		tiledMap.dispose();
+		shapeRenderer.dispose();
 	}
 
 
