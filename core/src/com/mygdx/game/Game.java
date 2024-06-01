@@ -77,9 +77,7 @@ public class Game extends ApplicationAdapter {
 
 				if (entity instanceof Enemy)
 				{
-					((Enemy) entity).drawCircleAttack();
-					// ((Enemy) entity).drawPossibleDestinations();
-
+					// ((Enemy) entity).drawCircleAttack();
 					// test comportement AI de l'ennemi
 					Vector2D steering = ((Enemy) entity).seek(currentLevel.player.position);
 					((Enemy) entity).applyForce(steering);
@@ -88,7 +86,7 @@ public class Game extends ApplicationAdapter {
 			}
 		}
 
-		currentLevel.player.drawCollisions();
+		// currentLevel.player.drawCollisions();
 
 		handleInput(System.currentTimeMillis());
     }

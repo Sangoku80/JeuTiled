@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Tools.AI.Vector2D;
 import com.mygdx.game.GameScreen.Tools.Animation;
@@ -142,7 +140,7 @@ public class Enemy extends Character {
     }
 
     // updates
-    public int getDirection(Vector2 targetPosition, Vector2 startPosition)
+    public int getDirection(Vector2D targetPosition, Vector2D startPosition)
     {
         // Calcul du vecteur direction
         Vector2 directionVector = new Vector2(targetPosition.x - startPosition.x,  targetPosition.y - startPosition.y);
@@ -177,7 +175,10 @@ public class Enemy extends Character {
         if (this.velocity.length() > maxSpeed) {
             this.velocity = this.velocity.normalize().multiply(maxSpeed);
         }
-        this.position = this.position.add(this.velocity);
+
+        // this.position = this.position.add(this.velocity);
+        direction = getDirection(this.position.add(this.velocity), position);
+        moving = true;
         this.acceleration = new Vector2D(0, 0);
     }
 }
