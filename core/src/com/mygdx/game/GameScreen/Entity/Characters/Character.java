@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.Game;
 import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Enemy;
 import com.mygdx.game.GameScreen.Entity.Entity;
 import com.mygdx.game.GameScreen.Worlds.InternMaison;
@@ -283,7 +284,7 @@ public abstract class Character extends Entity {
     {
         // cercle d'attaque
         circleDetection.setPosition((position.x+ (float) width /2), (position.y+ (float) height /2));
-        circleDetection.setRadius(50);
+        circleDetection.setRadius(20);
     }
 
     public void updates() {

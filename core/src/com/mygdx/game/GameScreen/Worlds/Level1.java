@@ -1,5 +1,7 @@
 package com.mygdx.game.GameScreen.Worlds;
 
+import com.mygdx.game.GameScreen.Tools.Animation;
+
 public class Level1 extends World {
 
     public Level1() {
@@ -8,5 +10,9 @@ public class Level1 extends World {
 
     @Override
     public void loadAnimatedTiles() {
+
+        Animation.setSpriteSheet_Tileset(tileset);
+
+        animatedTiles.put(487, new Animation(new int[]{487, 488}, 100));
     }
 }

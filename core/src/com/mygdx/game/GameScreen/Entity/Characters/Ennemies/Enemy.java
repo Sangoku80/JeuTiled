@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.Game;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Tools.AI.Vector2D;
 import com.mygdx.game.GameScreen.Tools.Animation;
@@ -178,7 +179,15 @@ public class Enemy extends Character {
 
         // this.position = this.position.add(this.velocity);
         direction = getDirection(this.position.add(this.velocity), position);
-        moving = true;
         this.acceleration = new Vector2D(0, 0);
+
+        if (Intersector.overlaps(currentLevel.player.circleDetection, collisionBas))
+        {
+            moving = false;
+        }
+        else
+        {
+            moving = true;
+        }
     }
 }
