@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.*;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Enemy;
 import com.mygdx.game.GameScreen.Entity.Entity;
+import com.mygdx.game.GameScreen.Tools.AI.Vector2D;
 import com.mygdx.game.GameScreen.Worlds.Level1;
 import com.mygdx.game.GameScreen.Worlds.World;
 
@@ -78,6 +79,11 @@ public class Game extends ApplicationAdapter {
 				{
 					((Enemy) entity).drawCircleAttack();
 					// ((Enemy) entity).drawPossibleDestinations();
+
+					// test comportement AI de l'ennemi
+					Vector2D steering = ((Enemy) entity).seek(currentLevel.player.position);
+					((Enemy) entity).applyForce(steering);
+					((Enemy) entity).update();
 				}
 			}
 		}

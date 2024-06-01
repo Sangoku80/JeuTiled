@@ -195,7 +195,7 @@ public abstract class World {
                             break;
 
                         case "enemy":
-                            entities.add(new Enemy((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                            entities.add(new Enemy((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this, 3f, 0.05f));
                             break;
                     }
                 }

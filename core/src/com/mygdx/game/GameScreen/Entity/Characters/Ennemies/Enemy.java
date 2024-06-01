@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
+import com.mygdx.game.GameScreen.Tools.AI.Vector2D;
 import com.mygdx.game.GameScreen.Tools.Animation;
 import com.mygdx.game.GameScreen.Worlds.World;
 
@@ -18,6 +19,11 @@ import java.util.*;
 import static com.mygdx.game.Game.*;
 
 public class Enemy extends Character {
+
+    Vector2D velocity;
+    Vector2D acceleration;
+    float maxSpeed;
+    float maxForce;
 
     // status
     protected static int status;
@@ -39,7 +45,7 @@ public class Enemy extends Character {
     // possibles destinations
     protected HashMap<Circle, String> possibleDestinations = new HashMap<>();
 
-    public Enemy(int x, int y, World currentWorld) {
+    public Enemy(int x, int y, World currentWorld, float maxSpeed, float maxForce) {
         super("enemy", new Vector2(x, y), 1f, 20, 2, currentWorld, true);
 
         // cercle de détection du joueur
@@ -50,6 +56,12 @@ public class Enemy extends Character {
 
         // chargement
         loadPossibleDestinations();
+
+        // comportement AI
+        this.velocity = new Vector2D(0, 0);
+        this.acceleration = new Vector2D(0, 0);
+        this.maxSpeed  = maxSpeed;
+        this.maxForce = maxForce;
     }
 
     // loads
@@ -107,26 +119,18 @@ public class Enemy extends Character {
         shapeRenderer.end();
     }
 
-    public void drawPossibleDestinations()
-    {
-        for (Map.Entry<Circle, String> position : possibleDestinations.entrySet())
-        {
-            // dessin des destinations possibles
-            shapeRenderer.setProjectionMatrix(camera.combined);
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+    public void applyForce(Vector2D force) {
+        this.acceleration = this.acceleration.add(force);
+    }
 
-            if (Objects.equals(position.getValue(), "disponible"))
-            {
-                shapeRenderer.setColor(Color.BLUE);
-            }
-            else
-            {
-                shapeRenderer.setColor(Color.YELLOW);
-            }
-
-            shapeRenderer.circle(position.getKey().x, position.getKey().y, 1);
-            shapeRenderer.end();
+    public Vector2D seek(Vector2D target) {
+        Vector2D desired = target.subtract(this.position);
+        desired = desired.normalize().multiply(maxSpeed);
+        Vector2D steer = desired.subtract(this.velocity);
+        if (steer.length() > maxForce) {
+            steer = steer.normalize().multiply(maxForce);
         }
+        return steer;
     }
 
     public void checkCollisionWithCircleAttack()
@@ -137,37 +141,7 @@ public class Enemy extends Character {
         }
     }
 
-    public void lineOfSight()
-    {
-
-    }
-
-    public void pursuing()
-    {
-
-    }
-
     // updates
-    public void updatePossibleDestinations()
-    {
-        for (Map.Entry<Circle, String> element : possibleDestinations.entrySet())
-        {
-            for (Rectangle rect : collisionsStop)
-            {
-                if (Intersector.overlaps(element.getKey(), rect))
-                {
-                    possibleDestinations.put(element.getKey(), "no disponible");
-                }
-                else
-                {
-                    possibleDestinations.put(element.getKey(), "disponible");
-                }
-            }
-
-        }
-
-    }
-
     public int getDirection(Vector2 targetPosition, Vector2 startPosition)
     {
         // Calcul du vecteur direction
@@ -183,37 +157,27 @@ public class Enemy extends Character {
         return (int) angleDeg;
     }
 
-    public int fromToVector(Vector2 fromPosition, Vector2 toPosition)
-    {
-        return getDirection(new Vector2(toPosition.x - fromPosition.x, toPosition.y - fromPosition.y), position);
-    }
-
     public void updateDirection()
     {
-        if (status==PURSUING)
-        {
-            direction = fromToVector(position, currentLevel.player.position);
-            moving = true;
-        }
+
+    }
+
+    public Vector2D getPosition() {
+        return position;
+    }
+
+    public void setPosition(Vector2D position) {
+        this.position = position;
     }
 
     @Override
     public void update()
     {
-        // mise à jour du temps actuel en millisecondes
-        currentTime = TimeUtils.millis();
-
-        // vérifier collision entre joueur et cercle
-        checkCollisionWithCircleAttack();
-
-        // mise à jour des destinations possibles
-        updatePossibleDestinations();
-
-        // updateDirection
-        updateDirection();
-
-        // mettre à jour la position du cercle
-        circleAttack.setPosition((position.x+ (float) width /2), (position.y+ (float) height /2));
-        circleAttack.setRadius(50);
+        this.velocity = this.velocity.add(this.acceleration);
+        if (this.velocity.length() > maxSpeed) {
+            this.velocity = this.velocity.normalize().multiply(maxSpeed);
+        }
+        this.position = this.position.add(this.velocity);
+        this.acceleration = new Vector2D(0, 0);
     }
 }

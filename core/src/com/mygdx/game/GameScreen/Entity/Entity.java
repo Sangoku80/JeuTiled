@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
+import com.mygdx.game.GameScreen.Tools.AI.Vector2D;
 import com.mygdx.game.GameScreen.Worlds.World;
 import com.mygdx.game.GameScreen.Entity.Infrastructures.Infrastructure;
 
@@ -22,7 +23,7 @@ public class Entity {
 
     // caractéristiques
     public String name;
-    public Vector2 position;
+    public Vector2D position;
     protected int width, height;
     public Rectangle rect;
 
@@ -57,7 +58,7 @@ public class Entity {
         this.entityBas = (RectangleMapObject) collisionsEntities.getLayers().get("entités_bas").getObjects().get(name);
         this.width = entity.getTextureRegion().getRegionWidth();
         this.height = entity.getTextureRegion().getRegionHeight();
-        this.position = new Vector2(position.x, position.y);
+        this.position = new Vector2D(position.x, position.y);
         this.collisionBas = new Rectangle();
 
         // rect
