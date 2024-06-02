@@ -105,6 +105,7 @@ public abstract class Character extends Entity {
                 spriteSheet.add(new TextureRegion(img, x * height, y * width, width, height));
             }
         }
+
     }
 
     public void loadCollisions() {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="8" tileheight="8" infinite="1" nextlayerid="10" nextobjectid="65">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="8" tileheight="8" infinite="1" nextlayerid="10" nextobjectid="82">
  <tileset firstgid="1" source="../data/sprite sheet.tsx"/>
  <tileset firstgid="65" source="../data/Tileset2.tsx"/>
  <tileset firstgid="79" source="../data/VikingTiles.tsx"/>
@@ -10,18 +10,22 @@
   <object id="22" name="maison" x="26.5227" y="-27.58" width="51.125" height="14.25"/>
   <object id="23" name="vache" x="94.25" y="-17.875" width="12.25" height="4.125"/>
   <object id="24" name="cochon" x="125.5" y="-15" width="12.625" height="2.25"/>
-  <object id="42" name="enemy" x="154.739" y="-14.2174" width="7.91304" height="2.08696"/>
+  <object id="42" name="agent" x="154.739" y="-14.2174" width="7.91304" height="2.08696"/>
   <object id="51" name="Buisson" x="-20.5" y="-20.3125" width="14" height="5.125"/>
   <object id="56" name="arbre" x="-45.5625" y="-24.0625" width="13.9375" height="9"/>
+  <object id="72" name="goblin" x="173.818" y="-15.2727" width="10.9091" height="2.18182"/>
+  <object id="81" name="skeleton" x="199.455" y="-15.8182" width="6.54545" height="2.36364"/>
  </objectgroup>
  <objectgroup id="2" name="entités">
   <object id="14" name="player" gid="1" x="1.125" y="-13.1364" width="16" height="16"/>
   <object id="15" name="maison" gid="65" x="24.1477" y="-13.2045" width="56" height="56"/>
-  <object id="16" name="vache" gid="170" x="92.375" y="-13.75" width="16" height="16"/>
   <object id="17" name="cochon" gid="166" x="124.125" y="-12.75" width="16" height="16"/>
-  <object id="46" name="enemy" gid="839" x="150.875" y="-12" width="16" height="16"/>
+  <object id="46" name="agent" gid="839" x="150.875" y="-12" width="16" height="16"/>
   <object id="50" name="Buisson" gid="1044" x="-20.4545" y="-15.1818" width="14" height="14"/>
   <object id="55" name="arbre" gid="1045" x="-52.5" y="-15" width="28" height="40"/>
+  <object id="74" name="vache" gid="170" x="92.7273" y="-14.1818" width="16" height="16"/>
+  <object id="79" name="goblin" gid="873" x="171.818" y="-13.4545" width="16" height="16"/>
+  <object id="80" name="skeleton" gid="907" x="194.909" y="-13.4545" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="7" name="teleportation">
   <properties>

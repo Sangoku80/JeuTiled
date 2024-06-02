@@ -14,7 +14,7 @@ import java.util.*;
 
 import static com.mygdx.game.Game.*;
 
-public class Enemy extends Character {
+public abstract class Enemy extends Character {
 
     Vector2D velocity;
     Vector2D acceleration;
@@ -38,8 +38,8 @@ public class Enemy extends Character {
     // possibles destinations
     protected HashMap<Circle, String> possibleDestinations = new HashMap<>();
 
-    public Enemy(int x, int y, World currentWorld, float maxSpeed, float maxForce) {
-        super("enemy", new Vector2(x, y), 1f, 20, 2, currentWorld, false);
+    public Enemy(String name, int x, int y, World currentWorld) {
+        super(name, new Vector2(x, y), 1f, 20, 2, currentWorld, false);
 
         // mettre l'ennemie en idle
         status = IDLE;
@@ -50,8 +50,8 @@ public class Enemy extends Character {
         // comportement AI
         this.velocity = new Vector2D(0, 0);
         this.acceleration = new Vector2D(0, 0);
-        this.maxSpeed  = maxSpeed;
-        this.maxForce = maxForce;
+        this.maxSpeed  = 0.5f;
+        this.maxForce = 0.1f;
     }
 
     // loads
@@ -82,22 +82,7 @@ public class Enemy extends Character {
     }
 
     @Override
-    public void loadAnimations() {
-
-        Animation.setSpriteSheet_Tileset(spriteSheet);
-
-        // en mouvement
-        animations.put(bas+ move, (new Animation(new int[]{140, 141},15)));
-        animations.put(gauche+ move, (new Animation(new int[]{144, 145}, 15, true, true)));
-        animations.put(haut+ move, (new Animation(new int[]{142, 143}, 15)));
-        animations.put(droite+ move, (new Animation(new int[]{144, 145}, 15)));
-
-        // sans mouvement
-        animations.put(bas+ idle, (new Animation(new int[]{136, 136}, 15)));
-        animations.put(gauche+ idle, (new Animation(new int[]{138, 138}, 15, true, true)));
-        animations.put(haut+ idle, (new Animation(new int[]{137, 137}, 15)));
-        animations.put(droite+ idle, (new Animation(new int[]{138, 138}, 15)));
-    }
+    public abstract void loadAnimations();
 
     // draws
     public void applyForce(Vector2D force) {

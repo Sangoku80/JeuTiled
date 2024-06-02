@@ -62,7 +62,7 @@ public class Animation {
         {
             if (xReverse || yReverse)
             {
-                frames.add(staticFunctions.flipRegion(spriteSheet_Tileset.get(i), true, true));
+                frames.add(staticFunctions.flipRegion(spriteSheet_Tileset.get(i), xReverse, yReverse));
             }
             else
             {

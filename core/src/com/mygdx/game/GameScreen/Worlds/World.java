@@ -16,7 +16,10 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.GameScreen.Entity.Characters.Animals.Cochon;
 import com.mygdx.game.GameScreen.Entity.Characters.Animals.Vache;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
+import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Agent;
 import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Enemy;
+import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Goblin;
+import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Skeleton;
 import com.mygdx.game.GameScreen.Entity.Player;
 import com.mygdx.game.GameScreen.Entity.Entity;
 import com.mygdx.game.GameScreen.Entity.Infrastructures.Infrastructure;
@@ -194,8 +197,16 @@ public abstract class World {
                             entities.add(new Vache((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
                             break;
 
-                        case "enemy":
-                            entities.add(new Enemy((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this, 0.5f, 0.1f));
+                        case "goblin":
+                            entities.add(new Goblin((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                            break;
+
+                        case "agent":
+                            entities.add(new Agent((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
+                            break;
+
+                        case "skeleton":
+                            entities.add(new Skeleton((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
                             break;
                     }
                 }
