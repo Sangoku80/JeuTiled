@@ -81,13 +81,13 @@ public class Game extends ApplicationAdapter {
 					Vector2D steering = ((Enemy) entity).seek(currentLevel.player.position);
 					((Enemy) entity).applyForce(steering);
 
-					((Enemy) entity).drawCircleDetection();
+					// ((Enemy) entity).drawCircleDetection();
 				}
 			}
 		}
 
-		currentLevel.player.drawCircleDetection();
-		currentLevel.player.drawCollisions();
+		// currentLevel.player.drawCircleDetection();
+		// currentLevel.player.drawCollisions();
 
 		handleInput(System.currentTimeMillis());
     }

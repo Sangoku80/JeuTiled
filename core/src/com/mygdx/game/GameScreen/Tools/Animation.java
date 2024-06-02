@@ -10,7 +10,7 @@ public class Animation {
     public static ArrayList<TextureRegion> spriteSheet_Tileset;
     private int aniTick, aniIndex;
     private final int aniSpeed;
-    private boolean reverse = false;
+    public boolean reverse = false;
 
 
     public Animation(int[] framesIndex, int aniSpeed, boolean reverse)
@@ -58,12 +58,16 @@ public class Animation {
 
         for(int i = start; i <= end; i++)
         {
+
             if (reverse)
             {
-                spriteSheet_Tileset.get(i).flip(true, false);
+                frames.add(staticFunctions.flipRegion(spriteSheet_Tileset.get(i), true, false));
+            }
+            else
+            {
+                frames.add(spriteSheet_Tileset.get(i));
             }
 
-            frames.add(spriteSheet_Tileset.get(i));
         }
     }
 

@@ -3,6 +3,7 @@ package com.mygdx.game.GameScreen.Tools;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameScreen.Entity.Entity;
@@ -188,5 +189,11 @@ public class staticFunctions {
             i++;
         }
         return null;
+    }
+
+    public static TextureRegion flipRegion(TextureRegion region, boolean x, boolean y) {
+        TextureRegion flippedRegion = new TextureRegion(region);
+        flippedRegion.flip(x, y);
+        return flippedRegion;
     }
 }
