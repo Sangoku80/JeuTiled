@@ -10,13 +10,15 @@ public class Animation {
     public static ArrayList<TextureRegion> spriteSheet_Tileset;
     private int aniTick, aniIndex;
     private final int aniSpeed;
-    public boolean reverse = false;
+    private boolean xReverse = false;
+    private boolean yReverse = false;
 
 
-    public Animation(int[] framesIndex, int aniSpeed, boolean reverse)
+    public Animation(int[] framesIndex, int aniSpeed, boolean xReverse, boolean yReverse)
     {
         this.aniSpeed = aniSpeed;
-        this.reverse = reverse;
+        this.xReverse = xReverse;
+        this.yReverse = yReverse;
         loadFrames(framesIndex);
     }
 
@@ -58,16 +60,14 @@ public class Animation {
 
         for(int i = start; i <= end; i++)
         {
-
-            if (reverse)
+            if (xReverse || yReverse)
             {
-                frames.add(staticFunctions.flipRegion(spriteSheet_Tileset.get(i), true, false));
+                frames.add(staticFunctions.flipRegion(spriteSheet_Tileset.get(i), true, true));
             }
             else
             {
                 frames.add(spriteSheet_Tileset.get(i));
             }
-
         }
     }
 

@@ -180,62 +180,6 @@ public abstract class Character extends Entity {
 
     public void updateOrientation(float xSpeed, float ySpeed)
     {
-/*        if (!heightDirections)
-        {
-            if (direction < DOWN && direction < UP)
-            {
-                orientation = droite;
-            }
-            else if (direction == UP)
-            {
-                orientation = haut;
-            }
-            else if (direction > UP && direction < DOWN)
-            {
-                orientation = gauche;
-            }
-            else if (direction == DOWN)
-            {
-                orientation = bas;
-            }
-        }
-        else
-        {
-            if (direction == RIGHT)
-            {
-                orientation = droite;
-            }
-            else if (direction == LEFT)
-            {
-                orientation = gauche;
-            }
-            else if (direction == UP)
-            {
-                orientation = haut;
-            }
-            else if (direction == DOWN)
-            {
-                orientation = bas;
-            }
-            else if (direction == DOWN_LEFT)
-            {
-                orientation = bas_gauche;
-            }
-            else if (direction == DOWN_RIGHT)
-            {
-                orientation = bas_droite;
-            }
-            else if (direction == UP_LEFT)
-            {
-                orientation = haut_gauche;
-            }
-            else if (direction == UP_RIGHT)
-            {
-                orientation = haut_droite;
-            }
-        }*/
-
-
         double angle = Math.toDegrees(Math.atan2(ySpeed, xSpeed));
 
         if (angle < 0) {
@@ -251,7 +195,6 @@ public abstract class Character extends Entity {
         } else if (angle >= 225 && angle < 315) {
             orientation = bas;
         }
-
     }
 
     public void updatePos() {
