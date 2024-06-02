@@ -16,7 +16,7 @@ public class Player extends Character implements InputProcessor {
     protected boolean left, up, right, down;
 
     public Player(float x, float y, World currentWorld) {
-        super("player", new Vector2(x, y), 2f, 20, 5, currentWorld, true);
+        super("player", new Vector2(x, y), 3f, 20, 5, currentWorld, true);
     }
 
     @Override
