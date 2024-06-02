@@ -119,7 +119,7 @@
 </data>
  </layer>
  <objectgroup id="56" name="infrastructures">
-  <object id="273" name="maison" gid="2110" x="21.6667" y="167.667" width="52" height="56"/>
+  <object id="273" name="maison" gid="2110" x="17.3334" y="153.667" width="52" height="56"/>
   <object id="256" name="maison" gid="2110" x="158.666" y="137" width="52" height="56"/>
   <object id="287" name="maison" gid="2110" x="141" y="218" width="52" height="56"/>
   <object id="288" name="maison" gid="2110" x="111.667" y="83.6667" width="52" height="56"/>

@@ -77,15 +77,16 @@ public class Game extends ApplicationAdapter {
 
 				if (entity instanceof Enemy)
 				{
-					((Enemy) entity).drawCircleAttack();
 					// test comportement AI de l'ennemi
 					Vector2D steering = ((Enemy) entity).seek(currentLevel.player.position);
 					((Enemy) entity).applyForce(steering);
-					((Enemy) entity).update();
+
+					((Enemy) entity).drawCircleDetection();
 				}
 			}
 		}
 
+		currentLevel.player.drawCircleDetection();
 		currentLevel.player.drawCollisions();
 
 		handleInput(System.currentTimeMillis());

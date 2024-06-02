@@ -1,13 +1,10 @@
 package com.mygdx.game.GameScreen.Entity.Characters.Ennemies;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.Game;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Tools.AI.Vector2D;
 import com.mygdx.game.GameScreen.Tools.Animation;
@@ -29,9 +26,6 @@ public class Enemy extends Character {
     protected static int PURSUING =0;
     protected static int IDLE =1;
 
-    // cercle de détection du joueur
-    protected Circle circleAttack;
-
     // compteur
     long currentTime = 0;
 
@@ -45,10 +39,7 @@ public class Enemy extends Character {
     protected HashMap<Circle, String> possibleDestinations = new HashMap<>();
 
     public Enemy(int x, int y, World currentWorld, float maxSpeed, float maxForce) {
-        super("enemy", new Vector2(x, y), 1f, 20, 2, currentWorld, true);
-
-        // cercle de détection du joueur
-        this.circleAttack = new Circle();
+        super("enemy", new Vector2(x, y), 1f, 20, 2, currentWorld, false);
 
         // mettre l'ennemie en idle
         status = IDLE;
@@ -97,27 +88,18 @@ public class Enemy extends Character {
 
         // en mouvement
         animations.put(bas+ move, (new Animation(new int[]{140, 141},15)));
-        animations.put(gauche+ move, (new Animation(new int[]{140, 141}, 15)));
+        animations.put(gauche+ move, (new Animation(new int[]{144, 145}, 15, true)));
         animations.put(haut+ move, (new Animation(new int[]{142, 143}, 15)));
         animations.put(droite+ move, (new Animation(new int[]{144, 145}, 15)));
 
         // sans mouvement
         animations.put(bas+ idle, (new Animation(new int[]{136, 136}, 15)));
-        animations.put(gauche+ idle, (new Animation(new int[]{138, 138}, 15)));
+        animations.put(gauche+ idle, (new Animation(new int[]{138, 138}, 15, true)));
         animations.put(haut+ idle, (new Animation(new int[]{137, 137}, 15)));
         animations.put(droite+ idle, (new Animation(new int[]{138, 138}, 15)));
     }
 
     // draws
-    public void drawCircleAttack()
-    {
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.BLUE);
-        shapeRenderer.circle(circleAttack.x, circleAttack.y, circleAttack.radius);
-        shapeRenderer.end();
-    }
-
     public void applyForce(Vector2D force) {
         this.acceleration = this.acceleration.add(force);
     }
@@ -134,7 +116,7 @@ public class Enemy extends Character {
 
     public void checkCollisionWithCircleAttack()
     {
-        if (Intersector.overlaps(circleAttack, currentLevel.player.rect))
+        if (Intersector.overlaps(circleDetection, currentLevel.player.rect))
         {
             status = PURSUING;
         }
@@ -177,17 +159,9 @@ public class Enemy extends Character {
             this.velocity = this.velocity.normalize().multiply(maxSpeed);
         }
 
-        // this.position = this.position.add(this.velocity);
         direction = getDirection(this.position.add(this.velocity), position);
         this.acceleration = new Vector2D(0, 0);
 
-        if (Intersector.overlaps(currentLevel.player.circleDetection, collisionBas))
-        {
-            moving = false;
-        }
-        else
-        {
-            moving = true;
-        }
+        moving = !Intersector.overlaps(currentLevel.player.circleDetection, collisionBas);
     }
 }

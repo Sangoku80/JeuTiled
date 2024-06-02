@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.game.Game;
 import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Enemy;
 import com.mygdx.game.GameScreen.Entity.Entity;
 import com.mygdx.game.GameScreen.Worlds.InternMaison;
@@ -179,9 +178,9 @@ public abstract class Character extends Entity {
     // updates
     public abstract void update();
 
-    public void updateOrientation()
+    public void updateOrientation(float xSpeed, float ySpeed)
     {
-        if (!heightDirections)
+/*        if (!heightDirections)
         {
             if (direction < DOWN && direction < UP)
             {
@@ -234,12 +233,25 @@ public abstract class Character extends Entity {
             {
                 orientation = haut_droite;
             }
+        }*/
+
+
+        double angle = Math.toDegrees(Math.atan2(ySpeed, xSpeed));
+
+        if (angle < 0) {
+            angle += 360;
         }
 
-        if (Objects.equals(this.name, "enemy"))
-        {
-            System.out.println(direction);
+        if ((angle >= 0 && angle < 45) || (angle >= 315 && angle < 360)) {
+            orientation = droite;
+        } else if (angle >= 45 && angle < 135) {
+            orientation = haut;
+        } else if (angle >= 135 && angle < 225) {
+            orientation = gauche;
+        } else if (angle >= 225 && angle < 315) {
+            orientation = bas;
         }
+
     }
 
     public void updatePos() {
@@ -247,6 +259,8 @@ public abstract class Character extends Entity {
 
         xSpeed = (float) (speed*Math.cos(Math.toRadians(direction)));
         ySpeed = (float) (speed*Math.sin(Math.toRadians(direction)));
+
+        updateOrientation(xSpeed, ySpeed);
 
         // vérifier les collisions
         if (!checkCollisionsWithFoot(new Vector2(collisionBas.x + xSpeed, collisionBas.y + ySpeed)) && moving) {
@@ -289,9 +303,7 @@ public abstract class Character extends Entity {
 
     public void updates() {
         // mise à jour
-        update();
         updatePos();
-        updateOrientation();
         updateAnimation();
 
         // action attack
@@ -299,6 +311,9 @@ public abstract class Character extends Entity {
         {
             updateCircleAttack();
         }
+
+        // mises à jour personnelles
+        update();
     }
 
     // draw
@@ -320,7 +335,7 @@ public abstract class Character extends Entity {
         shapeRenderer.end();
     }
 
-    public void drawCircleAttack()
+    public void drawCircleDetection()
     {
         // dessin des collisions
         shapeRenderer.setProjectionMatrix(camera.combined);

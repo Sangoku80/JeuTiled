@@ -13,6 +13,6 @@ public class Level1 extends World {
 
         Animation.setSpriteSheet_Tileset(tileset);
 
-        animatedTiles.put(487, new Animation(new int[]{487, 488}, 100));
+        animatedTiles.put(487, new Animation(new int[]{487, 488}, 200));
     }
 }

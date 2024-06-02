@@ -10,7 +10,15 @@ public class Animation {
     public static ArrayList<TextureRegion> spriteSheet_Tileset;
     private int aniTick, aniIndex;
     private final int aniSpeed;
+    private boolean reverse = false;
 
+
+    public Animation(int[] framesIndex, int aniSpeed, boolean reverse)
+    {
+        this.aniSpeed = aniSpeed;
+        this.reverse = reverse;
+        loadFrames(framesIndex);
+    }
 
     public Animation(int[] framesIndex, int aniSpeed)
     {
@@ -22,6 +30,7 @@ public class Animation {
     {
         return spriteSheet_Tileset;
     }
+
     public static void setSpriteSheet_Tileset(ArrayList<TextureRegion> newSpriteSheet_Tileset)
     {
         spriteSheet_Tileset = newSpriteSheet_Tileset;
@@ -49,6 +58,11 @@ public class Animation {
 
         for(int i = start; i <= end; i++)
         {
+            if (reverse)
+            {
+                spriteSheet_Tileset.get(i).flip(true, false);
+            }
+
             frames.add(spriteSheet_Tileset.get(i));
         }
     }
