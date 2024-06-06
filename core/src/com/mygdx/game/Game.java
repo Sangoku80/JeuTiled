@@ -99,13 +99,12 @@ public class Game extends ApplicationAdapter {
 
 					// ((Enemy) entity).drawCircleDetection();
 					((Enemy) entity).drawLineOfSight();
-					((Enemy) entity).drawCircularQuery();
 				}
 			}
 		}
 
 		// currentLevel.player.drawCircleDetection();
-		// currentLevel.player.drawCollisions();
+		currentLevel.player.drawCollisions();
 
 		handleInput(System.currentTimeMillis());
     }

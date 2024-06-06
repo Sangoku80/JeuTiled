@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameScreen.Entity.Entity;
@@ -204,6 +205,20 @@ public class staticFunctions {
         // Multiplier le vecteur directionnel normalisé par la distance
 
         return new Vector2(direction).scl(distance).add(start);
+    }
+
+    public static boolean isLineIntersectingRectangle(Vector2 lineStart, Vector2 lineEnd, Rectangle rectangle) {
+        // Définir les coins du rectangle
+        Vector2 bottomLeft = new Vector2(rectangle.x, rectangle.y);
+        Vector2 bottomRight = new Vector2(rectangle.x + rectangle.width, rectangle.y);
+        Vector2 topLeft = new Vector2(rectangle.x, rectangle.y + rectangle.height);
+        Vector2 topRight = new Vector2(rectangle.x + rectangle.width, rectangle.y + rectangle.height);
+
+        // Vérifier les intersections avec les quatre arêtes du rectangle
+        return Intersector.intersectSegments(lineStart, lineEnd, bottomLeft, bottomRight, null) ||
+                Intersector.intersectSegments(lineStart, lineEnd, bottomRight, topRight, null) ||
+                Intersector.intersectSegments(lineStart, lineEnd, topRight, topLeft, null) ||
+                Intersector.intersectSegments(lineStart, lineEnd, topLeft, bottomLeft, null);
     }
 }
 
