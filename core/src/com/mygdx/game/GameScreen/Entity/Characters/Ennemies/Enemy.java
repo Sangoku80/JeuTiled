@@ -1,15 +1,16 @@
 package com.mygdx.game.GameScreen.Entity.Characters.Ennemies;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Tools.AI.Vector2D;
-import com.mygdx.game.GameScreen.Tools.Animation;
+import com.mygdx.game.GameScreen.Tools.staticFunctions;
 import com.mygdx.game.GameScreen.Worlds.World;
-
 import java.util.*;
 
 import static com.mygdx.game.Game.*;
@@ -85,6 +86,43 @@ public abstract class Enemy extends Character {
     public abstract void loadAnimations();
 
     // draws
+    public void drawLineOfSight()
+    {
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+
+        shapeRenderer.setColor(0, 0, 1, 0);
+
+        shapeRenderer.line(position.getVector2(), currentLevel.player.position.getVector2());
+
+        shapeRenderer.end();
+    }
+
+    public void drawCircularQuery()
+    {
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+
+        shapeRenderer.setColor(0, 0, 1, 0);
+
+        // System.out.println(position.getVector2().dst2(currentWorld.player.position.getVector2()));
+
+        for (int i = 0; i<position.getVector2().dst2(currentWorld.player.position.getVector2())/5; i += 5)
+        {
+            for (Rectangle collision : collisionsStop)
+            {
+                Vector2 pointPosition = staticFunctions.getPointOnVector(position.getVector2(), currentWorld.player.position.getVector2(), i);
+
+                if (Intersector.overlaps(new Circle(pointPosition.x, pointPosition.y, 10), collision))
+                {
+                    shapeRenderer.circle(pointPosition.x, pointPosition.y, 10);
+                }
+            }
+        }
+
+        shapeRenderer.end();
+    }
+
     public void applyForce(Vector2D force) {
         this.acceleration = this.acceleration.add(force);
     }
@@ -136,8 +174,24 @@ public abstract class Enemy extends Character {
         this.position = position;
     }
 
-    @Override
-    public void update()
+    public boolean circularQuery()
+    {
+        for (int i = 0; i<position.getVector2().dst2(currentWorld.player.position.getVector2()); i += 5)
+        {
+            for (Rectangle collision : collisionsStop)
+            {
+                Vector2 pointPosition = staticFunctions.getPointOnVector(position.getVector2(), currentWorld.player.position.getVector2(), i);
+
+                if (Intersector.overlaps(new Circle(pointPosition.x, pointPosition.y, 10), collision))
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public void pursuing()
     {
         this.velocity = this.velocity.add(this.acceleration);
         if (this.velocity.length() > maxSpeed) {
@@ -147,6 +201,22 @@ public abstract class Enemy extends Character {
         direction = getDirection(this.position.add(this.velocity), position);
         this.acceleration = new Vector2D(0, 0);
 
-        moving = !Intersector.overlaps(currentLevel.player.circleDetection, collisionBas);
+        if (circularQuery())
+        {
+            moving = !Intersector.overlaps(currentLevel.player.circleDetection, collisionBas);
+
+        }
+
+    }
+
+    @Override
+    public void update()
+    {
+        pursuing();
+
+        if (Intersector.overlaps(currentLevel.player.circleDetection, collisionBas))
+        {
+            // attack();
+        }
     }
 }

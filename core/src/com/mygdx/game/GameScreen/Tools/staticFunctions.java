@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameScreen.Entity.Entity;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -195,4 +196,14 @@ public class staticFunctions {
         flippedRegion.flip(x, y);
         return flippedRegion;
     }
+
+    public static Vector2 getPointOnVector(Vector2 start, Vector2 end, float distance) {
+        // Calculer le vecteur directionnel entre start et end
+        Vector2 direction = new Vector2(end).sub(start).nor();
+
+        // Multiplier le vecteur directionnel normalisé par la distance
+
+        return new Vector2(direction).scl(distance).add(start);
+    }
 }
+

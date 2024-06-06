@@ -29,7 +29,7 @@ public class Game extends ApplicationAdapter {
 		// création de la caméra
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		camera.zoom = 0.2f; // (0.2)
+		camera.zoom = 0.5f; // (0.2)
 		camera.position.x -= 200;
 		camera.position.y -= 120;
 
@@ -57,6 +57,22 @@ public class Game extends ApplicationAdapter {
 		float newCameraX = currentLevel.player.position.x;
 		float newCameraY = currentLevel.player.position.y;
 
+		// Limites de la caméra
+		TiledMapTileLayer layer = currentLevel.layers.get(0);
+		float mapWidth = layer.getWidth() * layer.getTileWidth();
+		float mapHeight = layer.getHeight() * layer.getTileHeight();
+
+		float viewportWidth = camera.viewportWidth * camera.zoom;
+		float viewportHeight = camera.viewportHeight * camera.zoom;
+
+		float cameraMinX = viewportWidth / 2;
+		float cameraMaxX = mapWidth - viewportWidth / 2;
+		float cameraMinY = viewportHeight / 2;
+		float cameraMaxY = mapHeight - viewportHeight / 2;
+
+		newCameraX = Math.max(cameraMinX, Math.min(newCameraX, cameraMaxX));
+		newCameraY = Math.max(cameraMinY, Math.min(newCameraY, cameraMaxY));
+
 		camera.position.set(newCameraX, newCameraY, 0);
 		camera.update();
 
@@ -73,7 +89,7 @@ public class Game extends ApplicationAdapter {
 		{
 			if (entity instanceof Character)
 			{
-				((Character) entity).drawHealthBar();
+				// ((Character) entity).drawHealthBar();
 
 				if (entity instanceof Enemy)
 				{
@@ -82,6 +98,8 @@ public class Game extends ApplicationAdapter {
 					((Enemy) entity).applyForce(steering);
 
 					// ((Enemy) entity).drawCircleDetection();
+					((Enemy) entity).drawLineOfSight();
+					((Enemy) entity).drawCircularQuery();
 				}
 			}
 		}

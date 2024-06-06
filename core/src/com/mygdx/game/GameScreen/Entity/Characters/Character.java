@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
@@ -125,6 +126,17 @@ public abstract class Character extends Entity {
                 }
             }
         }
+
+        // ajouter des bords à la map
+        TiledMapTileLayer layer = currentWorld.layers.get(0);
+        float mapWidth = layer.getWidth() * layer.getTileWidth();
+        float mapHeight = layer.getHeight() * layer.getTileHeight();
+        float borderThickness = 0.05f;
+
+        collisionsStop.add(new Rectangle(layer.getOffsetX(), mapHeight, mapWidth, borderThickness));
+        collisionsStop.add(new Rectangle(layer.getOffsetX(), layer.getOffsetY() - borderThickness, mapWidth, borderThickness));
+        collisionsStop.add(new Rectangle(layer.getOffsetX() - borderThickness, layer.getOffsetY(), borderThickness, mapHeight));
+        collisionsStop.add(new Rectangle(mapWidth, layer.getOffsetY(), borderThickness, mapHeight));
     }
 
     public abstract void loadAnimations();
@@ -187,15 +199,40 @@ public abstract class Character extends Entity {
             angle += 360;
         }
 
-        if ((angle >= 0 && angle < 45) || (angle >= 315 && angle < 360)) {
-            orientation = droite;
-        } else if (angle >= 45 && angle < 135) {
-            orientation = haut;
-        } else if (angle >= 135 && angle < 225) {
-            orientation = gauche;
-        } else if (angle >= 225 && angle < 315) {
-            orientation = bas;
+        if (!heightDirections)
+        {
+            if ((angle >= 0 && angle < 45) || (angle >= 315 && angle < 360)) {
+                orientation = droite;
+            } else if (angle >= 45 && angle < 135) {
+                orientation = haut;
+            } else if (angle >= 135 && angle < 225) {
+                orientation = gauche;
+            } else if (angle >= 225 && angle < 315) {
+                orientation = bas;
+            }
         }
+        else
+        {
+            if ((angle >= 0 && angle < 22.5) || (angle >= 337.5 && angle < 360)) {
+                orientation = droite;
+            } else if (angle >= 22.5 && angle < 67.5) {
+                orientation = haut_droite;
+            } else if (angle >= 67.5 && angle < 112.5) {
+                orientation = haut;
+            } else if (angle >= 112.5 && angle < 157.5) {
+                orientation = haut_gauche;
+            } else if (angle >= 157.5 && angle < 202.5) {
+                orientation = gauche;
+            } else if (angle >= 202.5 && angle < 247.5) {
+                orientation = bas_gauche;
+            } else if (angle >= 247.5 && angle < 292.5) {
+                orientation = bas;
+            } else if (angle >= 292.5 && angle < 337.5) {
+                orientation = bas_droite;
+            }
+        }
+
+
     }
 
     public void updatePos() {
@@ -242,7 +279,7 @@ public abstract class Character extends Entity {
     {
         // cercle d'attaque
         circleDetection.setPosition((position.x+ (float) width /2), (position.y+ (float) height /2));
-        circleDetection.setRadius(20);
+        circleDetection.setRadius(10);
     }
 
     public void updates() {
@@ -320,7 +357,7 @@ public abstract class Character extends Entity {
 
             if (Intersector.overlaps(circleDetection, entity.rect))
             {
-                if (entity instanceof Character && ((Character) entity).health>0 && !Objects.equals(entity.name, "player"))
+                if (entity instanceof Character && ((Character) entity).health>0 && !Objects.equals(entity.name, name))
                 {
                     ((Character) entity).health -= attack;
 
@@ -334,8 +371,6 @@ public abstract class Character extends Entity {
 
             }
         }
-
-
     }
 
 }
