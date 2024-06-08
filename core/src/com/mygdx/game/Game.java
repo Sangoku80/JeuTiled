@@ -29,7 +29,7 @@ public class Game extends ApplicationAdapter {
 		// création de la caméra
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		camera.zoom = 0.5f; // (0.2)
+		camera.zoom = 0.2f; // (0.2)
 		camera.position.x -= 200;
 		camera.position.y -= 120;
 
@@ -98,13 +98,13 @@ public class Game extends ApplicationAdapter {
 					((Enemy) entity).applyForce(steering);
 
 					// ((Enemy) entity).drawCircleDetection();
-					((Enemy) entity).drawLineOfSight();
+					// ((Enemy) entity).drawLineOfSight();
 				}
 			}
 		}
 
 		// currentLevel.player.drawCircleDetection();
-		currentLevel.player.drawCollisions();
+		// currentLevel.player.drawCollisions();
 
 		handleInput(System.currentTimeMillis());
     }
