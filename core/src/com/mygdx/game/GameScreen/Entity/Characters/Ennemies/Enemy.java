@@ -38,7 +38,7 @@ public abstract class Enemy extends Character {
     protected HashMap<Circle, String> possibleDestinations = new HashMap<>();
 
     public Enemy(String name, int x, int y, World currentWorld) {
-        super(name, new Vector2(x, y), 1f, 20, 2, currentWorld, false);
+        super(name, new Vector2(x, y), 1f, 20, 1, currentWorld, false);
 
         // mettre l'ennemie en idle
         status = IDLE;
@@ -166,6 +166,7 @@ public abstract class Enemy extends Character {
         if (Intersector.overlaps(currentLevel.player.circleDetection, collisionBas))
         {
             moving = false;
+            attack();
         }
         else
         {
