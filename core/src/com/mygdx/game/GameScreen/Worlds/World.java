@@ -17,7 +17,6 @@ import com.mygdx.game.GameScreen.Entity.Characters.Animals.Cochon;
 import com.mygdx.game.GameScreen.Entity.Characters.Animals.Vache;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Agent;
-import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Enemy;
 import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Goblin;
 import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Skeleton;
 import com.mygdx.game.GameScreen.Entity.Player;
