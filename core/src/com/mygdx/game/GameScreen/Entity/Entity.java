@@ -12,8 +12,6 @@ import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Tools.AI.Vector2D;
 import com.mygdx.game.GameScreen.Worlds.World;
 import com.mygdx.game.GameScreen.Entity.Infrastructures.Infrastructure;
-
-import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
 import static com.mygdx.game.GameScreen.Entity.Characters.Character.collisionsEntitiesBas;
 
