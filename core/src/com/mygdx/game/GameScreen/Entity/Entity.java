@@ -13,11 +13,10 @@ import com.mygdx.game.GameScreen.Tools.AI.Vector2D;
 import com.mygdx.game.GameScreen.Worlds.World;
 import com.mygdx.game.GameScreen.Entity.Infrastructures.Infrastructure;
 
+import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
-import java.util.Objects;
-
 import static com.mygdx.game.GameScreen.Entity.Characters.Character.collisionsEntitiesBas;
-import static com.mygdx.game.GameScreen.Entity.Characters.Character.collisionsStop;
+
 
 public class Entity {
 
@@ -47,6 +46,7 @@ public class Entity {
     protected World currentWorld;
 
     public Entity(String name, Vector2 position, World world) {
+
         // monde actuel
         this.currentWorld = world;
 
