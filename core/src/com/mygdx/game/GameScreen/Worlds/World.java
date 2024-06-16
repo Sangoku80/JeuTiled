@@ -292,7 +292,7 @@ public abstract class World {
                 {
                     switch (object.getName()) {
 
-                        case "cochon":
+/*                        case "cochon":
                             entities.add(new Cochon((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
                             break;
 
@@ -310,7 +310,7 @@ public abstract class World {
 
                         case "skeleton":
                             entities.add(new Skeleton((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
-                            break;
+                            break;*/
                     }
                 }
             }

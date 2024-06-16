@@ -31,7 +31,7 @@
   <properties>
    <property name="destination" value="Maison1"/>
   </properties>
-  <object id="39" name="maison" x="49.0455" y="-25.659" width="13.6364" height="12.3636">
+  <object id="39" name="maison" x="49.0455" y="-16.5681" width="13.6364" height="3.27269">
    <properties>
     <property name="destination" value="Maison1"/>
    </properties>

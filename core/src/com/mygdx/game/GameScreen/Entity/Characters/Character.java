@@ -232,27 +232,34 @@ public abstract class Character extends Entity {
     public void updatePos() {
         float xSpeed, ySpeed;
 
-        xSpeed = (float) (speed*Math.cos(Math.toRadians(direction)));
-        ySpeed = (float) (speed*Math.sin(Math.toRadians(direction)));
+        xSpeed = (float) (speed * Math.cos(Math.toRadians(direction)));
+        ySpeed = (float) (speed * Math.sin(Math.toRadians(direction)));
 
         updateOrientation(xSpeed, ySpeed);
 
-        // vérifier les collisions
-        if (!checkCollisionsWithFoot(new Vector2(collisionBas.x + xSpeed, collisionBas.y + ySpeed)) && moving) {
-            // entité
-            position.x += xSpeed;
-            position.y += ySpeed;
+        // Diviser le mouvement en plusieurs étapes
+        float step = 1.0f; // Taille de l'étape pour vérifier la collision
+        float remainingDistance = speed; // Distance totale à parcourir
 
-            // rectCollisions
-            collisionBas.x += xSpeed;
-            collisionBas.y += ySpeed;
+        while (remainingDistance > 0) {
+            float moveDistance = Math.min(remainingDistance, step);
 
-            // rect
-            rect.x += xSpeed;
-            rect.y += ySpeed;
+            if (!checkCollisionsWithFoot(new Vector2((float) (collisionBas.x + moveDistance * Math.cos(Math.toRadians(direction))),
+                    (float) (collisionBas.y + moveDistance * Math.sin(Math.toRadians(direction)))))
+                    && moving) {
+                // Déplacer l'entité et les collisions rectangulaires
+                position.x += (float) (moveDistance * Math.cos(Math.toRadians(direction)));
+                position.y += (float) (moveDistance * Math.sin(Math.toRadians(direction)));
+                collisionBas.x += (float) (moveDistance * Math.cos(Math.toRadians(direction)));
+                collisionBas.y += (float) (moveDistance * Math.sin(Math.toRadians(direction)));
+                rect.x += (float) (moveDistance * Math.cos(Math.toRadians(direction)));
+                rect.y += (float) (moveDistance * Math.sin(Math.toRadians(direction)));
+            }
+
+            remainingDistance -= moveDistance;
         }
-
     }
+
 
     public void updateAnimation()
     {
