@@ -1,4 +1,4 @@
-package com.mygdx.game.GameScreen.Tools.AI;
+package com.mygdx.game.GameScreen.Tools;
 
 import com.badlogic.gdx.math.Vector2;
 
