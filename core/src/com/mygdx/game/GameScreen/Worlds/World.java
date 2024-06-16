@@ -3,6 +3,7 @@ package com.mygdx.game.GameScreen.Worlds;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -23,6 +24,8 @@ import com.mygdx.game.GameScreen.Entity.Infrastructures.Infrastructure;
 import com.mygdx.game.GameScreen.Tools.Animation;
 import java.util.*;
 
+import static com.mygdx.game.Game.camera;
+import static com.mygdx.game.Game.shapeRenderer;
 import static com.mygdx.game.GameScreen.Tools.staticFunctions.*;
 
 public abstract class World {
@@ -336,7 +339,23 @@ public abstract class World {
         }
     }
 
-    public void drawCollisions()
+    public void drawCollisions() {
+
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+
+        shapeRenderer.setColor(0, 0, 1, 0);
+
+        for (ArrayList collisions : allCollisions) {
+            for (Object collision : collisions) {
+                if (collision instanceof Rectangle) {
+                    shapeRenderer.rect((((Rectangle) collision).getX()), ((Rectangle) collision).getY(), ((Rectangle) collision).getWidth(), ((Rectangle) collision).getHeight());
+                }
+            }
+        }
+
+        shapeRenderer.end();
+    }
 
     // updates
     public void updateEntities()

@@ -106,6 +106,8 @@ public class Game extends ApplicationAdapter {
 		// currentLevel.player.drawCircleDetection();
 		// currentLevel.player.drawCollisions();
 
+		currentLevel.drawCollisions();
+
 		handleInput(System.currentTimeMillis());
     }
 
