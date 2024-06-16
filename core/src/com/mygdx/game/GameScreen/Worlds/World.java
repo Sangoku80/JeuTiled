@@ -10,9 +10,7 @@ import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.*;
 import com.mygdx.game.GameScreen.Entity.Characters.Animals.Cochon;
 import com.mygdx.game.GameScreen.Entity.Characters.Animals.Vache;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
@@ -42,6 +40,9 @@ public abstract class World {
     protected ArrayList<String> nameLayers = new ArrayList<>();
     public static Vector3 tmpVector = new Vector3();
 
+    // possibles destinations
+    protected HashMap<Circle, String> possibleDestinations = new HashMap<>();
+
     // animation des tuiles
     protected HashMap<Integer, Animation> animatedTiles = new HashMap<>();
 
@@ -50,6 +51,14 @@ public abstract class World {
 
     // création du joueur
     public Player player;
+
+    // collisions
+    public ArrayList<Rectangle> collisionsStop = new ArrayList<>();
+    public HashMap<Rectangle, String> collisionsTeleportation = new HashMap<>();
+    public ArrayList<Rectangle> collisionsEntitiesBas = new ArrayList<>();
+
+    // toutes les collisions du monde
+    public ArrayList<ArrayList> allCollisions = new ArrayList<>();
 
     public World(String name, String tilesetPath, String map, int ratioTilesetX, int ratioTilesetY)
     {
@@ -71,17 +80,20 @@ public abstract class World {
             }
         }
 
-        // on vide les listes statiques
-        Character.collisionsEntitiesBas.clear();
-        Character.collisionsStop.clear();
-        Character.collisionsTeleportation.clear();
-
         // chargement
         loadLayers();
+        loadCollisions();
         loadCollisionsTile();
         loadEntities();
+        loadEntitiesCollisions();
         loadTileset();
         loadAnimatedTiles();
+
+        // rassembler toutes les collisions
+        allCollisions.add(collisionsStop);
+        allCollisions.add(collisionsEntitiesBas);
+
+        loadPossibleDestinations();
 
         // création du joueur
         this.entities.add(new Player(120, 120, this));
@@ -95,6 +107,7 @@ public abstract class World {
         }
     }
 
+    // loads
     public void loadTileset()
     {
         Texture img = new Texture(tilesetPath);
@@ -106,6 +119,48 @@ public abstract class World {
                 tileset.add(new TextureRegion(img, x*ratioTilesetX, y*ratioTilesetY, ratioTilesetX, ratioTilesetY));
             }
         }
+    }
+
+    public void loadEntitiesCollisions() {
+
+        for (Entity entity : this.entities) {
+
+            this.collisionsEntitiesBas.add(entity.collisionBas);
+
+            if (entity instanceof Infrastructure) {
+                this.collisionsTeleportation.put(((Infrastructure) entity).collisionTeleportation, (String) entity.collisionsEntities.getLayers().get("teleportation").getObjects().get(entity.entity.getName()).getProperties().get("destination"));
+            }
+        }
+    }
+
+    public void loadCollisions() {
+        // dans la carte monde
+        if (tiledMap.getLayers().get("collisions") != null) {
+            if (tiledMap.getLayers().get("collisions").getObjects() != null) {
+                for (Object object : tiledMap.getLayers().get("collisions").getObjects()) {
+                    if (object instanceof RectangleMapObject) {
+                        switch (((RectangleMapObject) object).getName()) {
+                            case "teleportation":
+                                collisionsTeleportation.put(((RectangleMapObject) object).getRectangle(), (String) ((RectangleMapObject) object).getProperties().get("destination"));
+
+                            case "stop":
+                                collisionsStop.add(((RectangleMapObject) object).getRectangle());
+                        }
+                    }
+                }
+            }
+        }
+
+        // ajouter des bords à la map
+        TiledMapTileLayer layer = layers.get(0);
+        float mapWidth = layer.getWidth() * layer.getTileWidth();
+        float mapHeight = layer.getHeight() * layer.getTileHeight();
+        float borderThickness = 0.05f;
+
+        collisionsStop.add(new Rectangle(layer.getOffsetX(), mapHeight, mapWidth, borderThickness));
+        collisionsStop.add(new Rectangle(layer.getOffsetX(), layer.getOffsetY() - borderThickness, mapWidth, borderThickness));
+        collisionsStop.add(new Rectangle(layer.getOffsetX() - borderThickness, layer.getOffsetY(), borderThickness, mapHeight));
+        collisionsStop.add(new Rectangle(mapWidth, layer.getOffsetY(), borderThickness, mapHeight));
     }
 
     // tile
@@ -140,11 +195,11 @@ public abstract class World {
                                 if (Objects.equals(object.getName(), "stop"))
                                 {
                                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                                    Character.collisionsStop.add(new Rectangle(tmpVector.x+rect.x, tmpVector.y+rect.y, rect.getWidth(), rect.getHeight()));
+                                    this.collisionsStop.add(new Rectangle(tmpVector.x+rect.x, tmpVector.y+rect.y, rect.getWidth(), rect.getHeight()));
                                 }
                                 else if (Objects.equals(object.getName(), "teleportation"))
                                 {
-                                    Character.collisionsTeleportation.put(((RectangleMapObject) object).getRectangle(), (String) object.getProperties().get("destination"));
+                                    this.collisionsTeleportation.put(((RectangleMapObject) object).getRectangle(), (String) object.getProperties().get("destination"));
                                 }
                             }
                         }
@@ -162,6 +217,52 @@ public abstract class World {
         for (int i=0; i < nameLayers.size(); i++)
         {
             layers.add((TiledMapTileLayer) tiledMap.getLayers().get(nameLayers.get(i)));
+        }
+    }
+
+    public void loadPossibleDestinations()
+    {
+        for (TiledMapTileLayer layer : this.layers)
+        {
+            for (int y = 0; y < layer.getHeight(); y++) {
+                for (int x = 0; x < layer.getWidth(); x++) {
+
+                    float tileWidth = layer.getTileWidth();
+                    float tileHeight = layer.getTileHeight();
+
+                    // Vérifier si la cellule n'est pas vide
+                    if (layer.getCell(x, y) != null)
+                    {
+                        // pour que l'on ait le milieu de la tuile
+                        TextureRegion textureRegion = layer.getCell(x, y).getTile().getTextureRegion();
+
+                        float X = x*tileHeight+ (float) textureRegion.getRegionHeight() /2;
+                        float Y = y*tileWidth + (float) textureRegion.getRegionWidth() /2;
+
+                        String answer = "";
+
+                        for (ArrayList collisions : allCollisions)
+                        {
+                            for (Object collision : collisions)
+                            {
+                                if (collision instanceof Rectangle)
+                                {
+                                    if (Intersector.overlaps(new Rectangle(X*tileWidth, Y*tileHeight, tileWidth, tileHeight), (Rectangle) collision))
+                                    {
+                                        answer = "no disponible";
+                                    }
+                                    else
+                                    {
+                                        answer = "disponible";
+                                    }
+                                }
+                            }
+                        }
+
+                        possibleDestinations.put(new Circle(X, Y, 1), answer);
+                    }
+                }
+            }
         }
     }
 
@@ -234,6 +335,8 @@ public abstract class World {
             entity.Draw(batch);
         }
     }
+
+    public void drawCollisions()
 
     // updates
     public void updateEntities()

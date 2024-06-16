@@ -13,8 +13,6 @@ import com.mygdx.game.GameScreen.Tools.AI.Vector2D;
 import com.mygdx.game.GameScreen.Worlds.World;
 import com.mygdx.game.GameScreen.Entity.Infrastructures.Infrastructure;
 import java.util.ArrayList;
-import static com.mygdx.game.GameScreen.Entity.Characters.Character.collisionsEntitiesBas;
-
 
 public class Entity {
 
@@ -35,7 +33,7 @@ public class Entity {
 
     // fichier qui stocke les collisions des entités
     protected TmxMapLoader mapLoader = new TmxMapLoader();
-    protected TiledMap collisionsEntities;
+    public TiledMap collisionsEntities;
 
     // affichage
     protected TextureRegion image;
@@ -44,7 +42,6 @@ public class Entity {
     protected World currentWorld;
 
     public Entity(String name, Vector2 position, World world) {
-
         // monde actuel
         this.currentWorld = world;
 
@@ -72,11 +69,16 @@ public class Entity {
         }
 
         // chargement
-        loadEntitiesCollisions();
+        loadSelfCollisions();
     }
 
-    public void loadEntitiesCollisions() {
+    public void deleteCollisionBas()
+    {
+        currentWorld.collisionsEntitiesBas.removeIf(rect -> rect.x == collisionBas.x);
+    }
 
+    public void loadSelfCollisions()
+    {
         ArrayList<RectangleMapObject> list = new ArrayList<>();
         list.add(entityBas);
 
@@ -97,22 +99,6 @@ public class Entity {
             list2.get(i).height = list.get(i).getRectangle().height;
 
         }
-
-        for (Entity entity : currentWorld.entities) {
-            if (!collisionsEntitiesBas.contains(entity.collisionBas))
-            {
-                collisionsEntitiesBas.add(entity.collisionBas);
-            }
-
-            if (entity instanceof Infrastructure) {
-                Character.collisionsTeleportation.put(((Infrastructure) entity).collisionTeleportation, (String) collisionsEntities.getLayers().get("teleportation").getObjects().get(entity.entity.getName()).getProperties().get("destination"));
-            }
-        }
-    }
-
-    public void deleteCollisionBas()
-    {
-        collisionsEntitiesBas.removeIf(rect -> rect.x == collisionBas.x);
     }
 
     public void Draw(SpriteBatch batch) {

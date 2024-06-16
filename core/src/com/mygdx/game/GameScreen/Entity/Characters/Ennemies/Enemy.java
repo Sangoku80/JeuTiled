@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Tools.AI.Vector2D;
@@ -110,6 +111,23 @@ public abstract class Enemy extends Character {
         return steer;
     }
 
+    public void avoidObstacles() {
+        Vector2D avoidanceForce = new Vector2D(0, 0);
+
+        // Parcourir tous les obstacles (rectangles) potentiels
+        for (Rectangle obstacle : collisionsEntitiesBas) {
+            // Vérifier si l'ennemi est sur le point de collision avec l'obstacle
+            if (Intersector.overlaps(circleDetection, obstacle)) {
+                // Calculer la direction pour éviter l'obstacle
+                Vector2D toObstacle = new Vector2D(obstacle.x, obstacle.y).subtract(position);
+                avoidanceForce = toObstacle.normalize().multiply(maxForce);
+            }
+        }
+
+        // Appliquer la force d'évitement aux mouvements de l'ennemi
+        applyForce(avoidanceForce);
+    }
+
     public void checkCollisionWithCircleAttack()
     {
         if (Intersector.overlaps(circleDetection, currentLevel.player.rect))
@@ -162,6 +180,7 @@ public abstract class Enemy extends Character {
     public void update()
     {
         pursuing();
+        avoidObstacles();
 
         if (Intersector.overlaps(currentLevel.player.circleDetection, collisionBas))
         {

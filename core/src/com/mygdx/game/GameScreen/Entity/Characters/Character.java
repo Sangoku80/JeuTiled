@@ -12,7 +12,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Enemy;
 import com.mygdx.game.GameScreen.Entity.Entity;
-import com.mygdx.game.GameScreen.Tools.staticFunctions;
 import com.mygdx.game.GameScreen.Worlds.InternMaison;
 import com.mygdx.game.GameScreen.Tools.Animation;
 import com.mygdx.game.GameScreen.Worlds.World;
@@ -155,16 +154,6 @@ public abstract class Character extends Entity {
                     {
                         if (Intersector.overlaps(new Rectangle(position.x, position.y, collisionBas.width, collisionBas.height), (Rectangle) collision)) {
                             answer = true;
-                        }
-
-                        // pour les ennemis
-                        if (this instanceof Enemy)
-                        {
-                            if (staticFunctions.isLineIntersectingRectangle(this.position.getVector2(), currentLevel.player.position.getVector2(), (Rectangle) collision))
-                            {
-                                answer = true;
-                                currentAnimation = animations.get(bas+idle);
-                            }
                         }
                     }
                 }
@@ -333,26 +322,6 @@ public abstract class Character extends Entity {
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.circle(circleDetection.x, circleDetection.y, circleDetection.radius);
-        shapeRenderer.end();
-    }
-
-    public void drawCollisions() {
-
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-
-        ArrayList[] allCollisions = {collisionsStop, collisionsEntitiesBas};
-
-        shapeRenderer.setColor(0, 0, 1, 0);
-
-        for (ArrayList collisions : allCollisions) {
-            for (Object collision : collisions) {
-                if (collision instanceof Rectangle) {
-                    shapeRenderer.rect((((Rectangle) collision).getX()), ((Rectangle) collision).getY(), ((Rectangle) collision).getWidth(), ((Rectangle) collision).getHeight());
-                }
-            }
-        }
-
         shapeRenderer.end();
     }
 
