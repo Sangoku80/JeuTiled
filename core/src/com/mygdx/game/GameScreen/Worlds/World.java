@@ -23,7 +23,6 @@ import com.mygdx.game.GameScreen.Entity.Entity;
 import com.mygdx.game.GameScreen.Entity.Infrastructures.Infrastructure;
 import com.mygdx.game.GameScreen.Tools.Animation;
 import java.util.*;
-
 import static com.mygdx.game.Game.camera;
 import static com.mygdx.game.Game.shapeRenderer;
 import static com.mygdx.game.GameScreen.Tools.staticFunctions.*;
@@ -292,7 +291,7 @@ public abstract class World {
                 {
                     switch (object.getName()) {
 
-/*                        case "cochon":
+                        case "cochon":
                             entities.add(new Cochon((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
                             break;
 
@@ -310,7 +309,7 @@ public abstract class World {
 
                         case "skeleton":
                             entities.add(new Skeleton((int) ((TextureMapObject) object).getX(), (int) ((TextureMapObject) object).getY(), this));
-                            break;*/
+                            break;
                     }
                 }
             }

@@ -8,10 +8,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Tools.Vector2D;
 import com.mygdx.game.GameScreen.Worlds.World;
@@ -19,9 +15,6 @@ import com.mygdx.game.GameScreen.Entity.Infrastructures.Infrastructure;
 import java.util.ArrayList;
 
 public class Entity {
-
-    // pour les collisions
-    private Body foot;
 
     // caractéristiques
     public String name;
