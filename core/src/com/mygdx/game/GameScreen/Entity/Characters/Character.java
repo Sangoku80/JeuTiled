@@ -46,11 +46,6 @@ public abstract class Character extends Entity {
     public static int DOWN=270, UP=90, LEFT=180, RIGHT=0, DOWN_LEFT=225, DOWN_RIGHT=315, UP_LEFT=135, UP_RIGHT=45;
     public int direction = DOWN;
 
-    // other collisions
-    public static ArrayList<Rectangle> collisionsStop = new ArrayList<>();
-    public static HashMap<Rectangle, String> collisionsTeleportation = new HashMap<>();
-    public static ArrayList<Rectangle> collisionsEntitiesBas = new ArrayList<>();
-
     public Character(String name, Vector2 position, float speed, float health, float attack, World world, Boolean heightDirections)
     {
         super(name, position, world);
@@ -117,10 +112,10 @@ public abstract class Character extends Entity {
                     if (object instanceof RectangleMapObject) {
                         switch (((RectangleMapObject) object).getName()) {
                             case "teleportation":
-                                collisionsTeleportation.put(((RectangleMapObject) object).getRectangle(), (String) ((RectangleMapObject) object).getProperties().get("destination"));
+                                currentWorld.collisionsTeleportation.put(((RectangleMapObject) object).getRectangle(), (String) ((RectangleMapObject) object).getProperties().get("destination"));
 
                             case "stop":
-                                collisionsStop.add(((RectangleMapObject) object).getRectangle());
+                                currentWorld.collisionsStop.add(((RectangleMapObject) object).getRectangle());
                         }
                     }
                 }
@@ -133,10 +128,10 @@ public abstract class Character extends Entity {
         float mapHeight = layer.getHeight() * layer.getTileHeight();
         float borderThickness = 0.05f;
 
-        collisionsStop.add(new Rectangle(layer.getOffsetX(), mapHeight, mapWidth, borderThickness));
-        collisionsStop.add(new Rectangle(layer.getOffsetX(), layer.getOffsetY() - borderThickness, mapWidth, borderThickness));
-        collisionsStop.add(new Rectangle(layer.getOffsetX() - borderThickness, layer.getOffsetY(), borderThickness, mapHeight));
-        collisionsStop.add(new Rectangle(mapWidth, layer.getOffsetY(), borderThickness, mapHeight));
+        currentWorld.collisionsStop.add(new Rectangle(layer.getOffsetX(), mapHeight, mapWidth, borderThickness));
+        currentWorld.collisionsStop.add(new Rectangle(layer.getOffsetX(), layer.getOffsetY() - borderThickness, mapWidth, borderThickness));
+        currentWorld.collisionsStop.add(new Rectangle(layer.getOffsetX() - borderThickness, layer.getOffsetY(), borderThickness, mapHeight));
+        currentWorld.collisionsStop.add(new Rectangle(mapWidth, layer.getOffsetY(), borderThickness, mapHeight));
     }
 
     public abstract void loadAnimations();
@@ -144,9 +139,8 @@ public abstract class Character extends Entity {
     // collisions
     public boolean checkCollisionsWithFoot(Vector2 position) {
         boolean answer = false;
-        ArrayList[] allCollisions = {collisionsStop, collisionsEntitiesBas};
 
-        for (ArrayList collisions : allCollisions) {
+        for (ArrayList collisions : currentWorld.allCollisions) {
             for (Object collision : collisions) {
                 if (collision instanceof Rectangle)
                 {
@@ -162,7 +156,7 @@ public abstract class Character extends Entity {
 
         String destination = "";
 
-        for (Map.Entry<Rectangle, String> collisionTeleportation : collisionsTeleportation.entrySet()) {
+        for (Map.Entry<Rectangle, String> collisionTeleportation : currentWorld.collisionsTeleportation.entrySet()) {
 
             if (Intersector.overlaps(new Rectangle(position.x, position.y, collisionBas.width, collisionBas.height), collisionTeleportation.getKey()))
             {

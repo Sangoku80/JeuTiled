@@ -115,11 +115,11 @@ public abstract class Enemy extends Character {
         Vector2D avoidanceForce = new Vector2D(0, 0);
 
         // Parcourir tous les obstacles (rectangles) potentiels
-        for (Rectangle obstacle : collisionsEntitiesBas) {
+        for (Rectangle obstacle : currentWorld.collisionsEntitiesBas) {
             // Vérifier si l'ennemi est sur le point de collision avec l'obstacle
             if (Intersector.overlaps(circleDetection, obstacle)) {
                 // Calculer la direction pour éviter l'obstacle
-                Vector2D toObstacle = new Vector2D(obstacle.x, obstacle.y).subtract(position);
+                Vector2D toObstacle = new Vector2D(obstacle.x + obstacle.width / 2, obstacle.y + obstacle.height / 2).subtract(position);
                 avoidanceForce = toObstacle.normalize().multiply(maxForce);
             }
         }
@@ -180,7 +180,6 @@ public abstract class Enemy extends Character {
     public void update()
     {
         pursuing();
-        avoidObstacles();
 
         if (Intersector.overlaps(currentLevel.player.circleDetection, collisionBas))
         {
