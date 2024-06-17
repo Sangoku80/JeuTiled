@@ -357,6 +357,22 @@ public abstract class World {
     }
 
     // updates
+    public void update(SpriteBatch batch)
+    {
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+
+        // mettre à jour les entités
+        updateEntities();
+
+        // dessiner les calques de la map
+        drawLayers(batch);
+
+        // dessiner les entités du monde
+        drawEntities(batch);
+
+        batch.end();
+    }
     public void updateEntities()
     {
         for (Entity entity : entities)
@@ -395,14 +411,9 @@ public abstract class World {
 
     public void drawLayers(SpriteBatch batch)
     {
-        // mettre à jour les entités
-        updateEntities();
-
         for (int layerNumber = 0; layerNumber < layers.size(); layerNumber++)
         {
             drawLayer(layers.get(layerNumber), batch);
         }
-
-        drawEntities(batch);
     }
 }

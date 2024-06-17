@@ -73,16 +73,12 @@ public class Game extends ApplicationAdapter {
 		newCameraX = Math.max(cameraMinX, Math.min(newCameraX, cameraMaxX));
 		newCameraY = Math.max(cameraMinY, Math.min(newCameraY, cameraMaxY));
 
+		// mise à jour de la caméra
 		camera.position.set(newCameraX, newCameraY, 0);
 		camera.update();
 
-		// dessin des objets texture
-		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
-
-		currentLevel.drawLayers(batch);
-
-		batch.end();
+		// mise à jour du monde
+		currentLevel.update(batch);
 
 		// dessin des barres de vie
 		for (Entity entity : currentLevel.entities)
