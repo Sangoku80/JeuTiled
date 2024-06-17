@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Tools.Vector2D;
 import com.mygdx.game.GameScreen.Worlds.World;
+
+import javax.sound.sampled.Line;
 import java.util.*;
 
 import static com.mygdx.game.Game.*;
@@ -37,6 +39,10 @@ public abstract class Enemy extends Character {
 
     // possibles destinations
     protected HashMap<Circle, String> possibleDestinations = new HashMap<>();
+
+    // capteurs pour l'IA de l'ennemi (lignes)
+    Vector2[] lineUp, lineDown, lineLeft, lineRight;
+    Vector2[][] allSensors;
 
     public Enemy(String name, int x, int y, World currentWorld) {
         super(name, new Vector2(x, y), 1f, 20, 1, currentWorld, false);
@@ -176,6 +182,7 @@ public abstract class Enemy extends Character {
         this.acceleration = new Vector2D(0, 0);
     }
 
+    // updates
     @Override
     public void update()
     {
@@ -189,6 +196,23 @@ public abstract class Enemy extends Character {
         else
         {
             moving = true;
+        }
+    }
+
+    public void updateSensors()
+    {
+        int id=0;
+        for (Vector2[] sensor : allSensors)
+        {
+            id++;
+            sensor[0].x = position.x;
+            sensor[0].y = position.y;
+
+            switch (id)
+            {
+                case 0:
+                    sensor[1].y =
+            }
         }
     }
 }
