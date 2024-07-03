@@ -28,6 +28,7 @@ public abstract class Character extends Entity {
     public float attack;
     public Circle circleDetection = new Circle();
     protected Boolean heightDirections;
+    float radiusCircleDetection;
 
     // mouvements
     protected float speed;
@@ -276,11 +277,11 @@ public abstract class Character extends Entity {
         }
     }
 
-    public void updateCircleAttack()
+    public void updateCircleDetection()
     {
         // cercle d'attaque
         circleDetection.setPosition((position.x+ (float) width /2), (position.y+ (float) height /2));
-        circleDetection.setRadius(10);
+        circleDetection.setRadius(30);
     }
 
     public void updates() {
@@ -291,7 +292,7 @@ public abstract class Character extends Entity {
         // action attack
         if (attack > 0)
         {
-            updateCircleAttack();
+            updateCircleDetection();
         }
 
         // mises à jour personnelles

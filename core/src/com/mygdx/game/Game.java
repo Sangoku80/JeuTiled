@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.*;
@@ -21,6 +22,7 @@ public class Game extends ApplicationAdapter {
 	public static TiledMap tiledMap;
 	private static final float CAMERA_SPEED = 200f;
 	public static World currentLevel;
+	BitmapFont font;
 
 	@Override
 	public void create() {
@@ -40,6 +42,8 @@ public class Game extends ApplicationAdapter {
 
 		// création du level1
 		currentLevel = new Level1();
+
+		font = new BitmapFont(); // Utilise la police par défaut
 	}
 
 	@Override
@@ -78,6 +82,10 @@ public class Game extends ApplicationAdapter {
 
 		// mise à jour du monde
 		currentLevel.update(batch);
+
+		// affichage des FPS
+		// Affiche les FPS en haut à gauche de l'écran
+		System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond());
 
 		// dessin des barres de vie
 		for (Entity entity : currentLevel.entities)

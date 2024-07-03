@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Tools.Vector2D;
+import com.mygdx.game.GameScreen.Tools.staticFunctions;
 import com.mygdx.game.GameScreen.Worlds.World;
 
 import java.util.*;
@@ -24,6 +25,8 @@ public abstract class Enemy extends Character {
 
     // IA
     ArrayList<HashMap<Vector2, Integer>> radars = new ArrayList<>();
+    int angle = 0;
+    Vector2 center = new Vector2();
 
     // status
     protected static int status;
@@ -56,6 +59,10 @@ public abstract class Enemy extends Character {
         this.acceleration = new Vector2D(0, 0);
         this.maxSpeed  = 0.5f;
         this.maxForce = 0.1f;
+
+        // on calcule le centre de l'ennemi
+        this.center.x = (float) width /2;
+        this.center.y = (float) height /2;
     }
 
     // loads
@@ -148,7 +155,7 @@ public abstract class Enemy extends Character {
         applyForce(avoidanceForce);
     }
 
-    public void checkCollisionWithCircleAttack()
+    public void checkCollisionWithCircleDetection()
     {
         if (Intersector.overlaps(circleDetection, currentLevel.player.rect))
         {
@@ -156,9 +163,46 @@ public abstract class Enemy extends Character {
         }
     }
 
-    public void check_radar()
+    public void check_radar(int degree)
+    {
+        int lenght = 0;
+
+        int x = (int) (center.x + Math.cos(Math.toRadians(360 - angle + degree)) * lenght);
+        int y = (int) (center.y + Math.cos(Math.toRadians(360 - angle + degree)) * lenght);
+
+        while (!intersectionLineWithAllCollisionsStop(center, new Vector2(x, y)) && lenght < 300)
+        {
+            lenght += 1;
+            x = (int) (center.x + Math.cos(Math.toRadians(360 - angle + degree)) * lenght);
+            y = (int) (center.y + Math.cos(Math.toRadians(360 - angle + degree)) * lenght);
+        }
+
+        // on calcule la longueur du radar
+        int dist = (int) Math.sqrt(Math.pow(x - center.x, 2) + Math.pow(y - center.x, 2));
+        HashMap answer = new HashMap<>();
+        answer.put(new Vector2(x, y), dist);
+        radars.add(answer);
+    }
+
+    public boolean intersectionLineWithAllCollisionsStop(Vector2 startLine, Vector2 endLine)
     {
 
+        boolean answer = false;
+        for (ArrayList collisions : currentWorld.allCollisions)
+        {
+            for (Object collision : collisions)
+            {
+                if (collision instanceof Rectangle)
+                {
+                    if (staticFunctions.isLineIntersectingRectangle(startLine, endLine, (Rectangle) collision))
+                    {
+                        answer = true;
+                    }
+                }
+            }
+        }
+
+        return answer;
     }
 
     public int getDirection(Vector2D targetPosition, Vector2D startPosition)
@@ -214,5 +258,13 @@ public abstract class Enemy extends Character {
         {
             moving = true;
         }
+
+        radars.clear();
+
+/*        for (int d = -90; d < 120; d += 45) {
+            check_radar(d);
+        }*/
+
+        //draw_radar();
     }
 }
