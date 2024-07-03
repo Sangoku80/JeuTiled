@@ -14,7 +14,6 @@ import com.mygdx.game.GameScreen.Tools.Vector2D;
 import com.mygdx.game.GameScreen.Worlds.Level1;
 import com.mygdx.game.GameScreen.Worlds.World;
 
-
 public class Game extends ApplicationAdapter {
 	public static OrthographicCamera camera;
 	private SpriteBatch batch;

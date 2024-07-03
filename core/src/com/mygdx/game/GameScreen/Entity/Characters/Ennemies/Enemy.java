@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Tools.Vector2D;
 import com.mygdx.game.GameScreen.Worlds.World;
+
 import java.util.*;
 
 import static com.mygdx.game.Game.*;
@@ -20,6 +21,9 @@ public abstract class Enemy extends Character {
     Vector2D acceleration;
     float maxSpeed;
     float maxForce;
+
+    // IA
+    ArrayList<HashMap<Vector2, Integer>> radars = new ArrayList<>();
 
     // status
     protected static int status;
@@ -85,6 +89,22 @@ public abstract class Enemy extends Character {
     public abstract void loadAnimations();
 
     // draws
+    public void draw_radar()
+    {
+        for (HashMap radar : radars)
+        {
+            Vector2 position = (Vector2) radar.get(0);
+
+            shapeRenderer.setProjectionMatrix(camera.combined);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+
+            shapeRenderer.setColor(0, 255, 0, 0);
+
+            shapeRenderer.line(this.position.getVector2(), position);
+
+            shapeRenderer.end();
+        }
+    }
     public void drawLineOfSight()
     {
         shapeRenderer.setProjectionMatrix(camera.combined);
@@ -136,7 +156,11 @@ public abstract class Enemy extends Character {
         }
     }
 
-    // updates
+    public void check_radar()
+    {
+
+    }
+
     public int getDirection(Vector2D targetPosition, Vector2D startPosition)
     {
         // Calcul du vecteur direction
@@ -176,7 +200,6 @@ public abstract class Enemy extends Character {
         this.acceleration = new Vector2D(0, 0);
     }
 
-    // updates
     @Override
     public void update()
     {
