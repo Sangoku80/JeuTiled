@@ -12,7 +12,7 @@ public class DesktopLauncher {
 		config.setWindowIcon("Images/game-boy.png");
 		config.setWindowedMode(600, 400);
 		// grand écran
-		//config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
+		config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
 		new Lwjgl3Application(new Game(), config);
 	}
 }

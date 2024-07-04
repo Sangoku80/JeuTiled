@@ -61,8 +61,7 @@ public abstract class Enemy extends Character {
         this.maxForce = 0.1f;
 
         // on calcule le centre de l'ennemi
-        this.center.x = (float) width /2;
-        this.center.y = (float) height /2;
+        this.center = position.getVector2();
     }
 
     // loads
@@ -100,16 +99,19 @@ public abstract class Enemy extends Character {
     {
         for (HashMap radar : radars)
         {
-            Vector2 position = (Vector2) radar.get(0);
+            for (Object element : radar.keySet())
+            {
+                Vector2 position = (Vector2) element;
 
-            shapeRenderer.setProjectionMatrix(camera.combined);
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                shapeRenderer.setProjectionMatrix(camera.combined);
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 
-            shapeRenderer.setColor(0, 255, 0, 0);
+                shapeRenderer.setColor(0, 255, 0, 0);
 
-            shapeRenderer.line(this.position.getVector2(), position);
+                shapeRenderer.line(center, position);
 
-            shapeRenderer.end();
+                shapeRenderer.end();
+            }
         }
     }
     public void drawLineOfSight()
@@ -170,7 +172,7 @@ public abstract class Enemy extends Character {
         int x = (int) (center.x + Math.cos(Math.toRadians(360 - angle + degree)) * lenght);
         int y = (int) (center.y + Math.cos(Math.toRadians(360 - angle + degree)) * lenght);
 
-        while (!intersectionLineWithAllCollisionsStop(center, new Vector2(x, y)) && lenght < 300)
+        while (!intersectionLineWithAllCollisionsStop(center, new Vector2(x, y)) && (lenght < 20))
         {
             lenght += 1;
             x = (int) (center.x + Math.cos(Math.toRadians(360 - angle + degree)) * lenght);
@@ -196,7 +198,11 @@ public abstract class Enemy extends Character {
                 {
                     if (staticFunctions.isLineIntersectingRectangle(startLine, endLine, (Rectangle) collision))
                     {
-                        answer = true;
+                        if (((Rectangle) collision).x != collisionBas.x && ((Rectangle) collision).y != collisionBas.y && ((Rectangle) collision).width != collisionBas.width && ((Rectangle) collision).height != collisionBas.height)
+                        {
+                            answer = true;
+                        }
+
                     }
                 }
             }
@@ -247,7 +253,7 @@ public abstract class Enemy extends Character {
     @Override
     public void update()
     {
-        pursuing();
+/*        pursuing();
 
         if (Intersector.overlaps(currentLevel.player.circleDetection, collisionBas))
         {
@@ -257,14 +263,12 @@ public abstract class Enemy extends Character {
         else
         {
             moving = true;
-        }
+        }*/
 
         radars.clear();
 
-/*        for (int d = -90; d < 120; d += 45) {
+        for (int d = -90; d < 120; d += 45) {
             check_radar(d);
-        }*/
-
-        //draw_radar();
+        }
     }
 }

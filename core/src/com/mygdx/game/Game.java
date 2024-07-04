@@ -85,7 +85,6 @@ public class Game extends ApplicationAdapter {
 
 		// affichage des FPS
 		// Affiche les FPS en haut à gauche de l'écran
-		System.out.println("FPS: " + Gdx.graphics.getFramesPerSecond());
 
 		// dessin des barres de vie
 		for (Entity entity : currentLevel.entities)
@@ -102,6 +101,8 @@ public class Game extends ApplicationAdapter {
 
 					// ((Enemy) entity).drawCircleDetection();
 					// ((Enemy) entity).drawLineOfSight();
+
+					((Enemy) entity).draw_radar();
 				}
 			}
 		}
