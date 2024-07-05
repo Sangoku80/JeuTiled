@@ -61,7 +61,8 @@ public abstract class Enemy extends Character {
         this.maxForce = 0.1f;
 
         // on calcule le centre de l'ennemi
-        this.center = position.getVector2();
+        this.center.x = position.getVector2().x+ (float) width /2;
+        this.center.y = position.getVector2().y+ (float) height /2;
     }
 
     // loads
@@ -109,6 +110,12 @@ public abstract class Enemy extends Character {
                 shapeRenderer.setColor(0, 255, 0, 0);
 
                 shapeRenderer.line(center, position);
+
+                shapeRenderer.end();
+
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
+                shapeRenderer.circle(position.x, position.y, 2);
 
                 shapeRenderer.end();
             }
@@ -169,14 +176,14 @@ public abstract class Enemy extends Character {
     {
         int lenght = 0;
 
-        int x = (int) (center.x + Math.cos(Math.toRadians(360 - angle + degree)) * lenght);
-        int y = (int) (center.y + Math.cos(Math.toRadians(360 - angle + degree)) * lenght);
+        int x = (int) (center.x + Math.cos(Math.toRadians(360 - (angle + degree))) * lenght);
+        int y = (int) (center.y + Math.sin(Math.toRadians(360 - (angle + degree))) * lenght);
 
         while (!intersectionLineWithAllCollisionsStop(center, new Vector2(x, y)) && (lenght < 20))
         {
             lenght += 1;
-            x = (int) (center.x + Math.cos(Math.toRadians(360 - angle + degree)) * lenght);
-            y = (int) (center.y + Math.cos(Math.toRadians(360 - angle + degree)) * lenght);
+            x = (int) (center.x + Math.cos(Math.toRadians(360 - (angle + degree))) * lenght);
+            y = (int) (center.y + Math.sin(Math.toRadians(360 - (angle + degree))) * lenght);
         }
 
         // on calcule la longueur du radar
