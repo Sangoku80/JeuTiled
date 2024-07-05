@@ -59,10 +59,6 @@ public abstract class Enemy extends Character {
         this.acceleration = new Vector2D(0, 0);
         this.maxSpeed  = 0.5f;
         this.maxForce = 0.1f;
-
-        // on calcule le centre de l'ennemi
-        this.center.x = position.getVector2().x+ (float) width /2;
-        this.center.y = position.getVector2().y+ (float) height /2;
     }
 
     // loads
@@ -179,7 +175,7 @@ public abstract class Enemy extends Character {
         int x = (int) (center.x + Math.cos(Math.toRadians(360 - (angle + degree))) * lenght);
         int y = (int) (center.y + Math.sin(Math.toRadians(360 - (angle + degree))) * lenght);
 
-        while (!intersectionLineWithAllCollisionsStop(center, new Vector2(x, y)) && (lenght < 20))
+        while (!intersectionLineWithAllCollisionsStop(center, new Vector2(x, y)) && (lenght < 100))
         {
             lenght += 1;
             x = (int) (center.x + Math.cos(Math.toRadians(360 - (angle + degree))) * lenght);
@@ -191,6 +187,22 @@ public abstract class Enemy extends Character {
         HashMap answer = new HashMap<>();
         answer.put(new Vector2(x, y), dist);
         radars.add(answer);
+    }
+
+    public int[] getData() {
+        // Déclare un tableau de retour avec des valeurs initiales de 0
+        int[] returnValues = new int[5];
+
+        // Parcourt chaque élément dans radars et calcule la valeur correspondante
+        for (int i = 0; i < radars.size() && i < 5; i++) {
+            HashMap<Vector2, Integer> radar = radars.get(i);
+            for (Integer value : radar.values()) {
+                returnValues[i] = value / 30;
+                break; // Supposons qu'il n'y a qu'une seule valeur par hashmap
+            }
+        }
+
+        return returnValues;
     }
 
     public boolean intersectionLineWithAllCollisionsStop(Vector2 startLine, Vector2 endLine)
@@ -260,7 +272,7 @@ public abstract class Enemy extends Character {
     @Override
     public void update()
     {
-/*        pursuing();
+        pursuing();
 
         if (Intersector.overlaps(currentLevel.player.circleDetection, collisionBas))
         {
@@ -270,9 +282,15 @@ public abstract class Enemy extends Character {
         else
         {
             moving = true;
-        }*/
+        }
 
         radars.clear();
+
+        angle = -direction;
+
+        // on calcule le centre de l'ennemi
+        center.x = position.getVector2().x+ (float) width /2;
+        center.y = position.getVector2().y+ (float) height /2;
 
         for (int d = -90; d < 120; d += 45) {
             check_radar(d);

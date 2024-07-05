@@ -84,7 +84,7 @@ public class Game extends ApplicationAdapter {
 		currentLevel.update(batch);
 
 		// affichage des FPS
-		// Affiche les FPS en haut à gauche de l'écran
+		System.out.println("FPS: "+Gdx.graphics.getFramesPerSecond());
 
 		// dessin des barres de vie
 		for (Entity entity : currentLevel.entities)
@@ -110,7 +110,7 @@ public class Game extends ApplicationAdapter {
 		// currentLevel.player.drawCircleDetection();
 		// currentLevel.player.drawCollisions();
 
-		// currentLevel.drawCollisions();
+		currentLevel.drawCollisions();
 
 		handleInput(System.currentTimeMillis());
     }

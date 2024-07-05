@@ -98,7 +98,6 @@ public class Entity {
             list2.get(i).y = position.y + décalageY;
             list2.get(i).width = list.get(i).getRectangle().width;
             list2.get(i).height = list.get(i).getRectangle().height;
-
         }
     }
 

@@ -210,6 +210,6 @@
   <object id="335" name="maison" gid="2110" x="332" y="786" width="52" height="56"/>
  </objectgroup>
  <objectgroup id="46" name="characters">
-  <object id="358" name="agent" gid="1903" x="142.333" y="685" width="16" height="16"/>
+  <object id="358" name="agent" gid="1903" x="173.333" y="693" width="16" height="16"/>
  </objectgroup>
 </map>

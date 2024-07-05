@@ -87,15 +87,6 @@ public abstract class World {
         loadCollisions();
         loadCollisionsTile();
         loadEntities();
-        loadEntitiesCollisions();
-        loadTileset();
-        loadAnimatedTiles();
-
-        // rassembler toutes les collisions
-        allCollisions.add(collisionsStop);
-        allCollisions.add(collisionsEntitiesBas);
-
-        loadPossibleDestinations();
 
         // création du joueur
         this.entities.add(new Player(120, 120, this));
@@ -107,6 +98,17 @@ public abstract class World {
                 player = (Player) entity;
             }
         }
+
+
+        loadEntitiesCollisions();
+        loadTileset();
+        loadAnimatedTiles();
+
+        loadPossibleDestinations();
+
+        // rassembler toutes les collisions
+        allCollisions.add(collisionsStop);
+        allCollisions.add(collisionsEntitiesBas);
     }
 
     // loads
