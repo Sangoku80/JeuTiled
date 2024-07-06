@@ -220,7 +220,7 @@ public abstract class Enemy extends Character {
         con.setDoOutput(true);
 
         // Données à envoyer à l'API Python
-        String testData = "{\"message\": \"Hello from Java!\"}";
+        String testData = getData().toString();
 
         // Envoyer les données
         con.getOutputStream().write(testData.getBytes());
@@ -329,6 +329,10 @@ public abstract class Enemy extends Character {
             check_radar(d);
         }
 
-        System.out.println(getData());
+        try {
+            sendDataToPython();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

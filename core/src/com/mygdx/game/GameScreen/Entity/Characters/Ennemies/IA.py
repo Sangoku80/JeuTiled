@@ -9,7 +9,7 @@ def test():
     try:
         data = request.get_json()
         print(f"Reçu du client : {data}")
-        response = json.dumps({'message': 'Requête reçue avec succès !'}, ensure_ascii=False)
+        response = json.dumps({'message': 'Entrées reçues avec succès !'}, ensure_ascii=False)
         return app.response_class(response, content_type='application/json')
     except Exception as e:
         print(f"Erreur : {e}")
