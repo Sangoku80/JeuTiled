@@ -51,6 +51,7 @@ project(":desktop") {
         implementation 'org.nd4j:nd4j-native-platform:1.0.0-beta7'
         implementation 'org.slf4j:slf4j-simple:1.7.30' // Ajout de cette ligne
         implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        implementation 'com.google.code.gson:gson:2.8.6'
     }
 }
 
@@ -64,5 +65,6 @@ project(":core") {
         implementation 'org.nd4j:nd4j-native-platform:1.0.0-beta7'
         implementation 'org.slf4j:slf4j-simple:1.7.30' // Ajout de cette ligne
         implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        implementation 'com.google.code.gson:gson:2.8.6'
     }
 }
