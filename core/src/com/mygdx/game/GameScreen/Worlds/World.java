@@ -375,6 +375,7 @@ public abstract class World {
 
         batch.end();
     }
+
     public void updateEntities()
     {
         for (Entity entity : entities)

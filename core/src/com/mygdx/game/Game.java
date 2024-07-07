@@ -21,7 +21,7 @@ public class Game extends ApplicationAdapter {
 	public static ShapeRenderer shapeRenderer;
 	public static TiledMap tiledMap;
 	private static final float CAMERA_SPEED = 200f;
-	public static World currentLevel;
+	private static World currentLevel;
 	BitmapFont font;
 
 	@Override

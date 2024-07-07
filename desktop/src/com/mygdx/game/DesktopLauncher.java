@@ -7,7 +7,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setTitle("Jeu tiled");
-		config.setForegroundFPS(120);
+		config.setForegroundFPS(60);
 		config.setResizable(false);
 		config.setWindowIcon("Images/game-boy.png");
 		config.setWindowedMode(600, 400);

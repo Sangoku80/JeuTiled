@@ -11,14 +11,12 @@ import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Tools.Vector2D;
 import com.mygdx.game.GameScreen.Tools.staticFunctions;
 import com.mygdx.game.GameScreen.Worlds.World;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
-
 import static com.mygdx.game.Game.*;
 
 public abstract class Enemy extends Character {
@@ -32,6 +30,7 @@ public abstract class Enemy extends Character {
     ArrayList<HashMap<Vector2, Integer>> radars = new ArrayList<>();
     int angle = 0;
     Vector2 center = new Vector2();
+    ArrayList<Enemy> ennemisToTrain = new ArrayList<>();
 
     // status
     protected static int status;
@@ -129,7 +128,7 @@ public abstract class Enemy extends Character {
 
         shapeRenderer.setColor(0, 0, 1, 0);
 
-        shapeRenderer.line(position.getVector2(), currentLevel.player.position.getVector2());
+        shapeRenderer.line(position.getVector2(), currentWorld.player.position.getVector2());
 
         shapeRenderer.end();
     }
@@ -167,7 +166,7 @@ public abstract class Enemy extends Character {
 
     public void checkCollisionWithCircleDetection()
     {
-        if (Intersector.overlaps(circleDetection, currentLevel.player.rect))
+        if (Intersector.overlaps(circleDetection, currentWorld.player.rect))
         {
             status = PURSUING;
         }
@@ -219,8 +218,15 @@ public abstract class Enemy extends Character {
         con.setRequestProperty("Content-Type", "application/json");
         con.setDoOutput(true);
 
+        ArrayList<ArrayList> inputs = new ArrayList<>();
+
+        for (Enemy enemy : ennemisToTrain)
+        {
+            inputs.add(enemy.getData());
+        }
+
         // Données à envoyer à l'API Python
-        String testData = getData().toString();
+        String testData = inputs.toString();
 
         // Envoyer les données
         con.getOutputStream().write(testData.getBytes());
@@ -261,6 +267,25 @@ public abstract class Enemy extends Character {
         }
 
         return answer;
+    }
+
+    public void train()
+    {
+        // création des 30 ennemis à entrainer (on prend pour l'exemple le squelette)
+        if (ennemisToTrain.size() !=30)
+        {
+            for (int i=0; i<=29; i++)
+            {
+                this.ennemisToTrain.add(new Skeleton((int) position.x, (int) position.y, currentWorld));
+            }
+        }
+
+        // envoyer les données d'entrées du réseau de neurones
+        try {
+            sendDataToPython();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public int getDirection(Vector2D targetPosition, Vector2D startPosition)
@@ -307,7 +332,7 @@ public abstract class Enemy extends Character {
     {
         pursuing();
 
-        if (Intersector.overlaps(currentLevel.player.circleDetection, collisionBas))
+        if (Intersector.overlaps(currentWorld.player.circleDetection, collisionBas))
         {
             moving = false;
             attack();
@@ -329,10 +354,6 @@ public abstract class Enemy extends Character {
             check_radar(d);
         }
 
-        try {
-            sendDataToPython();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        train();
     }
 }

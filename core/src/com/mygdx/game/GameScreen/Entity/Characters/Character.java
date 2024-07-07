@@ -180,7 +180,7 @@ public abstract class Character extends Entity {
 
     // pour le changement de monde
     public void changeWorld(World newWorld) {
-        currentLevel = newWorld;
+        currentWorld = newWorld;
     }
 
     // updates
