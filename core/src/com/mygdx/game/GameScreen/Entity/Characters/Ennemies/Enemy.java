@@ -354,6 +354,6 @@ public abstract class Enemy extends Character {
             check_radar(d);
         }
 
-        train();
+        //train();
     }
 }

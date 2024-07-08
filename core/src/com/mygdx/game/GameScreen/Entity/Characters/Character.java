@@ -107,9 +107,9 @@ public abstract class Character extends Entity {
 
     public void loadCollisions() {
         // dans la carte monde
-        if (tiledMap.getLayers().get("collisions") != null) {
-            if (tiledMap.getLayers().get("collisions").getObjects() != null) {
-                for (Object object : tiledMap.getLayers().get("collisions").getObjects()) {
+        if (currentWorld.tiledMap.getLayers().get("collisions") != null) {
+            if (currentWorld.tiledMap.getLayers().get("collisions").getObjects() != null) {
+                for (Object object : currentWorld.tiledMap.getLayers().get("collisions").getObjects()) {
                     if (object instanceof RectangleMapObject) {
                         switch (((RectangleMapObject) object).getName()) {
                             case "teleportation":
