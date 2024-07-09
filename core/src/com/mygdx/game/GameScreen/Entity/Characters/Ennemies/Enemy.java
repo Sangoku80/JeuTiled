@@ -14,7 +14,6 @@ import com.mygdx.game.GameScreen.Worlds.World;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -210,40 +209,42 @@ public abstract class Enemy extends Character {
         return returnValues;
     }
 
-    public void startTraining() throws Exception {
-        // URL de votre serveur Flask
-        URL url = new URL("http://127.0.0.1:5000/postInputs");
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("POST");
-        con.setRequestProperty("Content-Type", "application/json");
-        con.setDoOutput(true);
+    public void getOutputs() throws Exception
+    {
+        String urlString = "http://127.0.0.1:5000/getOutputs"; // Remplacez par l'URL de votre endpoint Flask
 
-        ArrayList<ArrayList> inputs = new ArrayList<>();
+        try {
+            // Création de l'objet URL
+            URL url = new URL(urlString);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
-        for (Enemy enemy : ennemisToTrain)
-        {
-            inputs.add(enemy.getData());
+            // Configuration de la requête
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Accept", "application/json");
+
+            // Vérification du code de réponse
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) { // Succès
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+
+                // Affichage de la réponse JSON
+                System.out.println("Réponse JSON: " + response.toString());
+            } else {
+                System.out.println("Échec de la requête. Code de réponse : " + responseCode);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        // Données à envoyer à l'API Python
-        String testData = inputs.toString();
-
-        // Envoyer les données
-        con.getOutputStream().write(testData.getBytes());
-
-        // Lire la réponse de l'API
-        int status = con.getResponseCode();
-        if (status == HttpURLConnection.HTTP_OK) {
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String response = in.lines().collect(Collectors.joining());
-            in.close();
-        } else {
-            System.out.println("Erreur HTTP : " + status);
-        }
-        con.disconnect();
     }
 
-    public void sendDataToPython() throws Exception
+    public void postInputs() throws Exception
     {
         // URL de votre serveur Flask
         URL url = new URL("http://127.0.0.1:5000/postInputs");
@@ -315,7 +316,8 @@ public abstract class Enemy extends Character {
 
         // envoyer les données d'entrées du réseau de neurones
         try {
-            startTraining();
+            postInputs();
+            getOutputs();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

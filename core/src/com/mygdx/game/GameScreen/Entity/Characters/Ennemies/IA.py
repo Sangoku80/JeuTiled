@@ -17,16 +17,26 @@ def postInputs():
         data = request.get_json()
         cars = data
         response = json.dumps({'message': 'Entrées reçues avec succès !'}, ensure_ascii=False)
+        print(cars)
         return app.response_class(response, content_type='application/json')
     except Exception as e:
         print(f"Erreur : {e}")
         return jsonify({'error': str(e)}), 500
 
 
-@app.route('/startTraining')
+@app.route('/getOutputs', methods=['GET'])
+def getOutputs():
+    try:
+        response = json.dumps(cars, ensure_ascii=False)
+        return app.response_class(response, content_type='application/json')
+    except Exception as e:
+        print(f"Erreur : {e}")
+        return jsonify({'error': str(e)}), 500
+
+
 def startTraining():
     # Load Config
-    config_path = "./config.txt"
+    config_path = "core/src/com/mygdx/game/GameScreen/Entity/Characters/Ennemies/config.txt"
     config = neat.config.Config(neat.DefaultGenome,
                                 neat.DefaultReproduction,
                                 neat.DefaultSpeciesSet,
