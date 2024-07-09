@@ -17,7 +17,6 @@ def postInputs():
         data = request.get_json()
         cars = data
         response = json.dumps({'message': 'Entrées reçues avec succès !'}, ensure_ascii=False)
-        print(cars)
         return app.response_class(response, content_type='application/json')
     except Exception as e:
         print(f"Erreur : {e}")
