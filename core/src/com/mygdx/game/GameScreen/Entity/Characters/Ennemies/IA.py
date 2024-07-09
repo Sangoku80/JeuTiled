@@ -7,10 +7,12 @@ app = Flask(__name__)
 # Empty Collections For Nets and Cars
 nets = []
 cars = []
-current_generation = 0 # Generation counter
+current_generation = 0  # Generation counter
 
-@app.route('/test', methods=['POST'])
-def test():
+
+@app.route('/postInputs', methods=['POST'])
+def postInputs():
+    global cars
     try:
         data = request.get_json()
         cars = data
@@ -21,7 +23,27 @@ def test():
         return jsonify({'error': str(e)}), 500
 
 
-def run_simulation(genomes, config):
+@app.route('/startTraining')
+def startTraining():
+    # Load Config
+    config_path = "./config.txt"
+    config = neat.config.Config(neat.DefaultGenome,
+                                neat.DefaultReproduction,
+                                neat.DefaultSpeciesSet,
+                                neat.DefaultStagnation,
+                                config_path)
+
+    # Create Population And Add Reporters
+    population = neat.Population(config)
+    population.add_reporter(neat.StdOutReporter(True))
+    stats = neat.StatisticsReporter()
+    population.add_reporter(stats)
+
+    # Run Simulation For A Maximum of 1000 Generations
+    population.run(runSimulation, 10)
+
+
+def runSimulation(genomes, config):
     # For All Genomes Passed Create A New Neural Network
     for i, g in genomes:
         net = neat.nn.FeedForwardNetwork.create(g, config)
@@ -49,7 +71,7 @@ def run_simulation(genomes, config):
             elif choice == 1:
                 car.angle -= 10  # Right
             elif choice == 2:
-                if (car.speed - 2 >= 12):
+                if car.speed - 2 >= 12:
                     car.speed -= 2  # Slow Down
             else:
                 car.speed += 2  # Speed Up
@@ -89,23 +111,5 @@ def run_simulation(genomes, config):
 
 
 if __name__ == '__main__':
-
     # util pour l'échange python/java
     app.run(debug=True)
-
-    # # Load Config
-    # config_path = "./config.txt"
-    # config = neat.config.Config(neat.DefaultGenome,
-    #                             neat.DefaultReproduction,
-    #                             neat.DefaultSpeciesSet,
-    #                             neat.DefaultStagnation,
-    #                             config_path)
-    #
-    # # Create Population And Add Reporters
-    # population = neat.Population(config)
-    # population.add_reporter(neat.StdOutReporter(True))
-    # stats = neat.StatisticsReporter()
-    # population.add_reporter(stats)
-    #
-    # # Run Simulation For A Maximum of 1000 Generations
-    # population.run(run_simulation, 10)

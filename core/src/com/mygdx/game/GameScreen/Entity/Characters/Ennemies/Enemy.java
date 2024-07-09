@@ -14,6 +14,7 @@ import com.mygdx.game.GameScreen.Worlds.World;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -209,10 +210,9 @@ public abstract class Enemy extends Character {
         return returnValues;
     }
 
-    public void sendDataToPython() throws Exception
-    {
+    public void startTraining() throws Exception {
         // URL de votre serveur Flask
-        URL url = new URL("http://127.0.0.1:5000/test");
+        URL url = new URL("http://127.0.0.1:5000/postInputs");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("POST");
         con.setRequestProperty("Content-Type", "application/json");
@@ -236,7 +236,40 @@ public abstract class Enemy extends Character {
         if (status == HttpURLConnection.HTTP_OK) {
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String response = in.lines().collect(Collectors.joining());
-            System.out.println("Réponse de l'API Python : " + response);
+            in.close();
+        } else {
+            System.out.println("Erreur HTTP : " + status);
+        }
+        con.disconnect();
+    }
+
+    public void sendDataToPython() throws Exception
+    {
+        // URL de votre serveur Flask
+        URL url = new URL("http://127.0.0.1:5000/postInputs");
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type", "application/json");
+        con.setDoOutput(true);
+
+        ArrayList<ArrayList> inputs = new ArrayList<>();
+
+        for (Enemy enemy : ennemisToTrain)
+        {
+            inputs.add(enemy.getData());
+        }
+
+        // Données à envoyer à l'API Python
+        String testData = inputs.toString();
+
+        // Envoyer les données
+        con.getOutputStream().write(testData.getBytes());
+
+        // Lire la réponse de l'API
+        int status = con.getResponseCode();
+        if (status == HttpURLConnection.HTTP_OK) {
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String response = in.lines().collect(Collectors.joining());
             in.close();
         } else {
             System.out.println("Erreur HTTP : " + status);
@@ -282,7 +315,7 @@ public abstract class Enemy extends Character {
 
         // envoyer les données d'entrées du réseau de neurones
         try {
-            sendDataToPython();
+            startTraining();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -354,6 +387,6 @@ public abstract class Enemy extends Character {
             check_radar(d);
         }
 
-        //train();
+        train();
     }
 }
