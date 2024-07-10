@@ -11,7 +11,12 @@ import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Tools.Vector2D;
 import com.mygdx.game.GameScreen.Tools.staticFunctions;
 import com.mygdx.game.GameScreen.Worlds.World;
+import org.nd4j.shade.jackson.databind.ObjectMapper;
+import org.nd4j.shade.jackson.databind.SerializationFeature;
+
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -244,6 +249,51 @@ public abstract class Enemy extends Character {
         }
     }
 
+    public void postAlive() throws Exception
+    {
+        // URL de votre serveur Flask
+        URL url = new URL("http://127.0.0.1:5000/postInputs");
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type", "application/json");
+        con.setDoOutput(true);
+
+        ArrayList<Boolean> inputs = new ArrayList<>();
+
+        for (Enemy enemy : ennemisToTrain)
+        {
+            boolean answer;
+
+            if (enemy.health != 0)
+            {
+                answer = true;
+            }
+            else
+            {
+                answer = false;
+            }
+
+            inputs.add(answer);
+        }
+
+        // Données à envoyer à l'API Python
+        String testData = inputs.toString();
+
+        // Envoyer les données
+        con.getOutputStream().write(testData.getBytes());
+
+        // Lire la réponse de l'API
+        int status = con.getResponseCode();
+        if (status == HttpURLConnection.HTTP_OK) {
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String response = in.lines().collect(Collectors.joining());
+            in.close();
+        } else {
+            System.out.println("Erreur HTTP : " + status);
+        }
+        con.disconnect();
+    }
+
     public void postInputs() throws Exception
     {
         // URL de votre serveur Flask
@@ -315,11 +365,21 @@ public abstract class Enemy extends Character {
         }
 
         // envoyer les données d'entrées du réseau de neurones
+        ArrayList<ArrayList<Integer>> inputs = new ArrayList<>();
+
+        for (Enemy enemy : ennemisToTrain)
+        {
+            inputs.add(enemy.getData());
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT); // Pour une sortie JSON indentée
+
         try {
-            postInputs();
-            getOutputs();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            // Écrire la liste dans un fichier JSON
+            mapper.writeValue(new File("core/src/com/mygdx/game/GameScreen/Entity/Characters/Ennemies/donnees.json"), inputs);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
