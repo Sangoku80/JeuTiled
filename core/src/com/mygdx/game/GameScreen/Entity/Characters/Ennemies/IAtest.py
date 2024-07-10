@@ -1,5 +1,5 @@
 import neat
-from flask import Flask, request, jsonify
+from flask import Flask
 import json
 
 app = Flask(__name__)
@@ -10,24 +10,23 @@ current_generation = 0  # Generation counter
 nets = []
 inputs = []
 outputs = []
+alive = []
 
 # Chemin vers notre fichier JSON stockant les données
 fichier_json = 'donnees.json'
 
 
-def updateInputs():
+def updateData():
     global inputs
+    global outputs
+    global alive
     with open(fichier_json, 'r') as f:
         inputs = json.load(f)
 
 
 def sendOutputs():
-    try:
-        response = json.dumps(inputs, ensure_ascii=False)
-        return app.response_class(response, content_type='application/json')
-    except Exception as e:
-        print(f"Erreur : {e}")
-        return jsonify({'error': str(e)}), 500
+    with open(fichier_json, 'w') as f:
+        json.dump(inputs, f)
 
 
 def run_simulation(genomes, config):
@@ -37,7 +36,7 @@ def run_simulation(genomes, config):
         nets.append(net)
         g.fitness = 0
 
-    # mettre à jour inputs
+    updateInputs()
 
     global current_generation
     current_generation += 1
@@ -52,7 +51,7 @@ def run_simulation(genomes, config):
             output = nets[i].activate(input)
             choice = output.index(max(output))
 
-            # envoyer à java choice
+            sendOutputs()
 
         # Check If Car Is Still Alive
         # Increase Fitness If Yes And Break Loop If Not
@@ -87,8 +86,5 @@ if __name__ == "__main__":
     #
     # # Run Simulation For A Maximum of 1000 Generations
     # population.run(run_simulation, 1000)
-
-    updateInputs()
-    print(inputs)
 
 

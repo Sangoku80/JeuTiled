@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.GameScreen.Entity.Characters.Ennemies.Enemy;
 import com.mygdx.game.GameScreen.Entity.Entity;
+import com.mygdx.game.GameScreen.Entity.Player;
 import com.mygdx.game.GameScreen.Worlds.InternMaison;
 import com.mygdx.game.GameScreen.Tools.Animation;
 import com.mygdx.game.GameScreen.Worlds.World;
@@ -91,6 +92,12 @@ public abstract class Character extends Entity {
         loadCollisions();
         loadSpriteSheet();
         loadAnimations();
+    }
+
+    // statut
+    public Boolean getAlive()
+    {
+        return health != 0;
     }
 
     // chargement
@@ -181,6 +188,11 @@ public abstract class Character extends Entity {
     // pour le changement de monde
     public void changeWorld(World newWorld) {
         currentWorld = newWorld;
+
+        if (this instanceof Player)
+        {
+            currentLevel = currentWorld;
+        }
     }
 
     // updates

@@ -13,6 +13,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -219,6 +220,12 @@ public class staticFunctions {
                 Intersector.intersectSegments(lineStart, lineEnd, bottomRight, topRight, null) ||
                 Intersector.intersectSegments(lineStart, lineEnd, topRight, topLeft, null) ||
                 Intersector.intersectSegments(lineStart, lineEnd, topLeft, bottomLeft, null);
+    }
+
+    // Méthode pour vérifier l'existence d'un fichier
+    public static boolean fileExists(String filePath) {
+        File file = new File(filePath);
+        return file.exists();
     }
 }
 

@@ -13,16 +13,12 @@ import com.mygdx.game.GameScreen.Tools.staticFunctions;
 import com.mygdx.game.GameScreen.Worlds.World;
 import org.nd4j.shade.jackson.databind.ObjectMapper;
 import org.nd4j.shade.jackson.databind.SerializationFeature;
-
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.*;
-import java.util.stream.Collectors;
 import static com.mygdx.game.Game.*;
+import static com.mygdx.game.GameScreen.Tools.staticFunctions.fileExists;
+
 
 public abstract class Enemy extends Character {
 
@@ -214,120 +210,6 @@ public abstract class Enemy extends Character {
         return returnValues;
     }
 
-    public void getOutputs() throws Exception
-    {
-        String urlString = "http://127.0.0.1:5000/getOutputs"; // Remplacez par l'URL de votre endpoint Flask
-
-        try {
-            // Création de l'objet URL
-            URL url = new URL(urlString);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-            // Configuration de la requête
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Accept", "application/json");
-
-            // Vérification du code de réponse
-            int responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) { // Succès
-                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String inputLine;
-                StringBuffer response = new StringBuffer();
-
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
-                }
-                in.close();
-
-                // Affichage de la réponse JSON
-                System.out.println("Réponse JSON: " + response.toString());
-            } else {
-                System.out.println("Échec de la requête. Code de réponse : " + responseCode);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void postAlive() throws Exception
-    {
-        // URL de votre serveur Flask
-        URL url = new URL("http://127.0.0.1:5000/postInputs");
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("POST");
-        con.setRequestProperty("Content-Type", "application/json");
-        con.setDoOutput(true);
-
-        ArrayList<Boolean> inputs = new ArrayList<>();
-
-        for (Enemy enemy : ennemisToTrain)
-        {
-            boolean answer;
-
-            if (enemy.health != 0)
-            {
-                answer = true;
-            }
-            else
-            {
-                answer = false;
-            }
-
-            inputs.add(answer);
-        }
-
-        // Données à envoyer à l'API Python
-        String testData = inputs.toString();
-
-        // Envoyer les données
-        con.getOutputStream().write(testData.getBytes());
-
-        // Lire la réponse de l'API
-        int status = con.getResponseCode();
-        if (status == HttpURLConnection.HTTP_OK) {
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String response = in.lines().collect(Collectors.joining());
-            in.close();
-        } else {
-            System.out.println("Erreur HTTP : " + status);
-        }
-        con.disconnect();
-    }
-
-    public void postInputs() throws Exception
-    {
-        // URL de votre serveur Flask
-        URL url = new URL("http://127.0.0.1:5000/postInputs");
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("POST");
-        con.setRequestProperty("Content-Type", "application/json");
-        con.setDoOutput(true);
-
-        ArrayList<ArrayList> inputs = new ArrayList<>();
-
-        for (Enemy enemy : ennemisToTrain)
-        {
-            inputs.add(enemy.getData());
-        }
-
-        // Données à envoyer à l'API Python
-        String testData = inputs.toString();
-
-        // Envoyer les données
-        con.getOutputStream().write(testData.getBytes());
-
-        // Lire la réponse de l'API
-        int status = con.getResponseCode();
-        if (status == HttpURLConnection.HTTP_OK) {
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String response = in.lines().collect(Collectors.joining());
-            in.close();
-        } else {
-            System.out.println("Erreur HTTP : " + status);
-        }
-        con.disconnect();
-    }
-
     public boolean intersectionLineWithAllCollisionsStop(Vector2 startLine, Vector2 endLine)
     {
 
@@ -364,20 +246,35 @@ public abstract class Enemy extends Character {
             }
         }
 
-        // envoyer les données d'entrées du réseau de neurones
+        // Liste d'entrées et d'états de vie
         ArrayList<ArrayList<Integer>> inputs = new ArrayList<>();
+        ArrayList<Boolean> alives = new ArrayList<>();
 
+        // Chemin vers les fichiers JSON à écrire
+        String inputsFile = "core/src/com/mygdx/game/GameScreen/Entity/Characters/Ennemies/inputs.json";
+        String alivesFile = "core/src/com/mygdx/game/GameScreen/Entity/Characters/Ennemies/alives.json";
+
+        // remplir les listes
         for (Enemy enemy : ennemisToTrain)
         {
             inputs.add(enemy.getData());
+            alives.add(enemy.getAlive());
         }
 
+        // ObjectMapper pour la sérialisation JSON
         ObjectMapper mapper = new ObjectMapper();
-        mapper.enable(SerializationFeature.INDENT_OUTPUT); // Pour une sortie JSON indentée
+        mapper.enable(SerializationFeature.INDENT_OUTPUT); // Indentation du JSON
 
         try {
-            // Écrire la liste dans un fichier JSON
-            mapper.writeValue(new File("core/src/com/mygdx/game/GameScreen/Entity/Characters/Ennemies/donnees.json"), inputs);
+            // Vérifier l'existence des fichiers avant d'écrire
+            if (!fileExists(inputsFile)) {
+                mapper.writeValue(new File(inputsFile), inputs);
+            }
+
+            if (!fileExists(alivesFile)) {
+                mapper.writeValue(new File(alivesFile), alives);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -449,6 +346,6 @@ public abstract class Enemy extends Character {
             check_radar(d);
         }
 
-        train();
+        //train();
     }
 }
