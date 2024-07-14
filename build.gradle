@@ -52,6 +52,7 @@ project(":desktop") {
         implementation 'org.slf4j:slf4j-simple:1.7.30' // Ajout de cette ligne
         implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         implementation 'com.google.code.gson:gson:2.8.6'
+        implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     }
 }
 
@@ -66,5 +67,6 @@ project(":core") {
         implementation 'org.slf4j:slf4j-simple:1.7.30' // Ajout de cette ligne
         implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         implementation 'com.google.code.gson:gson:2.8.6'
+        implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     }
 }

@@ -1,67 +1,86 @@
-import neat
-from flask import Flask, request, jsonify
+# This Code is Heavily Inspired By The YouTuber: Cheesy AI
+# Code Changed, Optimized And Commented By: NeuralNine (Florian Dedov)
 import json
+import neat
+from flask import jsonify, Flask, request
+import requests
+
+WIDTH = 1920
+HEIGHT = 1080
+
+CAR_SIZE_X = 60
+CAR_SIZE_Y = 60
+
+BORDER_COLOR = (255, 255, 255, 255)  # Color To Crash on Hit
+URL_INPUTS = 'http://localhost:5000/inputs'
+URL_OUTPUTS = 'http://localhost:5000/outputs'
+
+current_generation = 0  # Generation counter
 
 app = Flask(__name__)
 
-# Empty Collections For Nets and Cars
-nets = []
-cars = []
-current_generation = 0  # Generation counter
+inputs = []
+outputs = []
 
 
-@app.route('/postInputs', methods=['POST'])
-def postInputs():
-    global cars
-    try:
-        data = request.get_json()
-        cars = data
-        response = json.dumps({'message': 'Entrées reçues avec succès !'}, ensure_ascii=False)
-        return app.response_class(response, content_type='application/json')
-    except Exception as e:
-        print(f"Erreur : {e}")
-        return jsonify({'error': str(e)}), 500
+# def receive_inputs():
+#     try:
+#         response = requests.get(URL_INPUTS)
+#         if response.status_code == 200:
+#             inputs.append(response.text)
+#         else:
+#             print(f"Erreur {response.status_code} lors de la requête.")
+#     except requests.exceptions.RequestException as e:
+#         print(f"Une erreur s'est produite lors de la requête : {e}")
 
 
-@app.route('/getOutputs', methods=['GET'])
-def getOutputs():
-    try:
-        response = json.dumps(cars, ensure_ascii=False)
-        return app.response_class(response, content_type='application/json')
-    except Exception as e:
-        print(f"Erreur : {e}")
-        return jsonify({'error': str(e)}), 500
+@app.route('/inputs', methods=['POST'])
+def receive_inputs():
+    # Récupération des données JSON envoyées dans la requête
+    data = request.json
+    print("Données reçues :", data['inputs'])
+
+    # Exemple de traitement des données
+    output_data = {'message': 'Traitement réussi', 'input_data': data}
+
+    # Renvoi d'une réponse JSON
+    return jsonify(output_data)
 
 
-def startTraining():
-    # Load Config
-    config_path = "core/src/com/mygdx/game/GameScreen/Entity/Characters/Ennemies/config.txt"
-    config = neat.config.Config(neat.DefaultGenome,
-                                neat.DefaultReproduction,
-                                neat.DefaultSpeciesSet,
-                                neat.DefaultStagnation,
-                                config_path)
+def send_outputs():
+    data = {
+        "outputs": outputs
+    }
 
-    # Create Population And Add Reporters
-    population = neat.Population(config)
-    population.add_reporter(neat.StdOutReporter(True))
-    stats = neat.StatisticsReporter()
-    population.add_reporter(stats)
+    json_data = json.dumps(data)
+    print(json_data)
 
-    # Run Simulation For A Maximum of 1000 Generations
-    population.run(runSimulation, 10)
+    headers = {
+        'Content-Type': 'application/json'
+    }
+
+    response = requests.post(URL_OUTPUTS, headers=headers, data=json_data)
+
+    if response.status_code != 200:
+        raise Exception(f"Unexpected code {response.status_code}")
 
 
-def runSimulation(genomes, config):
+def get_reward(self):
+    # Calculate Reward (Maybe Change?)
+    # return self.distance / 50.0
+    return self.distance / (CAR_SIZE_X / 2)
+
+
+def run_simulation(genomes, config):
+    # Empty Collections For Nets and Cars
+    nets = []
+    cars = []
+
     # For All Genomes Passed Create A New Neural Network
     for i, g in genomes:
         net = neat.nn.FeedForwardNetwork.create(g, config)
         nets.append(net)
         g.fitness = 0
-
-    # # Font Settings
-    # generation_font = pygame.font.SysFont("Arial", 30)
-    # alive_font = pygame.font.SysFont("Arial", 20)
 
     global current_generation
     current_generation += 1
@@ -91,7 +110,6 @@ def runSimulation(genomes, config):
         for i, car in enumerate(cars):
             if car.is_alive():
                 still_alive += 1
-                # car.update(game_map)
                 genomes[i][1].fitness += car.get_reward()
 
         if still_alive == 0:
@@ -101,24 +119,22 @@ def runSimulation(genomes, config):
         if counter == 30 * 40:  # Stop After About 20 Seconds
             break
 
-        # # Draw Map And All Cars That Are Alive
-        # screen.blit(game_map, (0, 0))
-        # for car in cars:
-        #     if car.is_alive():
-        #         car.draw(screen)
 
-        # # Display Info
-        # text = generation_font.render("Generation: " + str(current_generation), True, (0, 0, 0))
-        # text_rect = text.get_rect()
-        # text_rect.center = (900, 450)
-        # screen.blit(text, text_rect)
-        #
-        # text = alive_font.render("Still Alive: " + str(still_alive), True, (0, 0, 0))
-        # text_rect = text.get_rect()
-        # text_rect.center = (900, 490)
-        # screen.blit(text, text_rect)
-
-
-if __name__ == '__main__':
-    # util pour l'échange python/java
-    app.run(debug=True)
+if __name__ == "__main__":
+    # # Load Config
+    # config_path = "./config.txt"
+    # config = neat.config.Config(neat.DefaultGenome,
+    #                             neat.DefaultReproduction,
+    #                             neat.DefaultSpeciesSet,
+    #                             neat.DefaultStagnation,
+    #                             config_path)
+    #
+    # # Create Population And Add Reporters
+    # population = neat.Population(config)
+    # population.add_reporter(neat.StdOutReporter(True))
+    # stats = neat.StatisticsReporter()
+    # population.add_reporter(stats)
+    #
+    # # Run Simulation For A Maximum of 1000 Generations
+    # population.run(run_simulation, 1000)
+    app.run(host='0.0.0.0', port=5000)

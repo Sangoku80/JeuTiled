@@ -56,9 +56,6 @@ public abstract class Enemy extends Character {
         // mettre l'ennemie en idle
         status = IDLE;
 
-        // chargement
-        loadPossibleDestinations();
-
         // comportement AI
         this.velocity = new Vector2D(0, 0);
         this.acceleration = new Vector2D(0, 0);
@@ -245,39 +242,6 @@ public abstract class Enemy extends Character {
                 this.ennemisToTrain.add(new Skeleton((int) position.x, (int) position.y, currentWorld));
             }
         }
-
-        // Liste d'entrées et d'états de vie
-        ArrayList<ArrayList<Integer>> inputs = new ArrayList<>();
-        ArrayList<Boolean> alives = new ArrayList<>();
-
-        // Chemin vers les fichiers JSON à écrire
-        String inputsFile = "core/src/com/mygdx/game/GameScreen/Entity/Characters/Ennemies/inputs.json";
-        String alivesFile = "core/src/com/mygdx/game/GameScreen/Entity/Characters/Ennemies/alives.json";
-
-        // remplir les listes
-        for (Enemy enemy : ennemisToTrain)
-        {
-            inputs.add(enemy.getData());
-            alives.add(enemy.getAlive());
-        }
-
-        // ObjectMapper pour la sérialisation JSON
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.enable(SerializationFeature.INDENT_OUTPUT); // Indentation du JSON
-
-        try {
-            // Vérifier l'existence des fichiers avant d'écrire
-            if (!fileExists(inputsFile)) {
-                mapper.writeValue(new File(inputsFile), inputs);
-            }
-
-            if (!fileExists(alivesFile)) {
-                mapper.writeValue(new File(alivesFile), alives);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public int getDirection(Vector2D targetPosition, Vector2D startPosition)
@@ -346,6 +310,6 @@ public abstract class Enemy extends Character {
             check_radar(d);
         }
 
-        //train();
+        train();
     }
 }
