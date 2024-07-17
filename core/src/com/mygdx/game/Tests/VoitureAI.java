@@ -24,7 +24,7 @@ public class VoitureAI extends ApplicationAdapter {
     private static final int HAUTEUR = 1080;
     private static final int TAILLE_VOITURE_X = 60;
     private static final int TAILLE_VOITURE_Y = 60;
-    private static final String URL_SERVEUR = "http://localhost:5000/predict";
+    private static final String URL_SERVEUR = "http://127.0.0.1:5000/predict";
     static final OkHttpClient client = new OkHttpClient();
 
     private OrthographicCamera camera;

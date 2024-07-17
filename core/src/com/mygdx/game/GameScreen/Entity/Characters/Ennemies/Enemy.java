@@ -11,13 +11,16 @@ import com.mygdx.game.GameScreen.Entity.Characters.Character;
 import com.mygdx.game.GameScreen.Tools.Vector2D;
 import com.mygdx.game.GameScreen.Tools.staticFunctions;
 import com.mygdx.game.GameScreen.Worlds.World;
-import org.nd4j.shade.jackson.databind.ObjectMapper;
-import org.nd4j.shade.jackson.databind.SerializationFeature;
-import java.io.File;
+import okhttp3.*;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
-import java.util.*;
-import static com.mygdx.game.Game.*;
-import static com.mygdx.game.GameScreen.Tools.staticFunctions.fileExists;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
+
+import static com.mygdx.game.Game.camera;
+import static com.mygdx.game.Game.shapeRenderer;
 
 
 public abstract class Enemy extends Character {
@@ -32,6 +35,8 @@ public abstract class Enemy extends Character {
     int angle = 0;
     Vector2 center = new Vector2();
     ArrayList<Enemy> ennemisToTrain = new ArrayList<>();
+    String URL_SERVEUR = "http://127.0.0.1:5000/predict";
+    OkHttpClient client = new OkHttpClient();
 
     // status
     protected static int status;
@@ -242,6 +247,68 @@ public abstract class Enemy extends Character {
                 this.ennemisToTrain.add(new Skeleton((int) position.x, (int) position.y, currentWorld));
             }
         }
+
+        send_inputs();
+        start_training();
+
+    }
+
+    private void start_training()
+    {
+        String json = "{ \"inputs\": [" + getData() + "] }";
+
+        RequestBody body = RequestBody.create(json, MediaType.get("application/json; charset=utf-8"));
+        Request request = new Request.Builder()
+                .url(URL_SERVEUR)
+                .get()
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    throw new IOException("Unexpected code " + response);
+                }
+
+                assert response.body() != null;
+                String responseData = response.body().string();
+                System.out.println("Server response: " + responseData);
+            }
+        });
+    }
+
+    private void send_inputs()
+    {
+        String json = "{ \"inputs\": [" + getData() + "] }";
+
+        RequestBody body = RequestBody.create(json, MediaType.get("application/json; charset=utf-8"));
+        Request request = new Request.Builder()
+                .url(URL_SERVEUR)
+                .post(body)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    throw new IOException("Unexpected code " + response);
+                }
+
+                assert response.body() != null;
+                String responseData = response.body().string();
+                System.out.println("Server response: " + responseData);
+            }
+        });
     }
 
     public int getDirection(Vector2D targetPosition, Vector2D startPosition)

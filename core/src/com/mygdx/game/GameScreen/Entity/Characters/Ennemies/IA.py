@@ -34,7 +34,7 @@ outputs = []
 #         print(f"Une erreur s'est produite lors de la requête : {e}")
 
 
-@app.route('/inputs', methods=['POST'])
+@app.route('/predict', methods=['POST'])
 def receive_inputs():
     # Récupération des données JSON envoyées dans la requête
     data = request.json
@@ -45,6 +45,35 @@ def receive_inputs():
 
     # Renvoi d'une réponse JSON
     return jsonify(output_data)
+
+
+@app.route('/predict', methods=['POST'])
+def start_training():
+    # Récupération des données JSON envoyées dans la requête
+    data = request.json
+    print("Données reçues :", data['inputs'])
+
+    # Exemple de traitement des données
+    output_data = {'message': 'Traitement réussi', 'input_data': data}
+    print("ok")
+    # Renvoi d'une réponse JSON
+    return jsonify(output_data)
+    # # Load Config
+    # config_path = "./config.txt"
+    # config = neat.config.Config(neat.DefaultGenome,
+    #                             neat.DefaultReproduction,
+    #                             neat.DefaultSpeciesSet,
+    #                             neat.DefaultStagnation,
+    #                             config_path)
+    #
+    # # Create Population And Add Reporters
+    # population = neat.Population(config)
+    # population.add_reporter(neat.StdOutReporter(True))
+    # stats = neat.StatisticsReporter()
+    # population.add_reporter(stats)
+    #
+    # # Run Simulation For A Maximum of 1000 Generations
+    # population.run(run_simulation, 1000)
 
 
 def send_outputs():
@@ -104,6 +133,7 @@ def run_simulation(genomes, config):
             else:
                 car.speed += 2  # Speed Up
 
+        send_outputs()
         # Check If Car Is Still Alive
         # Increase Fitness If Yes And Break Loop If Not
         still_alive = 0
@@ -121,6 +151,7 @@ def run_simulation(genomes, config):
 
 
 if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)
     # # Load Config
     # config_path = "./config.txt"
     # config = neat.config.Config(neat.DefaultGenome,
@@ -137,4 +168,3 @@ if __name__ == "__main__":
     #
     # # Run Simulation For A Maximum of 1000 Generations
     # population.run(run_simulation, 1000)
-    app.run(host='0.0.0.0', port=5000)
